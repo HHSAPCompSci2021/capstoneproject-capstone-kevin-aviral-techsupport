@@ -25,5 +25,7 @@ public class Sprite {
     	return false; 
     }
     
-    
+    public void moveTo (double x2, double y2) {
+    	
+    }
 }
