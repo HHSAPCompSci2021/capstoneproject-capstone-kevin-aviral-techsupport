@@ -3,22 +3,25 @@ import java.awt.*;
 
 public class Sprite {
     private double x, y;
-    private double xv, yv;
+    private double vx, vy;
     private Color c;
     private double ax, ay;
     
-    public Sprite (double x, double y, double xv, double yv, Color c, double ax, double ay) {
+    public Sprite (double x, double y, double vx, double vy, Color c, double ax, double ay) {
     	this.x = x;
     	this.y = y;
-    	this.xv = xv;
-    	this.yv = yv;
+    	this.vx = vx;
+    	this.vy = vy;
     	this.c = c;
     	this.ax = ax;
     	this.ay = ay;
     }
     
     public void draw () {
-    	
+    	x += vx;
+    	y += vy;
+    	vx += ax;
+    	vy += ay;
     }
     
     public boolean isTouching () {
@@ -28,4 +31,6 @@ public class Sprite {
     public void moveTo (double x2, double y2) {
     	
     }
+    
+    
 }
