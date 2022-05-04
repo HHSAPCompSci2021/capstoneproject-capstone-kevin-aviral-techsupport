@@ -5,12 +5,11 @@ import processing.core.PApplet;
 
 public class Sprite {
 
-    private double x, y;
-    private double vx, vy;
-    private Color c;
-    private double ax, ay;
-    private int lives, totalLives;
-    
+    public double x, y;
+    public double vx, vy;
+    public Color c;
+    public double ax, ay;
+    public int lives, totalLives;
 
     public Sprite(double x, double y, double vx, double vy, Color c, double ax, double ay, int totalLives) {
         this.x = x;
@@ -24,10 +23,10 @@ public class Sprite {
         lives = totalLives;
     }
 
-    public Sprite(double x, double y) {
+    public Sprite(double x, double y, Color c) {
         this.x = x;
         this.y = y;
-        c = new Color(100, 100, 100);
+        this.c = c;
         vx = 0;
         vy = 0;
         ax = 0;
