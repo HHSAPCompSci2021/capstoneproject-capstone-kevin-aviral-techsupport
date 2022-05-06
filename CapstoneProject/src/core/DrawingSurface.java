@@ -3,11 +3,8 @@ package core;
 import java.awt.Point;
 import java.util.ArrayList;
 
-import processing.core.PApplet;
-import screens.FirstScreen;
-import screens.Screen;
-import screens.ScreenSwitcher;
-import screens.SecondScreen;
+import processing.core.*;
+import screens.*;
 
 public class DrawingSurface extends PApplet implements ScreenSwitcher {
 
@@ -21,8 +18,8 @@ public class DrawingSurface extends PApplet implements ScreenSwitcher {
     public DrawingSurface() {
         keys = new ArrayList<Integer>();
         screens = new ArrayList<Screen>();
-		screens.add(new FirstScreen(this));
-		screens.add(new SecondScreen(this));
+		screens.add(new Menu(this));
+		screens.add(new Game(this));
 		
 		activeScreen = screens.get(0);
     }
