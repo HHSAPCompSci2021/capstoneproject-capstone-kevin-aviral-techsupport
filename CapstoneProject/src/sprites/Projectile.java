@@ -19,8 +19,8 @@ public class Projectile extends Sprite {
 	 * @param ay y acceleration of projectile
 	 * @param totalLives lives of projectile
 	 */
-    public Projectile(Shape s, double vx, double vy, double ax, double ay, int totalLives) {
-        super(s, vx, vy, ax, ay, totalLives);
+    public Projectile(Shape s, double vx, double vy, double ax, double ay) {
+        super(s, vx, vy, ax, ay);
     }
     /**
      * draws projetile
