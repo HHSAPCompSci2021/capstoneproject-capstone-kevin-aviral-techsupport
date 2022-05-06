@@ -93,4 +93,60 @@ public class Sprite {
         return false;
     }
 
+    public double getX() {
+        return s.getX();
+    }
+
+    public double getY() {
+        return s.getY();
+    }
+
+    public double getVx() {
+        return this.vx;
+    }
+
+    public void setVx(double vx) {
+        this.vx = vx;
+    }
+
+    public double getVy() {
+        return this.vy;
+    }
+
+    public void setVy(double vy) {
+        this.vy = vy;
+    }
+
+    public double getAx() {
+        return this.ax;
+    }
+
+    public void setAx(double ax) {
+        this.ax = ax;
+    }
+
+    public double getAy() {
+        return this.ay;
+    }
+
+    public void setAy(double ay) {
+        this.ay = ay;
+    }
+
+    public int getLives() {
+        return this.lives;
+    }
+
+    public void setLives(int lives) {
+        this.lives = lives;
+    }
+
+    public int getTotalLives() {
+        return this.totalLives;
+    }
+
+    public void setTotalLives(int totalLives) {
+        this.totalLives = totalLives;
+    }
+
 }
