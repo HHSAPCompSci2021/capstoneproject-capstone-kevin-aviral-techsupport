@@ -8,13 +8,14 @@ import aviral.shapes.*;
 public class Enemy extends Sprite {
 
 
-    public Enemy(Shape s, double vx, double vy, double ax, double ay, Color c, int totalLives) {
-        super(s, vx, vy, ax, ay, c, totalLives);
+    public Enemy(Shape s, double vx, double vy, double ax, double ay) {
+        super(s, vx, vy, ax, ay);
     }
 
     public void shoot(double targetX, double targetY) {
         // create new projectile with velocity in the direciton of target point
-
+        
+        // Projectile p = new Projectile()
     }
 
     public void draw(PApplet p) {

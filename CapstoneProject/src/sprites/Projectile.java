@@ -7,8 +7,8 @@ import aviral.shapes.*;
 
 public class Projectile extends Sprite {
 
-    public Projectile(Shape s, double vx, double vy, double ax, double ay, Color c, int totalLives) {
-        super(s, vx, vy, ax, ay, c, totalLives);
+    public Projectile(Shape s, double vx, double vy, double ax, double ay, int totalLives) {
+        super(s, vx, vy, ax, ay, totalLives);
     }
 
     public void draw(PApplet p, Player player) {
@@ -17,5 +17,4 @@ public class Projectile extends Sprite {
         
     }
 
-    
 }
