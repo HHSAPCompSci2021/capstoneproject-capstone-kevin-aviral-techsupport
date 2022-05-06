@@ -1,5 +1,11 @@
 package screens;
-
+/**
+ * 
+ * @author Aviral Vaidya, Kevin Ren
+ * The screen is a superclass which cannot instantiated, and represents a double precision screen 
+ * using processing java
+ *
+ */
 public abstract class Screen {
 
 	public final int DRAWING_WIDTH, DRAWING_HEIGHT;
