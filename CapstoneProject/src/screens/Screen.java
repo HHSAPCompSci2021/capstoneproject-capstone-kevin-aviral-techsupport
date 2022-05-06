@@ -8,7 +8,8 @@ package screens;
  */
 public abstract class Screen {
 
-	private final int DRAWING_WIDTH, DRAWING_HEIGHT;
+	public final int DRAWING_WIDTH;
+	public final int DRAWING_HEIGHT;
 	/**
 	 * creates a screen with a width and height
 	 * @param width width of the screen
