@@ -1,5 +1,5 @@
 package sprites;
-
+import processing.core.*;
 import java.awt.*;
 
 public class Enemy extends Sprite {
@@ -15,7 +15,7 @@ public class Enemy extends Sprite {
 
     }
 
-    public void draw(Papplet p) {
+    public void draw(PApplet p) {
         super.draw(p);
         p.fill(200, 100, 100);
 
