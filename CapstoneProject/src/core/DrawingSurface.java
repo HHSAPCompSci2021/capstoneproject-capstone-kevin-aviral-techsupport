@@ -65,12 +65,12 @@ public class DrawingSurface extends PApplet implements ScreenSwitcher {
 	public void mouseReleased() {
 		activeScreen.mouseReleased();
 	}
-	
-	public Point assumedToActual(Point assumed) {
+
+	private Point assumedToActual(Point assumed) {
 		return new Point((int)(assumed.getX()*ratioX), (int)(assumed.getY()*ratioY));
 	}
 
-	public Point actualToAssumed(Point actual) {
+	private Point actualToAssumed(Point actual) {
 		return new Point((int)(actual.getX()/ratioX) , (int)(actual.getY()/ratioY));
 	}
 
