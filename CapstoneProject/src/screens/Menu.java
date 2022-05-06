@@ -14,16 +14,18 @@ public class Menu extends Screen {
 	public Menu(DrawingSurface surface) {
         super(750, 1000);
 		this.surface = surface;
-		start = new Rectangle(800/2-100, 600/2-50, 500, 550);
-		quit = new Rectangle(800/2-100, 600/2-50, 600, 650);
+		start = new Rectangle(750/2-100, 600/2-50, 500, 550);
+		quit = new Rectangle(750/2-100, 600/2-50, 600, 650);
 	}
 
 	public void draw() {
-        
+		// set background image
+		// draw the rect for each button
+		// label the buttons
 	}
 
 	public void mousePressed() {
-
+		// switch screen if start button pressed
 	}
 
 }
