@@ -1,15 +1,14 @@
 package sprites;
 
-
+import aviral.shapes.Shape;
+import aviral.shapes.*;
 import java.awt.*;
 
 public class Player extends Sprite {
 	
-    public Player(double x, double y, double vx, double vy, Color c, double ax, double ay, int totalLives) {
-    	super(x, y, vx, vy, c, ax, ay, totalLives);
-        
+    public Player(Shape s, double vx, double vy, double ax, double ay, Color c, int totalLives) {
+        super(s, vx, vy, ax, ay, c, totalLives);
     }
-    
-    
+
 }
 
