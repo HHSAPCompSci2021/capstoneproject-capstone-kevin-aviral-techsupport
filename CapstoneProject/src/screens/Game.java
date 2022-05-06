@@ -8,7 +8,12 @@ import java.util.List;
 
 import core.DrawingSurface;
 import sprites.*;
-
+/**
+ * 
+ * @author Aviral Vaidya, Kevin Ren
+ * The game class represents a double precision game screen screen that can be represented 
+ * using processing 
+ */
 public class Game extends Screen {
 
     private DrawingSurface surface;
@@ -16,13 +21,19 @@ public class Game extends Screen {
     private Player player;
     private List<Platform> platforms;
     private List<Enemy> enemies;
-
+    /**
+     * Creates a new game object
+     * @param surface the window
+     */
     public Game(DrawingSurface surface) {
         super(800,600);
 		this.surface = surface;
 
     }
-
+    /**
+     * Draws the game screen
+     * @post The game screen is drawn
+     */
     public void draw() {
         
     }
