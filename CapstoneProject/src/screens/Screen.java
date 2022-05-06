@@ -8,7 +8,7 @@ package screens;
  */
 public abstract class Screen {
 
-	public final int DRAWING_WIDTH, DRAWING_HEIGHT;
+	private final int DRAWING_WIDTH, DRAWING_HEIGHT;
 	
 	public Screen(int width, int height) {
 		this.DRAWING_WIDTH = width;
