@@ -93,6 +93,10 @@ public class Sprite {
         return false;
     }
 
+    public void moveBy(double dx, double dy) {
+        s.movePointBy(dx, dy);
+    }
+
     public double getX() {
         return s.getX();
     }

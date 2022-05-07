@@ -1,6 +1,7 @@
 package sprites;
 
 import aviral.shapes.Shape;
+import processing.core.PApplet;
 import aviral.shapes.*;
 import java.awt.*;
 /**
@@ -10,6 +11,9 @@ import java.awt.*;
  *
  */
 public class Player extends Sprite {
+
+	private float r;
+
 	/**
 	 * creates a player object
 	 * @param s shape of player
@@ -19,9 +23,17 @@ public class Player extends Sprite {
 	 * @param ay y acceleration of player
 	 * @param totalLives
 	 */
-    public Player(Shape s, double vx, double vy, double ax, double ay, int totalLives) {
+    public Player(Circle s, double vx, double vy, double ax, double ay, int totalLives) {
         super(s, vx, vy, ax, ay, totalLives);
+		r = (float)s.getR();
     }
+
+	public void draw(PApplet p) {
+		super.draw(p);
+		// System.out.println(getX() + " " + getY() + " " + r);
+		p.circle((float)getX(), (float)getY(), r);
+		p.text("Lives: " + getLives() + "/" + getTotalLives(), 500, 24); // TODO: make this vary with window size
+	}
 
 }
 

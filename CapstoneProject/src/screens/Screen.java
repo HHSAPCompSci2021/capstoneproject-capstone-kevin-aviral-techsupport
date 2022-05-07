@@ -8,16 +8,16 @@ package screens;
  */
 public abstract class Screen {
 
-	public final int DRAWING_WIDTH;
-	public final int DRAWING_HEIGHT;
+	public final int WIDTH;
+	public final int HEIGHT;
 	/**
 	 * creates a screen with a width and height
 	 * @param width width of the screen
 	 * @param height height of the screen
 	 */
 	public Screen(int width, int height) {
-		this.DRAWING_WIDTH = width;
-		this.DRAWING_HEIGHT = height;
+		this.WIDTH = width;
+		this.HEIGHT = height;
 	}
 	/**
 	 * sets up the window
@@ -57,11 +57,11 @@ public abstract class Screen {
 	}
 
 	public int getW() {
-		return this.DRAWING_WIDTH;
+		return this.WIDTH;
 	}
 
 	public int getH() {
-		return this.DRAWING_HEIGHT;
+		return this.HEIGHT;
 	}
 
 }
