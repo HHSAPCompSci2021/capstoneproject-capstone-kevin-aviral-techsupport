@@ -21,6 +21,8 @@ public class Game extends Screen {
     private Player player;
     private List<Platform> platforms;
     private List<Enemy> enemies;
+    // todo: deal with list for sprites
+
     /**
      * Creates a new game object
      * @param surface the window

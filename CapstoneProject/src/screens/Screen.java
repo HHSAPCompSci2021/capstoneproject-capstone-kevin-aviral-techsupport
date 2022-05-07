@@ -56,14 +56,12 @@ public abstract class Screen {
 		
 	}
 
-
 	public int getW() {
 		return this.DRAWING_WIDTH;
 	}
 
-
 	public int getH() {
 		return this.DRAWING_HEIGHT;
 	}
-	
+
 }
