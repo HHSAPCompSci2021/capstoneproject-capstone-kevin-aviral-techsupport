@@ -23,6 +23,7 @@ public class Game extends Screen {
     private Player player;
     private ArrayList<Platform> platforms;
     private ArrayList<Sprite> enemies; // this will store enemies AND projectiles
+                                    // easier to check for collisions
 
     /**
      * Creates a new game object
@@ -62,7 +63,19 @@ public class Game extends Screen {
             player.moveBy(-4, 0);
         } else if (surface.isPressed(KeyEvent.VK_RIGHT) || surface.isPressed(KeyEvent.VK_D)) {
             player.moveBy(4, 0);
+        } else if (surface.isPressed(KeyEvent.VK_Q)) {
+            player.shootLeft();
+        } else if (surface.isPressed(KeyEvent.VK_E)) {
+            player.shootRight();
         }
+    }
+
+    public void addPlatform(Platform p) {
+        platforms.add(p);
+    }
+
+    public void addEnemyOrProjectile(Sprite s) {
+        enemies.add(s);
     }
 
 }

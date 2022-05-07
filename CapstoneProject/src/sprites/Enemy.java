@@ -2,8 +2,10 @@ package sprites;
 
 import processing.core.*;
 import java.awt.*;
+import java.util.ArrayList;
 import aviral.shapes.Shape;
-import aviral.shapes.*;
+import aviral.shapes.Rectangle;
+import aviral.shapes.Circle;
 /**
  * 
  * @author Aviral Vaidya, Kevin Ren
@@ -19,7 +21,7 @@ public class Enemy extends Sprite {
 	 * @param ax x acceleration of enemy	
 	 * @param ay y acceleration of enemy
 	 */
-    public Enemy(Shape s, double vx, double vy, double ax, double ay) {
+    public Enemy(Rectangle s, double vx, double vy, double ax, double ay) {
         super(s, vx, vy, ax, ay);
     }
     /**
@@ -52,7 +54,7 @@ public class Enemy extends Sprite {
     public void draw(PApplet p) {
         super.draw(p);
         p.fill(200, 100, 100);
-
+        
     }
     
 }

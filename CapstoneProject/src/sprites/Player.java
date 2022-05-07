@@ -13,6 +13,7 @@ import java.awt.*;
 public class Player extends Sprite {
 
 	private float r;
+	private int ammo;
 
 	/**
 	 * creates a player object
@@ -26,7 +27,23 @@ public class Player extends Sprite {
     public Player(Circle s, double vx, double vy, double ax, double ay, int totalLives) {
         super(s, vx, vy, ax, ay, totalLives);
 		r = (float)s.getR();
+		ammo = 5;
     }
+
+	public void shootLeft() {
+		if (ammo == 0) return;
+		ammo--;
+		Circle circle = new Circle(getX() - 8, getY(), 2);
+        Projectile p = new Projectile(circle, - 8, 0, 0, 0);
+		// add to list
+	}
+
+	public void shootRight() {
+		if (ammo == 0) return;
+		ammo--;
+		Circle circle = new Circle(getX() + 8, getY(), 2);
+        Projectile p = new Projectile(circle, 8, 0, 0, 0);
+	}
 
 	public void draw(PApplet p) {
 		super.draw(p);
@@ -35,5 +52,12 @@ public class Player extends Sprite {
 		p.text("Lives: " + getLives() + "/" + getTotalLives(), 500, 24); // TODO: make this vary with window size
 	}
 
-}
+	public int getAmmo() {
+		return this.ammo;
+	}
 
+	public void setAmmo(int ammo) {
+		this.ammo = ammo;
+	}
+
+}
