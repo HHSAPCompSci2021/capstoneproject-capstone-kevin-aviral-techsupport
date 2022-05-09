@@ -48,7 +48,7 @@ public class Player extends Sprite {
 	public void draw(PApplet p) {
 		super.draw(p);
 		// System.out.println(getX() + " " + getY() + " " + r);
-		p.circle((float)getX(), (float)getY(), r);
+		p.circle((float)getX(), (float)getY(), 2*r);
 		p.text("Lives: " + getLives() + "/" + getTotalLives(), 500, 24); // TODO: make this vary with window size
 	}
 
@@ -58,6 +58,10 @@ public class Player extends Sprite {
 
 	public void setAmmo(int ammo) {
 		this.ammo = ammo;
+	}
+
+	public double getR() {
+		return r;
 	}
 
 }

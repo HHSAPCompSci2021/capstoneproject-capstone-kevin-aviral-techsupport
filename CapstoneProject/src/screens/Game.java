@@ -1,11 +1,10 @@
 package screens;
 
 import java.awt.Rectangle;
-import java.awt.Shape;
 import java.awt.event.*;
 import java.util.*;
-
 import aviral.shapes.Circle;
+import aviral.shapes.Line;
 import core.DrawingSurface;
 import sprites.*;
 
@@ -36,9 +35,12 @@ public class Game extends Screen {
         screenRect = new Rectangle(0, 0, WIDTH, HEIGHT);
         // TODO: spawn the platforms and enemies
         platforms = new ArrayList<>();
+
+        Line test = new Line(150, 100, 250, 100);
+        platforms.add(new Platform(test, 0, 0));
         enemies = new ArrayList<>();
         // spawn the player
-        player = new Player(new Circle(WIDTH / 2, HEIGHT / 2, 32), 0, 0, 0, 0, 3);
+        player = new Player(new Circle(WIDTH / 2, HEIGHT / 2, 16), 0, 0, 0, 0, 3);
     }
 
     /**
@@ -67,6 +69,12 @@ public class Game extends Screen {
             player.shootLeft();
         } else if (surface.isPressed(KeyEvent.VK_E)) {
             player.shootRight();
+        }
+        
+        // check if player is out of bounds and have him appear on other side
+        System.out.println( " x " + player.getX() + " width is " + WIDTH);
+        if (player.getX() + player.getR() >= WIDTH) {
+            player.moveBy(-player.getX(), 0);
         }
     }
 
