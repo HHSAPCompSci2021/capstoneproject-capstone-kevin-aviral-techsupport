@@ -20,7 +20,9 @@ public class DrawingSurface extends PApplet implements ScreenSwitcher {
         screens = new ArrayList<Screen>();
 		screens.add(new Menu(this));
 		screens.add(new Game(this));
-		
+		for (Screen screen : screens) {
+			System.out.println(screen.toString());
+		}
 		activeScreen = screens.get(0);
     }
 
@@ -29,11 +31,13 @@ public class DrawingSurface extends PApplet implements ScreenSwitcher {
 	}
 
     public void draw() {
-		ratioX = (float)width/activeScreen.getH();
-		ratioY = (float)height/activeScreen.getW();
+		ratioX = (float)width/activeScreen.WIDTH;
+		ratioY = (float)height/activeScreen.HEIGHT;
 		push();
+		
+		// gets overriden by each screen's background call in draw
+		background(201, 205, 222); 
 
-		background(201, 205, 222);
 		scale(ratioX, ratioY);
 		activeScreen.draw();
 		

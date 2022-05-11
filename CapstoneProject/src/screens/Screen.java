@@ -67,4 +67,8 @@ public abstract class Screen {
 		return this.HEIGHT;
 	}
 
+	public String toString() {
+		return WIDTH + " " + HEIGHT;
+	}
+
 }

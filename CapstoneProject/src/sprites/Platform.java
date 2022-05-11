@@ -41,7 +41,8 @@ public class Platform extends Sprite {
         super.draw(p);
         
         p.push();
-        p.fill(0);
+        p.stroke(39, 57, 71); // aviral does shape not have color?
+        p.strokeWeight(10);
         p.line((float)getX(), (float)getY(), (float)(getX() + length), (float)getY());
 
         p.pop();

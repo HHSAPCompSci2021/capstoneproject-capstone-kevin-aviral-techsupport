@@ -28,8 +28,8 @@ public class Menu extends Screen {
 		super(600, 800);
 		this.surface = surface;
 		int rw = 300, rh = 100;
-		start = new Rectangle(HEIGHT / 2 - rw / 2, WIDTH / 2 - rh / 2, rw, rh);
-		quit = new Rectangle(HEIGHT / 2 - rw / 2, WIDTH / 2 + rh, rw, rh);
+		start = new Rectangle(WIDTH/2 - rw/2, HEIGHT/2 - rh/2, rw, rh);
+		quit = new Rectangle(WIDTH/2 - rw/2, HEIGHT/2 + rh, rw, rh);
 	}
 
 	public void draw() {
@@ -41,8 +41,8 @@ public class Menu extends Screen {
 		surface.fill(0);
 		float textWidth1 = surface.textWidth("START");
 		float textWidth2 = surface.textWidth("QUIT");
-		surface.text("START", start.x + start.width / 2 - textWidth1 / 2, start.y + start.height / 2);
-		surface.text("QUIT", quit.x + quit.width / 2 - textWidth2 / 2, quit.y + quit.height / 2);
+		surface.text("START", start.x + start.width/2 - textWidth1/2, start.y + start.height/2);
+		surface.text("QUIT", quit.x + quit.width/2 - textWidth2/2, quit.y + quit.height/2);
 	}
 
 	public void mousePressed() {
