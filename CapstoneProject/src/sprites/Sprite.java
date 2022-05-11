@@ -2,9 +2,10 @@ package sprites;
 
 import java.awt.*;
 import processing.core.PApplet;
+import aviral.shapes.Circle;
 import aviral.shapes.Rectangle;
 import aviral.shapes.Shape;
-
+import aviral.shapes.*;
 /**
  * 
  * @author Aviral Vaidya, Kevin Ren
@@ -90,13 +91,24 @@ public class Sprite {
         // rectangle 
         // line 
         // circle
-        return false;
+    	if (other.getShape() instanceof Rectangle && s instanceof Rectangle) {
+    		return other.getShape().isTouching(s);
+    	} else if (other.getShape() instanceof Circle && s instanceof Circle) {
+    		return other.getShape().isTouching(s);
+    	} else if (other.getShape() instanceof Line && s instanceof Line) {
+    		return other.getShape().isTouching(s);
+    	} else if (other.getShape() instanceof Line) {
+    		return other.getShape().isPointInside(s.getX(), s.getY());
+    	} else return other.getShape().isPointInside(s.getX(), s.getY());
+    	
     }
-
+    
     public void moveBy(double dx, double dy) {
         s.movePointBy(dx, dy);
     }
-
+    public Shape getShape() {
+    	return s;
+    }
     public double getX() {
         return s.getX();
     }
