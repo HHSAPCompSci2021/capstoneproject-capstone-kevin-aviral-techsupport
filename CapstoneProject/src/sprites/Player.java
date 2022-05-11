@@ -11,7 +11,7 @@ import java.awt.*;
  *
  */
 public class Player extends Sprite {
-
+	private static final double g = 0.18 ;
 	private float r;
 	private int ammo;
 
@@ -42,8 +42,8 @@ public class Player extends Sprite {
 		if (ammo == 0) return null;
 		ammo--;
 		Circle circle = new Circle(getX() + 8, getY(), 2);
-		System.out.println("right");
-        return new Projectile(circle, 8, 0, 0, 0);
+		
+        return new Projectile(circle, 8, super.getX()/Math.abs(super.getX()), super.getY()/Math.abs(super.getY()), 0);
 	}
 
 	public void draw(PApplet p) {
@@ -65,5 +65,7 @@ public class Player extends Sprite {
 	public double getR() {
 		return r;
 	}
+	
+	
 
 }

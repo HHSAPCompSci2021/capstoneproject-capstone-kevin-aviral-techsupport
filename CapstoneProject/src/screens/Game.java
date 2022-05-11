@@ -15,14 +15,14 @@ import sprites.*;
  *         game screen screen that can be represented using processing
  */
 public class Game extends Screen {
-
+	private static final double g = 0.18; 
 	private DrawingSurface surface;
 	private Rectangle screenRect;
 	private Player player;
 	private ArrayList<Platform> platforms;
 	private ArrayList<Sprite> enemies; // this will store enemies AND projectiles
 										// easier to check for collisions
-
+	
 	/**
 	 * Creates a new game object
 	 * 
@@ -42,8 +42,19 @@ public class Game extends Screen {
 				lx = (float) (Math.random() * WIDTH);
 				ly = (float) (Math.random() * HEIGHT);
 			}
-			Line newLine = new Line(lx, ly, lx + len, ly);
-			platforms.add(new Platform(newLine, 0, 0));
+			double a = Math.random();
+			if (a >= 0.5) {
+				Line newLine = new Line(lx, ly, lx + len, ly);
+				platforms.add(new Platform(newLine, 0, 0));
+			} else {
+				int angle = 0; 
+				while (!(angle >= 0 && angle <= 60) || ! (angle >= 135 && angle <= 180)) {
+					// dos tuff
+				}
+				
+				
+			}
+			
 		}
 
 		enemies = new ArrayList<>();
@@ -51,7 +62,7 @@ public class Game extends Screen {
 		Rectangle erect = new Rectangle(200, 200, 30, 30);
 		enemies.add(new Enemy(erect, 0, 0, 0, 0));
 		// spawn the player
-		player = new Player(new Circle(WIDTH / 2, HEIGHT / 2, 16), 0, 0, 0, 0, 3);
+		player = new Player(new Circle(WIDTH / 2, HEIGHT / 2, 16), 0, 0, 0, g, 3);
 	}
 
 	/**
@@ -87,6 +98,7 @@ public class Game extends Screen {
 				enemies.add(player.shootRight());
 			}
 		}
+		
 
 		// check if player is out of bounds and have him appear on other side
 		if (player.getX() >= WIDTH) {
@@ -94,6 +106,7 @@ public class Game extends Screen {
 		} else if (player.getX() < 0) {
 			player.moveBy(WIDTH, 0);
 		}
+		
 	}
 
 	private boolean tooClose(double lx, double ly, double radius) {

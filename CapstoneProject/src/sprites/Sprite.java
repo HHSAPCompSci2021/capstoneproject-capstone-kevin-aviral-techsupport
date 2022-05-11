@@ -91,6 +91,7 @@ public class Sprite {
         // rectangle 
         // line 
         // circle
+    	/*
     	if (other.getShape() instanceof Rectangle && s instanceof Rectangle) {
     		return other.getShape().isTouching(s);
     	} else if (other.getShape() instanceof Circle && s instanceof Circle) {
@@ -100,7 +101,8 @@ public class Sprite {
     	} else if (other.getShape() instanceof Line) {
     		return other.getShape().isPointInside(s.getX(), s.getY());
     	} else return other.getShape().isPointInside(s.getX(), s.getY());
-    	
+    	*/
+    	return s.isPointInside(other.getX(), other.getY());
     }
     
     public void moveBy(double dx, double dy) {
