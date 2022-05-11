@@ -11,7 +11,7 @@ import java.awt.*;
  *
  */
 public class Player extends Sprite {
-
+	private static final double g = 1.3; 
 	private float r;
 	private int ammo;
 

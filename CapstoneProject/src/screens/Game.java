@@ -15,7 +15,7 @@ import sprites.*;
  *         game screen screen that can be represented using processing
  */
 public class Game extends Screen {
-
+	private static final double g = 0.18; 
 	private DrawingSurface surface;
 	private Rectangle screenRect;
 	private Player player;
@@ -57,7 +57,7 @@ public class Game extends Screen {
 
 		enemies = new ArrayList<>();
 		// spawn the player
-		player = new Player(new Circle(WIDTH / 2, HEIGHT / 2, 16), 0, 0, 0, 0, 3);
+		player = new Player(new Circle(WIDTH / 2, HEIGHT / 2, 16), 0, 0, 0, g, 3);
 	}
 
 	/**
