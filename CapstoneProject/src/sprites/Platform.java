@@ -48,4 +48,8 @@ public class Platform extends Sprite {
         p.pop();
     }
 
+    public double getLength() {
+        return length;
+    }
+
 }

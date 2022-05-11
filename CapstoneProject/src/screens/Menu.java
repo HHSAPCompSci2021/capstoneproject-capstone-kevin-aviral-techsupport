@@ -14,7 +14,7 @@ import processing.core.*;
  */
 public class Menu extends Screen {
 
-	private PImage img;
+	// private PImage img;
 	private DrawingSurface surface;
 	private Rectangle start;
 	private Rectangle quit;
@@ -27,18 +27,20 @@ public class Menu extends Screen {
 	public Menu(DrawingSurface surface) {
 		super(600, 800);
 		this.surface = surface;
-		int rw = 300, rh = 100;
-		start = new Rectangle(WIDTH/2 - rw/2, HEIGHT/2 - rh/2, rw, rh);
-		quit = new Rectangle(WIDTH/2 - rw/2, HEIGHT/2 + rh, rw, rh);
+		int rw = 300, rh = 80;
+		start = new Rectangle(WIDTH/2 - rw/2, HEIGHT/2 - rh/2 + 150, rw, rh);
+		quit = new Rectangle(WIDTH/2 - rw/2, HEIGHT/2 + rh + 150, rw, rh);
 	}
 
 	public void draw() {
 		// surface.background(255, 255, 255); 
 		// draw the buttons
+		surface.fill(236, 181, 176);
 		surface.rect(start.x, start.y, start.width, start.height, 10, 10, 10, 10);
 		surface.rect(quit.x, quit.y, quit.width, quit.height, 10, 10, 10, 10);
 		// draw the text
-		surface.fill(0);
+		surface.fill(4, 20, 43);
+		surface.textSize(16);
 		float textWidth1 = surface.textWidth("START");
 		float textWidth2 = surface.textWidth("QUIT");
 		surface.text("START", start.x + start.width/2 - textWidth1/2, start.y + start.height/2);
