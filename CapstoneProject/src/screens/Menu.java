@@ -30,11 +30,10 @@ public class Menu extends Screen {
 		int rw = 300, rh = 100;
 		start = new Rectangle(HEIGHT / 2 - rw / 2, WIDTH / 2 - rh / 2, rw, rh);
 		quit = new Rectangle(HEIGHT / 2 - rw / 2, WIDTH / 2 + rh, rw, rh);
-		// img = loadImage("stars.jpg");
 	}
 
 	public void draw() {
-		surface.background(255, 255, 255); // img
+		// surface.background(255, 255, 255); 
 		// draw the buttons
 		surface.rect(start.x, start.y, start.width, start.height, 10, 10, 10, 10);
 		surface.rect(quit.x, quit.y, quit.width, quit.height, 10, 10, 10, 10);

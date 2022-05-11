@@ -50,10 +50,10 @@ public class Game extends Screen {
         surface.background(36, 150, 177);
         // draw all the sprites
         for (Platform p : platforms) {
-            p.draw(surface); // nothing here yet
+            p.draw(surface);
         }
         for (Sprite s : enemies) {
-            s.draw(surface); // nothing here yet
+            s.draw(surface);
         }
         player.draw(surface);
         // check for key presses and player input

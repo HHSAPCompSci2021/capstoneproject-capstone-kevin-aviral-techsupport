@@ -11,7 +11,7 @@ public class DrawingSurface extends PApplet implements ScreenSwitcher {
     public float ratioX, ratioY;
 
     private ArrayList<Integer> keys;
-
+	private PImage img;
     private ArrayList<Screen> screens;
     private Screen activeScreen;
 
@@ -24,12 +24,16 @@ public class DrawingSurface extends PApplet implements ScreenSwitcher {
 		activeScreen = screens.get(0);
     }
 
+	public void setup() {
+		// img = loadImage("stars.jpg");
+	}
+
     public void draw() {
 		ratioX = (float)width/activeScreen.getH();
 		ratioY = (float)height/activeScreen.getW();
-
 		push();
 
+		background(201, 205, 222);
 		scale(ratioX, ratioY);
 		activeScreen.draw();
 		
