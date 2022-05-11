@@ -13,6 +13,8 @@ import aviral.shapes.Circle;
  */
 public class Enemy extends Sprite {
 
+    private float sideLength;
+
 	/**
 	 * Creates an enemy
 	 * @param s shape of enemy
@@ -23,6 +25,7 @@ public class Enemy extends Sprite {
 	 */
     public Enemy(Rectangle s, double vx, double vy, double ax, double ay) {
         super(s, vx, vy, ax, ay);
+        sideLength = (float)s.getPerimeter()/4;
     }
     /**
      * Shoots a projectile towards x,y
@@ -54,8 +57,12 @@ public class Enemy extends Sprite {
      */
     public void draw(PApplet p) {
         super.draw(p);
+        p.push();
+
         p.fill(200, 100, 100);
-        
+        p.rect((float)getX(), (float)getY(), sideLength, sideLength, 5f, 5f, 5f, 5f);
+
+        p.pop();        
     }
     
 }
