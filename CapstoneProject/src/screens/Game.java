@@ -77,9 +77,15 @@ public class Game extends Screen {
 		} else if (surface.isPressed(KeyEvent.VK_RIGHT) || surface.isPressed(KeyEvent.VK_D)) {
 			player.moveBy(4, 0);
 		} else if (surface.isPressed(KeyEvent.VK_Q)) {
-			player.shootLeft();
+			System.out.println("Q pressed");
+			if (player.getAmmo() > 0) {
+				enemies.add(player.shootLeft());
+			}
 		} else if (surface.isPressed(KeyEvent.VK_E)) {
-			player.shootRight();
+			System.out.println("E pressed");
+			if (player.getAmmo() > 0) {
+				enemies.add(player.shootRight());
+			}
 		}
 
 		// check if player is out of bounds and have him appear on other side

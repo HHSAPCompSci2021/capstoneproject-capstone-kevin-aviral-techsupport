@@ -11,6 +11,8 @@ import aviral.shapes.*;
  */
 public class Projectile extends Sprite {
 
+    private float r;
+
 	/**
 	 * Creates a projectile
 	 * @param s shape of projectile
@@ -20,25 +22,25 @@ public class Projectile extends Sprite {
 	 * @param ay y acceleration of projectile
 	 * @param totalLives lives of projectile
 	 */
-    public Projectile(Shape s, double vx, double vy, double ax, double ay) {
+    public Projectile(Circle s, double vx, double vy, double ax, double ay) {
         super(s, vx, vy, ax, ay);
+        r = (float)s.getR();
     }
     /**
      * draws projetile
      * @param p  surface to be drawn on
-     * @param player target player
      * @post projectile is drawn on surface
      */
-    public void draw(PApplet p, Player player) {
+    public void draw(PApplet p) {
         super.draw(p);
         p.fill(255);
+        p.circle((float)getX(), (float)getY(), 2*r);
         
-        // add to arraylist 
     }
     /**
      * Checks if it is in contact with a sprite
      */
-    public boolean hit () {
+    public boolean hit() {
     	// loop through arraylist of sprites and if it is hitting a nonplatform remove it and 
     	// decrease teh lives of that sprite by one.
     	return false; 

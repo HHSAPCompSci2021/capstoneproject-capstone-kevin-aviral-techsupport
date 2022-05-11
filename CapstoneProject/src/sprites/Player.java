@@ -30,19 +30,20 @@ public class Player extends Sprite {
 		ammo = 5;
     }
 
-	public void shootLeft() {
-		if (ammo == 0) return;
+	public Projectile shootLeft() {
+		if (ammo == 0) return null;
 		ammo--;
 		Circle circle = new Circle(getX() - 8, getY(), 2);
-        Projectile p = new Projectile(circle, - 8, 0, 0, 0);
-		// add to list
+		System.out.println("left");
+        return new Projectile(circle, - 8, 0, 0, 0);
 	}
 
-	public void shootRight() {
-		if (ammo == 0) return;
+	public Projectile shootRight() {
+		if (ammo == 0) return null;
 		ammo--;
 		Circle circle = new Circle(getX() + 8, getY(), 2);
-        Projectile p = new Projectile(circle, 8, 0, 0, 0);
+		System.out.println("right");
+        return new Projectile(circle, 8, 0, 0, 0);
 	}
 
 	public void draw(PApplet p) {
