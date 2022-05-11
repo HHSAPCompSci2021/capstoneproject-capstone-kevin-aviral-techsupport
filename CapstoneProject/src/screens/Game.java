@@ -87,7 +87,18 @@ public class Game extends Screen {
 		} else if (surface.isPressed(KeyEvent.VK_E)) {
 			player.shootRight();
 		} else if (surface.isPressed(KeyEvent.VK_SPACE)) {
-			System.out.println("space pressed");
+		// shoot
+		}
+		for (int i = 0; i < platforms.size(); i++) {
+			if (player.isTouching(platforms.get(i))) {
+				player.setVy(.8 * -player.getVy());
+			}
+		}
+		
+		if (player.getY() > HEIGHT) {
+			player.moveBy(0, -HEIGHT);
+			// keep this for now but get rid of when collisions are done. 
+			player.setVy(1);
 			platforms.clear();
 			// using normal loop to prevent concurrent mod errors
 			for (int i = 0; i < 5; i++) {
@@ -111,6 +122,7 @@ public class Game extends Screen {
 				platforms.add(new Platform(newLine, 0, 0));
 			}
 		}
+		
 
 		// check if player is out of bounds and have him appear on other side
 		if (player.getX() >= WIDTH) {
@@ -118,6 +130,7 @@ public class Game extends Screen {
 		} else if (player.getX() < 0) {
 			player.moveBy(WIDTH, 0);
 		}
+		
 	}
 
 	public void addPlatform(Platform p) {
