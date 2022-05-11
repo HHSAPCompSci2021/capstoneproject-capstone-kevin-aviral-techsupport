@@ -22,7 +22,7 @@ public class Platform extends Sprite {
 	 * @param vx x velocity of platform
 	 * @param vy y velocity of platform
 	 */
-    public Platform(Rectangle s, double vx, double vy) {
+    public Platform(Line s, double vx, double vy) {
         super(s, vx, vy);
         length = (double)s.getPerimeter();
     }

@@ -1,13 +1,12 @@
 package screens;
 
 import java.awt.Color;
-//import java.awt.Rectangle;
+import java.awt.Rectangle;
 import java.awt.event.*;
 import java.util.*;
 import aviral.shapes.Circle;
 import aviral.shapes.Line;
 import core.DrawingSurface;
-import aviral.shapes.Rectangle;
 import sprites.*;
 
 /**
@@ -23,7 +22,7 @@ public class Game extends Screen {
 	private ArrayList<Platform> platforms;
 	private ArrayList<Sprite> enemies; // this will store enemies AND projectiles
 										// easier to check for collisions
-
+	
 	/**
 	 * Creates a new game object
 	 * 
@@ -52,8 +51,19 @@ public class Game extends Screen {
 					dist = Math.sqrt(xdist * xdist + ydist * ydist);
 				}
 			}
-			Rectangle newLine = new Rectangle((double) lx, (double) ly, 10.0, 2.0);
-			platforms.add(new Platform(newLine, 0, 0));
+			double a = Math.random();
+			if (a >= 0.5) {
+				Line newLine = new Line(lx, ly, lx + len, ly);
+				platforms.add(new Platform(newLine, 0, 0));
+			} else {
+				int angle = 0; 
+				while (!(angle >= 0 && angle <= 60) || ! (angle >= 135 && angle <= 180)) {
+					// dos tuff
+				}
+				
+				
+			}
+			
 		}
 
 		enemies = new ArrayList<>();
@@ -119,7 +129,7 @@ public class Game extends Screen {
 						dist = Math.sqrt(xdist * xdist + ydist * ydist);
 					}
 				}
-				Rectangle newLine = new Rectangle((double) lx, (double) ly, 10.0, 2.0);
+				Line newLine = new Line(lx, ly, lx + len, ly);
 				platforms.add(new Platform(newLine, 0, 0));
 			}
 		}
