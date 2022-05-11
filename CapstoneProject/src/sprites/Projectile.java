@@ -10,6 +10,7 @@ import aviral.shapes.*;
  *
  */
 public class Projectile extends Sprite {
+
 	/**
 	 * Creates a projectile
 	 * @param s shape of projectile
@@ -32,6 +33,15 @@ public class Projectile extends Sprite {
         super.draw(p);
         p.fill(255);
         
+        // add to arraylist 
+    }
+    /**
+     * Checks if it is in contact with a sprite
+     */
+    public boolean hit () {
+    	// loop through arraylist of sprites and if it is hitting a nonplatform remove it and 
+    	// decrease teh lives of that sprite by one.
+    	return false; 
     }
 
 }

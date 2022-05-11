@@ -46,6 +46,7 @@ public class Enemy extends Sprite {
         Circle circle = new Circle(getX() + projVx, getY() + projVy, 2);
         Projectile p = new Projectile(circle, projVx, projVy, 0, 0);
         // add to list of stuff on screen
+        
     }
     /**
      * draws enemy
