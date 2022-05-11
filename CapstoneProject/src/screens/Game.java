@@ -1,12 +1,13 @@
 package screens;
 
 import java.awt.Color;
-import java.awt.Rectangle;
+//import java.awt.Rectangle;
 import java.awt.event.*;
 import java.util.*;
 import aviral.shapes.Circle;
 import aviral.shapes.Line;
 import core.DrawingSurface;
+import aviral.shapes.Rectangle;
 import sprites.*;
 
 /**
@@ -51,7 +52,7 @@ public class Game extends Screen {
 					dist = Math.sqrt(xdist * xdist + ydist * ydist);
 				}
 			}
-			Line newLine = new Line(lx, ly, lx + len, ly);
+			Rectangle newLine = new Rectangle((double) lx, (double) ly, 10.0, 2.0);
 			platforms.add(new Platform(newLine, 0, 0));
 		}
 
@@ -118,7 +119,7 @@ public class Game extends Screen {
 						dist = Math.sqrt(xdist * xdist + ydist * ydist);
 					}
 				}
-				Line newLine = new Line(lx, ly, lx + len, ly);
+				Rectangle newLine = new Rectangle((double) lx, (double) ly, 10.0, 2.0);
 				platforms.add(new Platform(newLine, 0, 0));
 			}
 		}
