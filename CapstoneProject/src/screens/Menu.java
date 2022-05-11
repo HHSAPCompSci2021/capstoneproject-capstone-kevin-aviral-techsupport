@@ -25,7 +25,7 @@ public class Menu extends Screen {
 	 * @param surface surface the menu drawn on
 	 */
 	public Menu(DrawingSurface surface) {
-		super(800, 600);
+		super(600, 800);
 		this.surface = surface;
 		int rw = 300, rh = 100;
 		start = new Rectangle(HEIGHT / 2 - rw / 2, WIDTH / 2 - rh / 2, rw, rh);
