@@ -15,7 +15,7 @@ public class Platform extends Sprite {
     // creates a platform at a random location
     // represented by a line
     private double length;
-
+    private Line l; 
 	/**
 	 * creates a platform object at a random location
 	 * @param s shape of the platform
@@ -24,9 +24,10 @@ public class Platform extends Sprite {
 	 */
     public Platform(Line s, double vx, double vy) {
         super(s, vx, vy);
+        this.l = s;
         length = (double)s.getPerimeter();
     }
-
+    
     /**
      * draws the platform
      * @param p surface to draw on
@@ -36,6 +37,10 @@ public class Platform extends Sprite {
     public void draw(PApplet p, Player player) {
 
     }
+    
+    public Line getL () {
+    	return l; 
+    }
 
     public void draw(PApplet p) {
         super.draw(p);
@@ -43,7 +48,9 @@ public class Platform extends Sprite {
         p.push();
         p.stroke(39, 57, 71); // aviral does shape not have color?
         p.strokeWeight(10);
-        p.line((float)getX(), (float)getY(), (float)(getX() + length), (float)getY());
+        //p.line((float)getX(), (float)getY(), (float)(getX() + length), (float)getY());
+        l.setStrokeWidth(10);
+        l.draw(p);
 
         p.pop();
     }

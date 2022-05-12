@@ -36,7 +36,7 @@ public class Game extends Screen {
 
 		// randomly generate all platforms and make them seem random
 		for (int i = 0; i < 5; i++) {
-			float len = 40;
+			final float len = 40;
 			float lx = (float) (Math.random() * WIDTH), ly = (float) (Math.random() * HEIGHT);
 			while (tooClose(lx, ly, 200) || lx > WIDTH - len) {
 				lx = (float) (Math.random() * WIDTH);
@@ -47,17 +47,12 @@ public class Game extends Screen {
 				Line newLine = new Line(lx, ly, lx + len, ly);
 				platforms.add(new Platform(newLine, 0, 0));
 			} else {
-				int angle = 0; 
-				/*
-				while (!(angle >= 0 && angle <= 60) || ! (angle >= 135 && angle <= 180)) {
-					angle = (int) ((int) 180 * Math.random());
-				}
-				*/
-				Line newLine = Line.lineFromAngle(lx, ly, angle, len);
+				int angle = (int) Math.random() * 180;
+				Line newLine = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly - len/Math.sqrt(2)));
+				System.out.println("exec");
 				platforms.add(new Platform(newLine, 0, 0));
 			}
-			Line newLine = Line.lineFromAngle(lx, ly, 60, len);
-			platforms.add(new Platform(newLine, 0, 0));
+			
 		}
 
 		enemies = new ArrayList<>();
