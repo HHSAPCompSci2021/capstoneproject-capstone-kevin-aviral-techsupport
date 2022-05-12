@@ -48,13 +48,16 @@ public class Game extends Screen {
 				platforms.add(new Platform(newLine, 0, 0));
 			} else {
 				int angle = 0; 
+				/*
 				while (!(angle >= 0 && angle <= 60) || ! (angle >= 135 && angle <= 180)) {
 					angle = (int) ((int) 180 * Math.random());
 				}
+				*/
 				Line newLine = Line.lineFromAngle(lx, ly, angle, len);
 				platforms.add(new Platform(newLine, 0, 0));
 			}
-			
+			Line newLine = Line.lineFromAngle(lx, ly, 60, len);
+			platforms.add(new Platform(newLine, 0, 0));
 		}
 
 		enemies = new ArrayList<>();
