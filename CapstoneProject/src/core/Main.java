@@ -13,7 +13,6 @@ public class Main {
 		PSurfaceAWT surf = (PSurfaceAWT) drawing.getSurface();
 		PSurfaceAWT.SmoothCanvas canvas = (PSurfaceAWT.SmoothCanvas) surf.getNative();
 		JFrame window = (JFrame)canvas.getFrame();
-		System.out.println("sdfsd");
 		window.setSize(600, 800);
 		window.setLocation(100, 0);
 		window.setMinimumSize(new Dimension(100,100));

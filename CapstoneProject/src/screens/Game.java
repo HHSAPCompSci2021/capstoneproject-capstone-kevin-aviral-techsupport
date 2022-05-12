@@ -47,10 +47,16 @@ public class Game extends Screen {
 				Line newLine = new Line(lx, ly, lx + len, ly);
 				platforms.add(new Platform(newLine, 0, 0));
 			} else {
-				int angle = (int) Math.random() * 180;
-				Line newLine = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly - len/Math.sqrt(2)));
-				System.out.println("exec");
-				platforms.add(new Platform(newLine, 0, 0));
+				double b = Math.random(); 
+				if (b >= .5) {
+					int angle = (int) Math.random() * 180;
+					Line newLine = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly - len/Math.sqrt(2)));
+					platforms.add(new Platform(newLine, 0, 0));
+				} else {
+					int angle = (int) Math.random() * 180;
+					Line newLine = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly + len/Math.sqrt(2)));
+					platforms.add(new Platform(newLine, 0, 0));
+				}
 			}
 			
 		}
