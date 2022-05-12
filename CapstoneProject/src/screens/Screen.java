@@ -58,15 +58,23 @@ public abstract class Screen {
 	public void mouseReleased() {
 		
 	}
-
+	/**
+	 * getter for width
+	 * @return width of screen
+	 */
 	public int getW() {
 		return this.WIDTH;
 	}
-
+	/**
+	 * getter for height of screen
+	 * @return height of screen
+	 */
 	public int getH() {
 		return this.HEIGHT;
 	}
-
+	/**
+	 * tostring for debugging
+	 */
 	public String toString() {
 		return WIDTH + " " + HEIGHT;
 	}

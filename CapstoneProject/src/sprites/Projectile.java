@@ -20,7 +20,6 @@ public class Projectile extends Sprite {
 	 * @param vy y velocity of projectile
 	 * @param ax x acelleration of projectile
 	 * @param ay y acceleration of projectile
-	 * @param totalLives lives of projectile
 	 */
     public Projectile(Circle s, double vx, double vy, double ax, double ay) {
         super(s, vx, vy, ax, ay);
@@ -39,6 +38,7 @@ public class Projectile extends Sprite {
     }
     /**
      * Checks if it is in contact with a sprite
+     * @return returns true if projectile is hitting a sprite, false otherwise
      */
     public boolean hit() {
     	// loop through arraylist of sprites and if it is hitting a nonplatform remove it and 

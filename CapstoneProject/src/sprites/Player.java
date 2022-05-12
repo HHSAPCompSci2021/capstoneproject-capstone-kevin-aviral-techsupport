@@ -22,14 +22,17 @@ public class Player extends Sprite {
 	 * @param vy y velocity of player
 	 * @param ax x acceleration of player
 	 * @param ay y acceleration of player
-	 * @param totalLives
+	 * @param totalLives total lives of player
 	 */
     public Player(Circle s, double vx, double vy, double ax, double ay, int totalLives) {
         super(s, vx, vy, ax, ay, totalLives);
 		r = (float)s.getR();
 		ammo = 5;
     }
-
+    /**
+     * shoots a projectile to the left
+     * @return projectile translated left
+     */
 	public Projectile shootLeft() {
 		if (ammo == 0) return null;
 		ammo--;
@@ -37,7 +40,10 @@ public class Player extends Sprite {
 		System.out.println("left");
         return new Projectile(circle, - 8, 0, 0, 0);
 	}
-
+	/**
+	 * shoots a projectile to the right
+	 * @return projectile translated right
+	 */
 	public Projectile shootRight() {
 		if (ammo == 0) return null;
 		ammo--;
@@ -45,7 +51,7 @@ public class Player extends Sprite {
 		
         return new Projectile(circle, 8, super.getX()/Math.abs(super.getX()), super.getY()/Math.abs(super.getY()), 0);
 	}
-
+	
 	public void draw(PApplet p) {
 		super.draw(p);
 		// System.out.println(getX() + " " + getY() + " " + r);
@@ -53,15 +59,24 @@ public class Player extends Sprite {
 		p.circle((float)getX(), (float)getY(), 2*r);
 		p.text("Lives: " + getLives() + "/" + getTotalLives(), 500, 24);
 	}
-
+	/**
+	 * getter for ammo
+	 * @return current ammo
+	 */
 	public int getAmmo() {
 		return this.ammo;
 	}
-
+	/**
+	 * sets ammo to a new value
+	 * @param ammo new ammo
+	 */
 	public void setAmmo(int ammo) {
 		this.ammo = ammo;
 	}
-
+	/**
+	 * getter for radius
+	 * @return radius
+	 */
 	public double getR() {
 		return r;
 	}

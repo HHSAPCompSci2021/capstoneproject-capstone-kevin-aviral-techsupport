@@ -35,7 +35,7 @@ public class Game extends Screen {
 		platforms = new ArrayList<>();
 
 		// randomly generate all platforms and make them seem random
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 8; i++) {
 			final float len = 40;
 			float lx = (float) (Math.random() * WIDTH), ly = (float) (Math.random() * HEIGHT);
 			while (tooClose(lx, ly, 200) || lx > WIDTH - len) {
@@ -126,11 +126,17 @@ public class Game extends Screen {
 		}
 		return false;
 	}
-
+	/**
+	 * adds a platform to the list of things to be added to the screen
+	 * @param p platform to be added
+	 */
 	public void addPlatform(Platform p) {
 		platforms.add(p);
 	}
-
+	/**
+	 * adds and enemy or projectile to the list of things to be added to the screen
+	 * @param s sprite to be added
+	 */
 	public void addEnemyOrProjectile(Sprite s) {
 		enemies.add(s);
 	}

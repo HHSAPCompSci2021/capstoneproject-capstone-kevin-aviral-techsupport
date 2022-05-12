@@ -104,65 +104,117 @@ public class Sprite {
     	*/
     	return s.isPointInside(other.getX(), other.getY());
     }
-    
+    /**
+     * moves a sprite a specific amount
+     * @param dx distance moved in x
+     * @param dy distance moved in y
+     */
     public void moveBy(double dx, double dy) {
         s.movePointBy(dx, dy);
     }
+    /**
+     * getter for shape 
+     * @return shape of sprite
+     */
     public Shape getShape() {
     	return s;
     }
+    /**
+     * getter for x coordinate of sprite
+     * @return x coordinate of sprite
+     */
     public double getX() {
         return s.getX();
     }
-
+    /**
+     * 
+     * getter for y coordinate of sprite
+     * @return y coordinate of sprite
+     */
     public double getY() {
         return s.getY();
     }
-
+    /**
+     * getter for x velocity of sprite
+     * @return x velocity
+     */
     public double getVx() {
         return this.vx;
     }
-
+    /**
+     * setter for x velocity of sprite
+     * @param vx new x velocity
+     */
     public void setVx(double vx) {
         this.vx = vx;
     }
-
+    /**
+     * getter for y velocity of sprite
+     * @return y velocity
+     */
     public double getVy() {
         return this.vy;
     }
-
+    /**
+     * setter for y velocity of sprite
+     * @param vy new y velocity
+     */
     public void setVy(double vy) {
         this.vy = vy;
     }
-
+    /**
+     * getter for x acceleration of sprite
+     * @return x acceleration
+     */
     public double getAx() {
         return this.ax;
     }
-
+    /**
+     * setter for x acceleration of sprite
+     * @param ax new x acceleration
+     */
     public void setAx(double ax) {
         this.ax = ax;
     }
-
+    /**
+     * getter for y acceleration of sprite
+     * @return y acceleration 
+     */
     public double getAy() {
         return this.ay;
     }
-
+    /**
+     * setter for y acceleration of sprite
+     * @param ay new y acceleration
+     */
     public void setAy(double ay) {
         this.ay = ay;
     }
-
+    /**
+     * getter for lives of sprite
+     * @return number of lives
+     */
     public int getLives() {
         return this.lives;
     }
-
+    /**
+     * setter for lives of sprite
+     * @param lives new number of lives sprite has
+     */
     public void setLives(int lives) {
         this.lives = lives;
     }
-
+    /**
+     * getter for total number of lives sprite has
+     * @return total lives
+     */
     public int getTotalLives() {
         return this.totalLives;
     }
-
+    /**
+     * setter for total lives of sprite
+     * @param totalLives new total lives 
+     */
     public void setTotalLives(int totalLives) {
         this.totalLives = totalLives;
     }
