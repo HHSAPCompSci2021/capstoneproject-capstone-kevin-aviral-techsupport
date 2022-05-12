@@ -49,10 +49,10 @@ public class Game extends Screen {
 			} else {
 				int angle = 0; 
 				while (!(angle >= 0 && angle <= 60) || ! (angle >= 135 && angle <= 180)) {
-					// dos tuff
+					angle = (int) ((int) 180 * Math.random());
 				}
-				
-				
+				Line newLine = Line.lineFromAngle(lx, ly, angle, len);
+				platforms.add(new Platform(newLine, 0, 0));
 			}
 			
 		}
@@ -106,6 +106,7 @@ public class Game extends Screen {
 		} else if (player.getX() < 0) {
 			player.moveBy(WIDTH, 0);
 		}
+		
 		
 	}
 
