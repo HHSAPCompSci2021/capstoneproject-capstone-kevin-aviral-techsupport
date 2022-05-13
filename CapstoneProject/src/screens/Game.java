@@ -46,20 +46,29 @@ public class Game extends Screen {
 				lx = (float) (Math.random() * WIDTH);
 				ly = (float) (Math.random() * HEIGHT);
 			}
+			// 50% chance of having velocity (for testing purposes, 50% is a bit big)
 			double a = Math.random();
+			int vx = 0, vy = 0;
+			// if (a >= 0.5) {
+			// 	vx = (int)(Math.random()*5 + 5);
+			// 	System.out.println("x velocity " + vx);
+			// }
+
+			// 50% chance of being angular
+			a = Math.random();
 			if (a >= 0.5) {
 				Line newLine = new Line(lx, ly, lx + len, ly);
-				platforms.add(new Pair<Platform, Integer>(new Platform(newLine, 0, 0), 0));
+				platforms.add(new Pair<Platform, Integer>(new Platform(newLine, vx, vy), 0));
 			} else {
 				double b = Math.random(); 
 				if (b >= .5) {
 					int angle = (int) Math.random() * 180;
 					Line newLine = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly - len/Math.sqrt(2)));
-					platforms.add(new Pair<Platform, Integer>(new Platform(newLine, 0, 0), 1));
+					platforms.add(new Pair<Platform, Integer>(new Platform(newLine, vx, vy), 1));
 				} else {
 					int angle = (int) Math.random() * 180;
 					Line newLine = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly + len/Math.sqrt(2)));
-					platforms.add(new Pair<Platform, Integer> (new Platform(newLine, 0, 0), 2));
+					platforms.add(new Pair<Platform, Integer> (new Platform(newLine, vx, vy), 2));
 				}
 			}
 			
@@ -96,12 +105,12 @@ public class Game extends Screen {
 		} else if (surface.isPressed(KeyEvent.VK_RIGHT) || surface.isPressed(KeyEvent.VK_D)) {
 			player.moveBy(4, 0);
 		} else if (surface.isPressed(KeyEvent.VK_Q)) {
-			System.out.println("Q pressed");
+			// System.out.println("Q pressed");
 			if (player.getAmmo() > 0) {
 				enemies.add(player.shootLeft());
 			}
 		} else if (surface.isPressed(KeyEvent.VK_E)) {
-			System.out.println("E pressed");
+			// System.out.println("E pressed");
 			if (player.getAmmo() > 0) {
 				enemies.add(player.shootRight());
 			}
@@ -116,7 +125,7 @@ public class Game extends Screen {
 
 		player.setScore((long)Math.max(player.getY(), player.getScore()));
 		
-		for (Pair<Platform, Integer>p : platforms) {
+		for (Pair<Platform, Integer> p : platforms) {
 			if (player.isTouching(p.first) && p.second == 0) {
 				player.setVy(-2);
 			}
@@ -170,7 +179,7 @@ public class Game extends Screen {
 	private boolean tooClose(double lx, double ly, double radius) {
 		// given a point (lx, ly), determine if it is radius away from ALL existing
 		// platforms
-		for (Pair<Platform, Integer>p : platforms) {
+		for (Pair<Platform, Integer> p : platforms) {
 			double xdist = Math.abs(lx - p.first.getX());
 			double ydist = Math.abs(ly - p.first.getY());
 			if (Math.sqrt(xdist * xdist + ydist * ydist) < radius) {
