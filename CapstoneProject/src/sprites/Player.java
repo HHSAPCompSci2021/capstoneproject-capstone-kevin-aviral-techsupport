@@ -29,7 +29,7 @@ public class Player extends Sprite {
     public Player(Circle s, double vx, double vy, double ax, double ay, int totalLives) {
         super(s, vx, vy, ax, ay, totalLives);
 		r = (float)s.getR();
-		ammo = 5;
+		ammo = 10;
     }
     /**
      * shoots a projectile to the left
