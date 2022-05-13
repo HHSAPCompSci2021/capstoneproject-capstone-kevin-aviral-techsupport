@@ -21,7 +21,8 @@ public class Game extends Screen {
 	private DrawingSurface surface;
 	private Rectangle screenRect;
 	private Player player;
-	private ArrayList<Platform> platforms;
+	// 0 if vert, 1 if right, 2 if left
+	private ArrayList<Pair<Platform, Integer>> platforms;
 	private ArrayList<Sprite> enemies;
 	// this will store enemies AND projectiles
 										// easier to check for collisions
@@ -48,17 +49,17 @@ public class Game extends Screen {
 			double a = Math.random();
 			if (a >= 0.5) {
 				Line newLine = new Line(lx, ly, lx + len, ly);
-				platforms.add(new Platform(newLine, 0, 0));
+				platforms.add(new Pair<Platform, Integer>(new Platform(newLine, 0, 0), 0));
 			} else {
 				double b = Math.random(); 
 				if (b >= .5) {
 					int angle = (int) Math.random() * 180;
 					Line newLine = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly - len/Math.sqrt(2)));
-					platforms.add(new Platform(newLine, 0, 0));
+					platforms.add(new Pair<Platform, Integer>(new Platform(newLine, 0, 0), 1));
 				} else {
 					int angle = (int) Math.random() * 180;
 					Line newLine = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly + len/Math.sqrt(2)));
-					platforms.add(new Platform(newLine, 0, 0));
+					platforms.add(new Pair<Platform, Integer> (new Platform(newLine, 0, 0), 2));
 				}
 			}
 			
@@ -80,8 +81,8 @@ public class Game extends Screen {
 	public void draw() {
 		surface.background(36, 150, 177);
 		// draw all the sprites
-		for (Platform p : platforms) {
-			p.draw(surface);
+		for (Pair<Platform, Integer>p : platforms) {
+			p.first.draw(surface);
 		}
 		for (Sprite s : enemies) {
 			s.draw(surface);
@@ -115,6 +116,19 @@ public class Game extends Screen {
 
 		player.setScore((long)Math.max(player.getY(), player.getScore()));
 		
+		for (Pair<Platform, Integer>p : platforms) {
+			if (player.isTouching(p.first) && p.second == 0) {
+				player.setVy(-2);
+			}
+			if (player.isTouching(p.first) && p.second == 1) {
+				player.setVx(-Math.sqrt(2));
+				player.setVy(-Math.sqrt(2));
+			}
+			if (player.isTouching(p.first) && p.second == 2) {
+				player.setVx(Math.sqrt(2));
+				player.setVy(-Math.sqrt(2));
+			}
+		}
 		if (player.getY() >= HEIGHT) {
 			player.moveBy(0, -HEIGHT);
 			player.setVy(2);
@@ -154,22 +168,16 @@ public class Game extends Screen {
 	private boolean tooClose(double lx, double ly, double radius) {
 		// given a point (lx, ly), determine if it is radius away from ALL existing
 		// platforms
-		for (Platform p : platforms) {
-			double xdist = Math.abs(lx - p.getX());
-			double ydist = Math.abs(ly - p.getY());
+		for (Pair<Platform, Integer>p : platforms) {
+			double xdist = Math.abs(lx - p.first.getX());
+			double ydist = Math.abs(ly - p.first.getY());
 			if (Math.sqrt(xdist * xdist + ydist * ydist) < radius) {
 				return true;
 			}
 		}
 		return false;
 	}
-	/**
-	 * adds a platform to the list of things to be added to the screen
-	 * @param p platform to be added
-	 */
-	public void addPlatform(Platform p) {
-		platforms.add(p);
-	}
+
 	/**
 	 * adds and enemy or projectile to the list of things to be added to the screen
 	 * @param s sprite to be added
@@ -177,5 +185,14 @@ public class Game extends Screen {
 	public void addEnemyOrProjectile(Sprite s) {
 		enemies.add(s);
 	}
-
+	
+	private static class Pair<F, S> {
+		F first;
+		S second;
+		
+		public Pair(F fv, S sv) {
+			first = fv;
+			second = sv;
+		}
+	}
 }
