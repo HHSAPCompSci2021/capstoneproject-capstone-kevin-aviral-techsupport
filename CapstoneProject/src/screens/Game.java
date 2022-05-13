@@ -16,11 +16,13 @@ import sprites.*;
  */
 public class Game extends Screen {
 	private static final double g = 0.18; 
+	private static final float len = 40;
 	private DrawingSurface surface;
 	private Rectangle screenRect;
 	private Player player;
 	private ArrayList<Platform> platforms;
-	private ArrayList<Sprite> enemies; // this will store enemies AND projectiles
+	private ArrayList<Sprite> enemies;
+	// this will store enemies AND projectiles
 										// easier to check for collisions
 	
 	/**
@@ -111,6 +113,39 @@ public class Game extends Screen {
 			player.moveBy(WIDTH, 0);
 		}
 		
+		if (player.getY() >= HEIGHT) {
+			player.moveBy(0, -HEIGHT);
+			player.setVy(2);
+			
+			// TODO re randomize tiles
+			/*
+			for (int i = 0; i < 8; i++) {
+				float lx = (float) (Math.random() * WIDTH), ly = (float) (Math.random() * HEIGHT);
+				while (tooClose(lx, ly, 200) || lx > WIDTH - len) {
+					lx = (float) (Math.random() * WIDTH);
+					ly = (float) (Math.random() * HEIGHT);
+				}
+				double a = Math.random();
+				if (a >= 0.5) {
+					Line newLine = new Line(lx, ly, lx + len, ly);
+					platforms.add(new Platform(newLine, 0, 0));
+				} else {
+					double b = Math.random(); 
+					if (b >= .5) {
+						int angle = (int) Math.random() * 180;
+						Line newLine = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly - len/Math.sqrt(2)));
+						platforms.add(new Platform(newLine, 0, 0));
+					} else {
+						int angle = (int) Math.random() * 180;
+						Line newLine = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly + len/Math.sqrt(2)));
+						platforms.add(new Platform(newLine, 0, 0));
+					}
+				}
+				
+			}
+			*/
+			
+		}
 		
 	}
 
