@@ -133,6 +133,7 @@ public class Game extends Screen {
 			// TODO re randomize tiles
 			/*
 			for (int i = 0; i < 8; i++) {
+				final float len = 40;
 				float lx = (float) (Math.random() * WIDTH), ly = (float) (Math.random() * HEIGHT);
 				while (tooClose(lx, ly, 200) || lx > WIDTH - len) {
 					lx = (float) (Math.random() * WIDTH);
@@ -141,22 +142,23 @@ public class Game extends Screen {
 				double a = Math.random();
 				if (a >= 0.5) {
 					Line newLine = new Line(lx, ly, lx + len, ly);
-					platforms.add(new Platform(newLine, 0, 0));
+					platforms.add(new Pair<Platform, Integer>(new Platform(newLine, 0, 0), 0));
 				} else {
 					double b = Math.random(); 
 					if (b >= .5) {
 						int angle = (int) Math.random() * 180;
 						Line newLine = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly - len/Math.sqrt(2)));
-						platforms.add(new Platform(newLine, 0, 0));
+						platforms.add(new Pair<Platform, Integer>(new Platform(newLine, 0, 0), 1));
 					} else {
 						int angle = (int) Math.random() * 180;
 						Line newLine = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly + len/Math.sqrt(2)));
-						platforms.add(new Platform(newLine, 0, 0));
+						platforms.add(new Pair<Platform, Integer> (new Platform(newLine, 0, 0), 2));
 					}
 				}
 				
 			}
 			*/
+			
 			
 		}
 		
