@@ -15,6 +15,7 @@ import sprites.*;
  *         game screen screen that can be represented using processing
  */
 public class Game extends Screen {
+
 	private static final double g = 0.18; 
 	private static final float len = 40;
 	private DrawingSurface surface;
@@ -104,7 +105,6 @@ public class Game extends Screen {
 				enemies.add(player.shootRight());
 			}
 		}
-		
 
 		// check if player is out of bounds and have him appear on other side
 		if (player.getX() >= WIDTH) {
@@ -112,6 +112,8 @@ public class Game extends Screen {
 		} else if (player.getX() < 0) {
 			player.moveBy(WIDTH, 0);
 		}
+
+		player.setScore((long)Math.max(player.getY(), player.getScore()));
 		
 		if (player.getY() >= HEIGHT) {
 			player.moveBy(0, -HEIGHT);
