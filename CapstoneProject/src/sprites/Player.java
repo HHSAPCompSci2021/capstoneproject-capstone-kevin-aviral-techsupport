@@ -11,9 +11,11 @@ import java.awt.*;
  *
  */
 public class Player extends Sprite {
-	private static final double g = 0.18 ;
+
+	private static final double g = 0.18;
 	private float r;
 	private int ammo;
+	private long score;
 
 	/**
 	 * creates a player object
@@ -80,7 +82,13 @@ public class Player extends Sprite {
 	public double getR() {
 		return r;
 	}
-	
-	
+
+	public long getScore() {
+		return this.score;
+	}
+
+	public void setScore(long score) {
+		this.score = score;
+	}
 
 }
