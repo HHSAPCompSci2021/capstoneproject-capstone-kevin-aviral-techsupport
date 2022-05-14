@@ -127,7 +127,7 @@ public class Game extends Screen {
 		
 		for (Pair<Platform, Integer> p : platforms) {
 			if (player.isTouching(p.first) && p.second == 0) {
-				player.setVy(-2);
+				player.setVy(-20);
 			}
 			if (player.isTouching(p.first) && p.second == 1) {
 				player.setVx(-Math.sqrt(2));

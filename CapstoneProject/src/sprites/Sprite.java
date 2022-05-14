@@ -92,17 +92,7 @@ public class Sprite {
         // line 
         // circle
     	
-    	if (other.getShape() instanceof Rectangle && s instanceof Rectangle) {
-    		return other.getShape().isTouching(s);
-    	} else if (other.getShape() instanceof Circle && s instanceof Circle) {
-    		return other.getShape().isTouching(s);
-    	} else if (other.getShape() instanceof Line && s instanceof Line) {
-    		return other.getShape().isTouching(s);
-    	} else if (other.getShape() instanceof Line) {
-    		return other.getShape().isPointInside(s.getX(), s.getY());
-    	} else return other.getShape().isPointInside(s.getX(), s.getY());
-    	
-    	//return s.isPointInside(other.getX(), other.getY());
+    	return s.isPointInside(other.getX(), other.getY());
     }
     /**
      * moves a sprite a specific amount
