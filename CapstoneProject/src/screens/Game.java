@@ -49,10 +49,9 @@ public class Game extends Screen {
 			// 50% chance of having velocity (for testing purposes, 50% is a bit big)
 			double a = Math.random();
 			int vx = 0, vy = 0;
-			// if (a >= 0.5) {
-			// 	vx = (int)(Math.random()*5 + 5);
-			// 	System.out.println("x velocity " + vx);
-			// }
+			if (a >= 0.8) {
+				vx = (int)(Math.random()*5 + 2);
+			}
 
 			// 50% chance of being angular
 			a = Math.random();
@@ -78,7 +77,7 @@ public class Game extends Screen {
 
 		Rectangle erect = new Rectangle(200, 200, 30, 30);
 		enemies.add(new Enemy(erect, 0, 0, 0, 0));
-		// spawn the player
+		
 		player = new Player(new Circle(WIDTH / 2, HEIGHT / 2, 16), 0, 0, 0, g, 3);
 	}
 
@@ -91,6 +90,9 @@ public class Game extends Screen {
 		surface.background(36, 150, 177);
 		// draw all the sprites
 		for (Pair<Platform, Integer>p : platforms) {
+			if (p.first.getX() >= WIDTH || p.first.getX() <= 0) {
+				p.first.setVx(-p.first.getVx());
+			}
 			p.first.draw(surface);
 		}
 		for (Sprite s : enemies) {
