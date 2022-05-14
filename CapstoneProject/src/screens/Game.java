@@ -137,10 +137,8 @@ public class Game extends Screen {
 		
 		// see if it works with horizontal
 		for (Pair<Platform, Integer> p : platforms) {
-			if (player.isTouching(p.first)) {
-				player.moveBy(player.getVx(), -player.getVy());
-				System.out.println(player.getY());
-				player.setVy(-2);
+			if (player.isTouching(p.first) && p.second == 0) {
+				player.setVy(-20);
 			}
 			if (player.isTouching(p.first) && p.second == 1) {
 				player.moveBy(player.getVx(), -player.getVy());
