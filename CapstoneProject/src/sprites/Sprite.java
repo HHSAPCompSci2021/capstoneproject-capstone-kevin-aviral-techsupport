@@ -93,17 +93,25 @@ public class Sprite {
         // circle
     	
     	if (other.getShape() instanceof Rectangle && s instanceof Rectangle) {
+            System.out.println("rect rect");
     		return other.getShape().isTouching(s);
     	} else if (other.getShape() instanceof Circle && s instanceof Circle) {
+            System.out.println("circle circle");
     		return other.getShape().isTouching(s);
     	} else if (other.getShape() instanceof Line && s instanceof Line) {
+            System.out.println("line line");
     		return other.getShape().isTouching(s);
     	} else if (other.getShape() instanceof Line) {
+            System.out.println("line");
     		return other.getShape().isPointInside(s.getX(), s.getY());
-    	} else return other.getShape().isPointInside(s.getX(), s.getY());
+    	} else {
+            System.out.println("else");
+            return other.getShape().isPointInside(s.getX(), s.getY());
+        }
     	
     	//return s.isPointInside(other.getX(), other.getY());
     }
+
     /**
      * moves a sprite a specific amount
      * @param dx distance moved in x
