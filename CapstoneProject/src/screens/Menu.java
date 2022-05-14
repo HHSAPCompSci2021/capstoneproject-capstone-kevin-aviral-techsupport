@@ -28,12 +28,12 @@ public class Menu extends Screen {
 		super(600, 800);
 		this.surface = surface;
 		int rw = 300, rh = 80;
-		start = new Rectangle(WIDTH/2 - rw/2, HEIGHT/2 - rh/2 + 150, rw, rh);
-		quit = new Rectangle(WIDTH/2 - rw/2, HEIGHT/2 + rh + 150, rw, rh);
+		start = new Rectangle(WIDTH / 2 - rw / 2, HEIGHT / 2 - rh / 2 + 150, rw, rh);
+		quit = new Rectangle(WIDTH / 2 - rw / 2, HEIGHT / 2 + rh + 150, rw, rh);
 	}
 
 	public void draw() {
-		// surface.background(255, 255, 255); 
+		// surface.background(255, 255, 255);
 		// draw the buttons
 		surface.fill(236, 181, 176);
 		surface.rect(start.x, start.y, start.width, start.height, 10, 10, 10, 10);
@@ -43,8 +43,8 @@ public class Menu extends Screen {
 		surface.textSize(16);
 		float textWidth1 = surface.textWidth("START");
 		float textWidth2 = surface.textWidth("QUIT");
-		surface.text("START", start.x + start.width/2 - textWidth1/2, start.y + start.height/2);
-		surface.text("QUIT", quit.x + quit.width/2 - textWidth2/2, quit.y + quit.height/2);
+		surface.text("START", start.x + start.width / 2 - textWidth1 / 2, start.y + start.height / 2);
+		surface.text("QUIT", quit.x + quit.width / 2 - textWidth2 / 2, quit.y + quit.height / 2);
 	}
 
 	public void mousePressed() {
