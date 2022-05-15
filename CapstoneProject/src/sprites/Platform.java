@@ -54,7 +54,7 @@ public class Platform extends Sprite {
         p.strokeWeight(10);
         // p.line((float)getX(), (float)getY(), (float)(getX() + length),
         // (float)getY());
-        l.setStrokeWidth(10);
+        p.strokeWeight(10);
         l.draw(p);
 
         p.pop();

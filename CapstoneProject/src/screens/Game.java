@@ -41,15 +41,15 @@ public class Game extends Screen {
 		horizontal = new ArrayList<>();
 		
 		Line lin = new Line(100, 500, 100+len, 500);
-		lin.setStrokeColor(new Color(50, 50, 69));;
+		//lin.setStrokeColor(new Color(50, 50, 69));;
 		test = new Platform(lin, 0, 0);
 		// randomly generate all platforms and make them seem random
 		for (int i = 0; i < 8; i++) {
 			final float len = 40;
-			float lx = (float) (Math.random() * WIDTH), ly = (float) (Math.random() * HEIGHT);
+			float lx = (float) (Math.random() * WIDTH), ly = (float) (Math.random() * 2 * HEIGHT);
 			while (tooClose(lx, ly, 200) || lx > WIDTH - len) {
 				lx = (float) (Math.random() * WIDTH);
-				ly = (float) (Math.random() * HEIGHT);
+				ly = (float) (Math.random() * 2 *HEIGHT);
 			}
 			// 50% chance of having velocity (for testing purposes, 50% is a bit big)
 			double a = Math.random();
@@ -124,13 +124,6 @@ public class Game extends Screen {
 			if (player.getAmmo() > 0) {
 				enemies.add(player.shootRight());
 			}
-		}
-
-		// check if player is out of bounds and have him appear on other side
-		if (player.getX() >= WIDTH) {
-			player.moveBy(-WIDTH, 0);
-		} else if (player.getX() < 0) {
-			player.moveBy(WIDTH, 0);
 		}
 
 		player.setScore((long)Math.max(player.getY(), player.getScore()));
