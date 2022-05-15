@@ -38,7 +38,7 @@ public class DrawingSurface extends PApplet implements ScreenSwitcher {
 		// background(201, 205, 222);
 		image(img, ix, iy, activeScreen.WIDTH, activeScreen.HEIGHT);
 		if (0 < mouseX && mouseX < activeScreen.WIDTH) {
-			System.out.println("move");
+			// System.out.println("move");
 			ix += (mouseX - activeScreen.WIDTH / 2) / 100;
 		}
 

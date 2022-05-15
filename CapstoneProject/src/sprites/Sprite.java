@@ -94,6 +94,7 @@ public class Sprite {
     	
     	return s.isPointInside(other.getX(), other.getY());
     }
+
     /**
      * moves a sprite a specific amount
      * @param dx distance moved in x
