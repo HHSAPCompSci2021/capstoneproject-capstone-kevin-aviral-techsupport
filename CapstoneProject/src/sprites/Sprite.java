@@ -77,7 +77,7 @@ public class Sprite {
      * @post Sprite is drawn on the surface
      */
     public void draw(PApplet p) {
-        s.movePointBy(vx, vy);
+        s.movePointBy(vx, vy - 4);
         vx += ax;
         vy += ay;
     }

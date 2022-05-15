@@ -74,7 +74,7 @@ public class Player extends Sprite {
 		} else if (getX() < 0) {
 			moveBy(WIDTH, 0);
 		}
-
+		setScore((long)Math.max(getY()+4, score));
 		p.fill(255, 250, 251);
 		// if player is partly off screen
 		if (getX() + r >= WIDTH) {

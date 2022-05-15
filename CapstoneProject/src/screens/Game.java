@@ -43,42 +43,7 @@ public class Game extends Screen {
 		Line lin = new Line(100, 500, 100+len, 500);
 		//lin.setStrokeColor(new Color(50, 50, 69));;
 		test = new Platform(lin, 0, 0);
-		// randomly generate all platforms and make them seem random
-		for (int i = 0; i < 8; i++) {
-			final float len = 40;
-			float lx = (float) (Math.random() * WIDTH), ly = (float) (Math.random() * 2 * HEIGHT);
-			while (tooClose(lx, ly, 200) || lx > WIDTH - len) {
-				lx = (float) (Math.random() * WIDTH);
-				ly = (float) (Math.random() * 2 *HEIGHT);
-			}
-			// 50% chance of having velocity (for testing purposes, 50% is a bit big)
-			double a = Math.random();
-			int vx = 0, vy = 0;
-			// if (a >= 0.8) {
-			// 	vx = (int)(Math.random()*5 + 2);
-			// }
-
-			// 50% chance of being angular
-			a = Math.random();
-			if (a >= 0.5) {
-				Line newLine = new Line(lx, ly, lx + len, ly);
-				horizontal.add(new Platform(newLine, vx, vy));
-				platforms.add(new Pair<Platform, Integer>(new Platform(newLine, vx, vy), 0));
-			} else {
-				double b = Math.random(); 
-				if (b >= .5) {
-					int angle = (int) Math.random() * 180;
-					Line newLine = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly - len/Math.sqrt(2)));
-					platforms.add(new Pair<Platform, Integer>(new Platform(newLine, vx, vy), 1));
-				} else {
-					int angle = (int) Math.random() * 180;
-					Line newLine = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly + len/Math.sqrt(2)));
-					platforms.add(new Pair<Platform, Integer> (new Platform(newLine, vx, vy), 2));
-				}
-			}
-			
-		}
-
+		generatePlatforms();
 		enemies = new ArrayList<>();
 
 		// spawn the enemies
@@ -126,8 +91,6 @@ public class Game extends Screen {
 			}
 		}
 
-		player.setScore((long)Math.max(player.getY(), player.getScore()));
-		
 		// see if it works with horizontal
 		for (Pair<Platform, Integer> p : platforms) {
 			if (player.isTouching(p.first) && p.second == 0) {
@@ -150,36 +113,49 @@ public class Game extends Screen {
 			
 			// TODO re randomize tiles
 			/*
-			for (int i = 0; i < 8; i++) {
-				final float len = 40;
-				float lx = (float) (Math.random() * WIDTH), ly = (float) (Math.random() * HEIGHT);
-				while (tooClose(lx, ly, 200) || lx > WIDTH - len) {
-					lx = (float) (Math.random() * WIDTH);
-					ly = (float) (Math.random() * HEIGHT);
-				}
-				double a = Math.random();
-				if (a >= 0.5) {
-					Line newLine = new Line(lx, ly, lx + len, ly);
-					platforms.add(new Pair<Platform, Integer>(new Platform(newLine, 0, 0), 0));
-				} else {
-					double b = Math.random(); 
-					if (b >= .5) {
-						int angle = (int) Math.random() * 180;
-						Line newLine = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly - len/Math.sqrt(2)));
-						platforms.add(new Pair<Platform, Integer>(new Platform(newLine, 0, 0), 1));
-					} else {
-						int angle = (int) Math.random() * 180;
-						Line newLine = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly + len/Math.sqrt(2)));
-						platforms.add(new Pair<Platform, Integer> (new Platform(newLine, 0, 0), 2));
-					}
-				}
-				
-			}
+			generatePlatforms();
 			*/
 			
 			
 		}
 		
+	}
+
+	private void generatePlatforms() {
+		// randomly generate all platforms on this screen and the screen below and make them seem random
+		for (int i = 0; i < 8; i++) {
+			final float len = 40;
+			float lx = (float) (Math.random() * WIDTH), ly = (float) (Math.random() * 2 * HEIGHT);
+			while (tooClose(lx, ly, 200) || lx > WIDTH - len) {
+				lx = (float) (Math.random() * WIDTH);
+				ly = (float) (Math.random() * 2 *HEIGHT);
+			}
+			// 50% chance of having velocity (for testing purposes, 50% is a bit big)
+			double a = Math.random();
+			int vx = 0, vy = 0;
+			// if (a >= 0.8) {
+			// 	vx = (int)(Math.random()*5 + 2);
+			// }
+
+			// 50% chance of being angular
+			a = Math.random();
+			if (a >= 0.5) {
+				Line newLine = new Line(lx, ly, lx + len, ly);
+				horizontal.add(new Platform(newLine, vx, vy));
+				platforms.add(new Pair<Platform, Integer>(new Platform(newLine, vx, vy), 0));
+			} else {
+				double b = Math.random(); 
+				if (b >= .5) {
+					int angle = (int) Math.random() * 180;
+					Line newLine = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly - len/Math.sqrt(2)));
+					platforms.add(new Pair<Platform, Integer>(new Platform(newLine, vx, vy), 1));
+				} else {
+					int angle = (int) Math.random() * 180;
+					Line newLine = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly + len/Math.sqrt(2)));
+					platforms.add(new Pair<Platform, Integer> (new Platform(newLine, vx, vy), 2));
+				}
+			}
+		}
 	}
 
 	private boolean tooClose(double lx, double ly, double radius) {
