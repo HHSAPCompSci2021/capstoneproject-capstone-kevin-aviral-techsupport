@@ -14,7 +14,6 @@ import java.awt.*;
  */
 public class Player extends Sprite {
 
-	private static final double g = 0.18;
 	private int playerNum; // for multiplayer, 1 is on left, 2 is on right
 	private float r;
 	private int ammo;
@@ -32,7 +31,7 @@ public class Player extends Sprite {
 	 */
 	public Player(Circle s, double vx, double vy, double ax, double ay, int totalLives) {
 		super(s, vx, vy, ax, ay, totalLives);
-		r = (float) s.getR();
+		r = (float) s.getRadius();
 		ammo = 10;
 	}
 
@@ -74,17 +73,17 @@ public class Player extends Sprite {
 		} else if (getX() < 0) {
 			moveBy(WIDTH, 0);
 		}
-		setScore((long)Math.max(getY()+4, score));
+		setScore((long)Math.max(getY()+0, score));
 		p.fill(255, 250, 251);
 		// if player is partly off screen
 		if (getX() + r >= WIDTH) {
 			p.circle((float)(WIDTH - getX() - r), (float)getY(), 2*r);
 		} else if (getX() - r <= 0) {
-			p.circle((float)(WIDTH + getX() - r), (float)getY(), 2*r);
+			p.circle((float)(WIDTH + getX()), (float)getY(), 2*r);
 		}
 		// System.out.println(getX() + " " + getY() + " " + r);
 		p.circle((float) getX(), (float) getY(), 2 * r);
-		int tx = 100 * (playerNum == 2 ? 5 : 1);
+		int tx = (int) (100 * (playerNum == 2 ? 5 : 0.25));
 		p.text("Score: " + score, tx, 24);
 		// make these graphic later
 		p.text("Lives: " + getLives() + "/" + getTotalLives(), tx, 48);

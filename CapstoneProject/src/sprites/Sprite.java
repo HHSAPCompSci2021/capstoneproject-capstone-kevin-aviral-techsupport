@@ -29,7 +29,6 @@ public class Sprite {
      * @param ay y acceleration of the sprite
      * @param totalLives total number of lives the sprite has
      */
-
     public Sprite(Shape s, double vx, double vy, double ax, double ay, int totalLives) {
         this.s = s;
         this.vx = vx;
@@ -77,7 +76,7 @@ public class Sprite {
      * @post Sprite is drawn on the surface
      */
     public void draw(PApplet p) {
-        s.movePointBy(vx, vy - 4);
+        s.move(vx, vy);
         vx += ax;
         vy += ay;
     }
@@ -101,7 +100,7 @@ public class Sprite {
      * @param dy distance moved in y
      */
     public void moveBy(double dx, double dy) {
-        s.movePointBy(dx, dy);
+        s.move(dx, dy);
     }
     /**
      * getter for shape 

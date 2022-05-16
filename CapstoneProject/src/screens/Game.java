@@ -16,7 +16,7 @@ import sprites.*;
  */
 public class Game extends Screen {
 
-	private static final double g = 0.18; 
+	private static final double g = 0.03; 
 	private static final float len = 40;
 	private DrawingSurface surface;
 	private Rectangle screenRect;
@@ -41,7 +41,7 @@ public class Game extends Screen {
 		horizontal = new ArrayList<>();
 		
 		Line lin = new Line(100, 500, 100+len, 500);
-		//lin.setStrokeColor(new Color(50, 50, 69));;
+		lin.setStrokeColor(new Color(210, 50, 69));;
 		test = new Platform(lin, 0, 0);
 		generatePlatforms();
 		enemies = new ArrayList<>();
@@ -91,17 +91,24 @@ public class Game extends Screen {
 			}
 		}
 
+		if (player.isTouching(test)) {
+			System.out.println("test success");
+		}
+
 		// see if it works with horizontal
 		for (Pair<Platform, Integer> p : platforms) {
 			if (player.isTouching(p.first) && p.second == 0) {
-				player.setVy(-20);
+				System.out.println("collide ");
+				player.setVy(-2);
 			}
 			if (player.isTouching(p.first) && p.second == 1) {
+				System.out.println("collide ");
 				player.moveBy(player.getVx(), -player.getVy());
 				player.setVx(-Math.sqrt(2));
 				player.setVy(-Math.sqrt(2));
 			}
 			if (player.isTouching(p.first) && p.second == 2) {
+				System.out.println("collide ");
 				player.moveBy(player.getVx(), -player.getVy());
 				player.setVx(Math.sqrt(2));
 				player.setVy(-Math.sqrt(2));
@@ -123,7 +130,7 @@ public class Game extends Screen {
 
 	private void generatePlatforms() {
 		// randomly generate all platforms on this screen and the screen below and make them seem random
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 20; i++) {
 			final float len = 40;
 			float lx = (float) (Math.random() * WIDTH), ly = (float) (Math.random() * 2 * HEIGHT);
 			while (tooClose(lx, ly, 200) || lx > WIDTH - len) {

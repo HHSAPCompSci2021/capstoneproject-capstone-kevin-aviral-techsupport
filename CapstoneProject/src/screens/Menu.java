@@ -14,7 +14,7 @@ import processing.core.*;
  */
 public class Menu extends Screen {
 
-	// private PImage img;
+	private PFont font;
 	private DrawingSurface surface;
 	private Rectangle start;
 	private Rectangle quit;
