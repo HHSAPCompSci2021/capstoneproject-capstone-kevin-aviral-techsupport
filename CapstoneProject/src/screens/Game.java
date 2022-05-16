@@ -3,11 +3,10 @@ package screens;
 import java.awt.Color;
 import java.awt.event.*;
 import java.util.*;
-import aviral.shapes.Circle;
-import aviral.shapes.Line;
-import aviral.shapes.Rectangle;
+import aviral.shapes.*;
 import core.DrawingSurface;
 import sprites.*;
+
 
 /**
  * 
