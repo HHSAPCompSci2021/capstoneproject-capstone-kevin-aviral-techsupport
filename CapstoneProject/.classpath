@@ -4,6 +4,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="lib/10-21-2021.jar"/>
 	<classpathentry kind="lib" path="lib/processing_core.jar"/>
-	<classpathentry kind="lib" path="lib/newjar.jar"/>
+	<classpathentry kind="lib" path="newjar.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

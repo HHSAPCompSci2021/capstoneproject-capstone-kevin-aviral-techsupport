@@ -23,7 +23,7 @@ public class Projectile extends Sprite {
 	 */
     public Projectile(Circle s, double vx, double vy, double ax, double ay) {
         super(s, vx, vy, ax, ay);
-        r = (float)s.getR();
+        r = (float)s.getRadius();
     }
     /**
      * draws projetile

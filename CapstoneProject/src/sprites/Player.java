@@ -32,7 +32,7 @@ public class Player extends Sprite {
 	 */
 	public Player(Circle s, double vx, double vy, double ax, double ay, int totalLives) {
 		super(s, vx, vy, ax, ay, totalLives);
-		r = (float) s.getR();
+		r = (float) s.getRadius();
 		ammo = 10;
 	}
 

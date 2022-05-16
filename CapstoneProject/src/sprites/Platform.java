@@ -56,7 +56,6 @@ public class Platform extends Sprite {
         // (float)getY());
         p.strokeWeight(10);
         l.draw(p);
-
         p.pop();
     }
 
