@@ -11,7 +11,7 @@ public class DrawingSurface extends PApplet implements ScreenSwitcher {
 	public float ratioX, ratioY;
 
 	private ArrayList<Integer> keys;
-	private PImage img;
+	private PImage bg;
 	private float ix, iy;
 	private ArrayList<Screen> screens;
 	private Screen activeScreen;
@@ -25,7 +25,8 @@ public class DrawingSurface extends PApplet implements ScreenSwitcher {
 	}
 
 	public void setup() {
-		img = loadImage("downfall_title1.jpeg");
+		// setup the images
+		bg = loadImage("downfall_title1.jpeg");
 		ix = 0;
 		iy = 0;
 	}
@@ -35,12 +36,12 @@ public class DrawingSurface extends PApplet implements ScreenSwitcher {
 		ratioY = (float) height / activeScreen.HEIGHT;
 
 		push();
-		// background(201, 205, 222);
-		image(img, ix, iy, activeScreen.WIDTH, activeScreen.HEIGHT);
-		if (0 < mouseX && mouseX < activeScreen.WIDTH) {
-			// System.out.println("move");
-			ix += (mouseX - activeScreen.WIDTH / 2) / 100;
-		}
+
+		// parallax
+		// as mouse moves left, move image right and vice versa
+		ix = (float) (50 - (mouseX - activeScreen.WIDTH/2) * 0.03);
+		
+		image(bg, ix, iy, activeScreen.WIDTH, activeScreen.HEIGHT);
 
 		scale(ratioX, ratioY);
 		activeScreen.draw();
