@@ -132,5 +132,5 @@ public class Player extends Sprite {
 	public void setScore(long score) {
 		this.score = score;
 	}
-
+	
 }
