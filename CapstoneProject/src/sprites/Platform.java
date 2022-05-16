@@ -16,7 +16,8 @@ public class Platform extends Sprite {
     // creates a platform at a random location
     // represented by a line
     private double length;
-    private Line l;
+    private Line l1;
+    private Line l2; 
 
     /**
      * creates a platform object at a random location
@@ -27,7 +28,7 @@ public class Platform extends Sprite {
      */
     public Platform(Line s, double vx, double vy) {
         super(s, vx, vy);
-        this.l = s;
+        this.l1 = s;
         length = (double) s.getPerimeter();
     }
 
@@ -35,8 +36,12 @@ public class Platform extends Sprite {
 
     }
 
-    public Line getL() {
-        return l;
+    public Line getL1() {
+        return l1;
+    }
+    
+    public Line getL2 (){
+    	return l2; 
     }
 
     /**
@@ -53,7 +58,7 @@ public class Platform extends Sprite {
         // p.line((float)getX(), (float)getY(), (float)(getX() + length),
         // (float)getY());
         p.strokeWeight(10);
-        l.draw(p);
+        l1.draw(p);
         p.pop();
     }
 
