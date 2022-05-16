@@ -2,10 +2,8 @@ package sprites;
 
 import java.awt.*;
 import processing.core.*;
-import aviral.shapes.Shape;
+import aviral.*;
 import aviral.shapes.Line;
-import aviral.shapes.Rectangle;
-
 /**
  * The platform class represents a double precision platform that can be
  * displayed with processing
@@ -56,7 +54,6 @@ public class Platform extends Sprite {
         // (float)getY());
         p.strokeWeight(10);
         l.draw(p);
-
         p.pop();
     }
 

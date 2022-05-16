@@ -90,7 +90,6 @@ public class Sprite {
         // rectangle 
         // line 
         // circle
-    	
     	return s.isPointInside(other.getX(), other.getY());
     }
 
