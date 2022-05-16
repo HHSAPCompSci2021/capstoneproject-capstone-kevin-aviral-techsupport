@@ -83,7 +83,7 @@ public class Player extends Sprite {
 		}
 		// System.out.println(getX() + " " + getY() + " " + r);
 		p.circle((float) getX(), (float) getY(), 2 * r);
-		int tx = (int) (100 * (playerNum == 2 ? 5 : 0.25));
+		int tx = (int) (100 * (playerNum == 2 ? 5 : 0.2));
 		p.text("Score: " + score, tx, 24);
 		// make these graphic later
 		p.text("Lives: " + getLives() + "/" + getTotalLives(), tx, 48);

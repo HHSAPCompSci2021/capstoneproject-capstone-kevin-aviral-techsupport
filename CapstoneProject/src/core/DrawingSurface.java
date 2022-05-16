@@ -1,20 +1,16 @@
 package core;
 
 import java.awt.Point;
+import java.awt.Color;
 import java.util.ArrayList;
-
-import processing.core.*;
 import screens.*;
+import processing.core.*;
 
 public class DrawingSurface extends PApplet implements ScreenSwitcher {
 
 	public float ratioX, ratioY;
 
 	private ArrayList<Integer> keys;
-	private PImage bg;
-	private float x1, y1;
-	private PImage fg;
-	private float x2, y2;
 	private ArrayList<Screen> screens;
 	private Screen activeScreen;
 
@@ -27,31 +23,16 @@ public class DrawingSurface extends PApplet implements ScreenSwitcher {
 	}
 
 	public void setup() {
-		// setup the images
-		bg = loadImage("mountain.jpg");
-		x1 = -10f;
-		y1 = -10f;
-		fg = loadImage("downfall_text.png");
-		x2 = -0;
-		y2 = 32;
+		activeScreen.setup();
 	}
+
 
 	public void draw() {
 		ratioX = (float) width / activeScreen.WIDTH;
 		ratioY = (float) height / activeScreen.HEIGHT;
-		if (activeScreen instanceof Menu) {
-			push();
-			x1 = (float) (-10 - (mouseX - activeScreen.WIDTH / 2) * 0.02);
-			y1 = (float) (-10 - (mouseY - activeScreen.HEIGHT / 2) * 0.02);
-			image(bg, x1, y1, activeScreen.WIDTH + 64f, activeScreen.HEIGHT + 64f);
-			System.out.println(x1);
 
-			x2 = (float) (-(mouseX - activeScreen.WIDTH / 2) * 0.07);
-			y2 = (float) (-(mouseY - activeScreen.HEIGHT / 2) * 0.07);
-			image(fg, x2, y2, activeScreen.WIDTH, activeScreen.HEIGHT);
-			scale(ratioX, ratioY);
-			pop();
-		}
+		scale(ratioX, ratioY);
+
 		activeScreen.draw();
 	}
 

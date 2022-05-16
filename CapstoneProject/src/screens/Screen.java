@@ -1,6 +1,7 @@
 package screens;
 
 import processing.core.PApplet;
+import java.awt.Color;
 
 /**
  * 
@@ -77,6 +78,10 @@ public abstract class Screen {
 	 */
 	public String toString() {
 		return WIDTH + " " + HEIGHT;
+	}
+
+	public void setColor(Color c) {
+
 	}
 
 }

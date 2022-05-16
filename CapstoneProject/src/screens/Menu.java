@@ -2,7 +2,7 @@ package screens;
 
 import java.awt.Point;
 import java.awt.Rectangle;
-
+import java.awt.Color;
 import core.DrawingSurface;
 import processing.core.*;
 
@@ -13,8 +13,13 @@ import processing.core.*;
  *         displayed with processing
  */
 public class Menu extends Screen {
+	
+	private PImage bg;
+	private float x1, y1;
+	private PImage fg;
+	private float x2, y2;
 
-	private PFont font;
+	private Color buttonColor;
 	private DrawingSurface surface;
 	private Rectangle start;
 	private Rectangle quit;
@@ -30,14 +35,45 @@ public class Menu extends Screen {
 		int rw = 300, rh = 80;
 		start = new Rectangle(WIDTH / 2 - rw / 2, HEIGHT / 2 - rh / 2 + 150, rw, rh);
 		quit = new Rectangle(WIDTH / 2 - rw / 2, HEIGHT / 2 + rh + 150, rw, rh);
+		buttonColor = new Color(236, 181, 176);
+		// surface.setup();
+	}
+
+	public void setup() {
+		bg = surface.loadImage("mountain.jpg");
+		System.out.println(bg);
+		x1 = -10f;
+		y1 = -10f;
+		fg = surface.loadImage("downfall_text.png");
+		x2 = -0;
+		y2 = 32;
 	}
 
 	public void draw() {
-		// surface.background(255, 255, 255);
+		x1 = (float) (-10 - (surface.mouseX - WIDTH / 2) * 0.02);
+		y1 = (float) (-10 - (surface.mouseY - HEIGHT / 2) * 0.02);
+		surface.image(bg, x1, y1, WIDTH + 64f, HEIGHT + 64f);
+		
+		x2 = (float) (-(surface.mouseX - WIDTH / 2) * 0.07);
+		y2 = (float) (-(surface.mouseY - HEIGHT / 2) * 0.07);
+		surface.image(fg, x2, y2, WIDTH, HEIGHT);
+		
+		surface.fill(buttonColor.getRGB());
+		if (false) {
+			if (between(surface.mouseY, start.y, start.y+start.height)) {
+				surface.rect(quit.x, quit.y, quit.width, quit.height, 10, 10, 10, 10);
+				surface.fill(237, 181, 176);
+				surface.rect(start.x, start.y, start.width, start.height, 10, 10, 10, 10);
+			} else if (between(surface.mouseY, quit.y, quit.y+start.height)) {
+				surface.rect(start.x, start.y, start.width, start.height, 10, 10, 10, 10);
+				surface.fill(237, 181, 176);
+				surface.rect(quit.x, quit.y, quit.width, quit.height, 10, 10, 10, 10);
+			}
+		} else {
+			surface.rect(start.x, start.y, start.width, start.height, 10, 10, 10, 10);
+			surface.rect(quit.x, quit.y, quit.width, quit.height, 10, 10, 10, 10);
+		}
 		// draw the buttons
-		surface.fill(236, 181, 176);
-		surface.rect(start.x, start.y, start.width, start.height, 10, 10, 10, 10);
-		surface.rect(quit.x, quit.y, quit.width, quit.height, 10, 10, 10, 10);
 		// draw the text
 		surface.fill(4, 20, 43);
 		surface.textSize(16);
@@ -45,6 +81,11 @@ public class Menu extends Screen {
 		float textWidth2 = surface.textWidth("QUIT");
 		surface.text("START", start.x + start.width / 2 - textWidth1 / 2, start.y + start.height / 2);
 		surface.text("QUIT", quit.x + quit.width / 2 - textWidth2 / 2, quit.y + quit.height / 2);
+	}
+
+	public void setColor(Color c) {
+		System.out.println("color set");
+		buttonColor = c;
 	}
 
 	public void mousePressed() {
@@ -55,6 +96,10 @@ public class Menu extends Screen {
 		} else if (quit.contains(p)) {
 			System.exit(0);
 		}
+	}
+
+	private boolean between(int x, int a, int b) {
+		return a < x && x < b;
 	}
 
 }
