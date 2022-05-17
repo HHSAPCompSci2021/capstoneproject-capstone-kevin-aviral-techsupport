@@ -19,7 +19,7 @@ public class Platform extends Sprite {
     private double length;
     private Line l1;
     private Line l2; 
-    private static Image cloudImg; 
+    private static PImage cloudImg; 
     /**
      * creates a platform object at a random location
      * 
@@ -34,6 +34,10 @@ public class Platform extends Sprite {
         length = (double) s.getPerimeter();
        // cloudImg = loadImage("platformcloud.png");
     }
+    
+    public void loadAssets(PApplet p) {
+		cloudImg = p.loadImage("assets" + fileSep + "platformcloud.png");
+	}
 
     public void draw(PApplet p, Player player) {
 
@@ -63,6 +67,8 @@ public class Platform extends Sprite {
         p.strokeWeight(10);
         l1.draw(p);
        // l2.draw(p);
+       // loadAssets(p);
+       // p.image(cloudImg, (float) this.getX(), (float) this.getY(), 50, 20);
         p.pop();
     }
 

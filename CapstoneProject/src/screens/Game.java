@@ -186,7 +186,7 @@ public class Game extends Screen {
 		System.out.println("generating...");
 		// randomly generate all platforms on this screen and the screen below and make them seem random
 		// gets stuck at 20 platforms or above
-		for (int i = 0; i < 19; i++) {
+		for (int i = 0; i < 18; i++) {
 			final float len = 40;
 			float lx = (float) (Math.random() * WIDTH), ly = (float) (Math.random() * 2 * HEIGHT);
 			System.out.println("randomizing " + (i+1));

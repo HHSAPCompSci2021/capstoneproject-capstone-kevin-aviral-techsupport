@@ -14,7 +14,9 @@ import aviral.shapes.*;
  */
 
 public class Sprite {
-
+	/**
+	 * file separator character
+	 */
     public final static String fileSep = System.getProperty("file.separator");
 
     private Shape s;
