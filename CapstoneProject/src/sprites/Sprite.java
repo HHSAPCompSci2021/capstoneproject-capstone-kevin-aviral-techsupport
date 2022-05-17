@@ -15,6 +15,8 @@ import aviral.shapes.*;
 
 public class Sprite {
 
+    public final static String fileSep = System.getProperty("file.separator");
+
     private Shape s;
     private double vx, vy;
     private double ax, ay;
@@ -93,6 +95,9 @@ public class Sprite {
     	return s.isPointInside(other.getX(), other.getY());
     }
 
+    public Projectile shoot(double targetX, double targetY) {
+        return null;
+    }
     /**
      * moves a sprite a specific amount
      * @param dx distance moved in x

@@ -23,9 +23,10 @@ public class DrawingSurface extends PApplet implements ScreenSwitcher {
 	}
 
 	public void setup() {
-		activeScreen.setup();
+		for (int i = 0; i < screens.size(); i++) {
+			screens.get(i).setup();
+		}
 	}
-
 
 	public void draw() {
 		ratioX = (float) width / activeScreen.WIDTH;
@@ -83,6 +84,10 @@ public class DrawingSurface extends PApplet implements ScreenSwitcher {
 	 */
 	public void switchScreen(int i) {
 		activeScreen = screens.get(i);
+		if (i == GAME_SCREEN) {
+			screens.set(i, new Game(this));
+			screens.get(i).setup();
+		}
 	}
 
 }

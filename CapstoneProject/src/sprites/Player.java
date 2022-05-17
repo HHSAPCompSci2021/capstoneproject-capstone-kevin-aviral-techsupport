@@ -2,6 +2,7 @@ package sprites;
 
 import aviral.shapes.Shape;
 import processing.core.PApplet;
+import processing.core.PImage;
 import aviral.shapes.*;
 import java.awt.*;
 
@@ -13,6 +14,8 @@ import java.awt.*;
  *
  */
 public class Player extends Sprite {
+
+	private PImage lightOn, lightOff;
 
 	private int playerNum; // for multiplayer, 1 is on left, 2 is on right
 	private float r;
@@ -33,6 +36,11 @@ public class Player extends Sprite {
 		super(s, vx, vy, ax, ay, totalLives);
 		r = (float) s.getRadius();
 		ammo = 5;
+	}
+
+	public void loadAssets(PApplet p) {
+		lightOn = p.loadImage("assets" + fileSep + "lantern_on.png");
+		lightOff = p.loadImage("assets" + fileSep + "lantern_off.png");
 	}
 
 	/**
@@ -72,21 +80,26 @@ public class Player extends Sprite {
 		} else if (getX() < 0) {
 			moveBy(WIDTH, 0);
 		}
-		setScore((long)Math.max(getY()+0, score));
+		setScore((long) Math.max(getY() + 0, score));
 		p.fill(255, 250, 251);
 		// if player is partly off screen
 		if (getX() + r >= WIDTH) {
-			p.circle((float)(WIDTH - getX() - r), (float)getY(), 2*r);
+			p.circle((float) (WIDTH - getX() - r), (float) getY(), 2*r);
 		} else if (getX() - r <= 0) {
-			p.circle((float)(WIDTH + getX()), (float)getY(), 2*r);
+			p.circle((float) (WIDTH + getX()), (float) getY(), 2*r);
 		}
 		// System.out.println(getX() + " " + getY() + " " + r);
 		p.circle((float) getX(), (float) getY(), 2 * r);
-		int tx = (int) (100 * (playerNum == 2 ? 5 : 0.2));
-		p.text("Score: " + score, tx, 24);
+		int tx = (int) (10 * (playerNum == 2 ? 50 : 1));
 		// make these graphic later
-		p.text("Lives: " + getLives() + "/" + getTotalLives(), tx, 48);
-		p.text("Ammo: " + ammo, tx, 64);
+		// figure this out
+		int incr = 48;
+		int which = 0;
+		for (int ix = tx; which < 3; ix += incr, which++) {
+			p.image((getLives() >= which) ? lightOn : lightOff, ix, -6, incr, incr);
+		}
+		p.text("Score: " + score, tx, incr+24);
+		p.text("Ammo: " + ammo, tx, incr+64);
 	}
 
 	public int getPlayerNum() {
@@ -131,5 +144,5 @@ public class Player extends Sprite {
 	public void setScore(long score) {
 		this.score = score;
 	}
-	
+
 }

@@ -12,6 +12,7 @@ import java.awt.Color;
  */
 public abstract class Screen {
 
+	public final static String fileSep = System.getProperty("file.separator");
 	public final int WIDTH;
 	public final int HEIGHT;
 	/**

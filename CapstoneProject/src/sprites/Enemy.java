@@ -31,25 +31,15 @@ public class Enemy extends Sprite {
      * Shoots a projectile towards x,y
      * @param targetX x target
      * @param targetY y target
+     * @return The projectile shot by this enemy.
      */ 
-    public void shoot(double targetX, double targetY) {
+    public Projectile shoot(double targetX, double targetY) {
         double pv = 3;
-        double projVx = 0, projVy = 0;
-        if (targetX > getX()) {
-            projVx = pv;
-        } else {
-            projVx = -pv;
-        }
+        double projVx = 0.02*(targetX - getX());
+        double projVy = 0.02*(targetY - getY());
 
-        if (targetY > getY()) {
-            projVy = pv;
-        } else {
-            projVy = -pv;
-        }
-        Circle circle = new Circle(getX() + projVx, getY() + projVy, 2);
-        Projectile p = new Projectile(circle, projVx, projVy, 0, 0);
-        // add to list of stuff on screen
-        
+        Circle circle = new Circle(getX() + projVx, getY() + projVy, 4);
+        return new Projectile(circle, projVx, projVy, 0, 0);
     }
     /**
      * draws enemy

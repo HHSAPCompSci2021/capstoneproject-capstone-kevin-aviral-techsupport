@@ -16,7 +16,7 @@ import sprites.*;
  */
 public class Game extends Screen {
 
-	private static final double g = 0.12; 
+	private static final double g = 0.1; 
 	private static final float len = 40;
 	private DrawingSurface surface;
 	private Rectangle screenRect;
@@ -55,6 +55,10 @@ public class Game extends Screen {
 		time = 0;
 		prevTime = 0;
 	}
+	
+	public void setup() {
+		player.loadAssets(this.surface);
+	}
 
 	/**
 	 * Draws the game screen
@@ -66,6 +70,7 @@ public class Game extends Screen {
 		time++;
 		if (time%60 == 0) {
 			System.out.println(time/60+ " " + prevTime/60);
+			enemies.add(enemies.get(0).shoot(player.getX(), player.getY()));
 		}
 		surface.background(36, 150, 177);
 		// draw all the sprites
@@ -75,16 +80,20 @@ public class Game extends Screen {
 			}
 			p.first.draw(surface);
 		}
+		// sus loop
 		for (int i = 0; i < enemies.size(); i++) {
+			if (enemies.get(i) == null) continue;
 			if (enemies.get(i) instanceof Projectile) {
 				// check if projecitle hit anything
 				for (int j = 0; j < enemies.size(); j++) {
-					if (enemies.get(j) instanceof Projectile) continue;
+					if (enemies.get(j) == null || enemies.get(j) instanceof Projectile) continue;
 					if (enemies.get(i).isTouching(enemies.get(j))) {
 						enemies.get(j).setLives(enemies.get(j).getLives()-1);
-					} else if (enemies.get(i).isTouching(player)) {
-						player.setLives(player.getLives()-1);
 					}
+				}
+				if (enemies.get(i).isTouching(player)) {
+					System.out.println("player hit");
+					player.setLives(player.getLives()-1);
 				}
 				double x = enemies.get(i).getX(), y = enemies.get(i).getY();
 				if (x < 0 || x > WIDTH || y < 0 || y > HEIGHT) {
@@ -93,6 +102,7 @@ public class Game extends Screen {
 				}
 			} else {
 				// check if enemy is dead
+				System.out.println("enemy with " + enemies.get(i).getLives());
 				if (enemies.get(i).getLives() <= 0) {
 					enemies.remove(i--);
 					continue;
@@ -109,19 +119,21 @@ public class Game extends Screen {
 		// check for key presses and player input
 		if (surface.isPressed(KeyEvent.VK_ESCAPE)) {
 			surface.switchScreen(ScreenSwitcher.MENU_SCREEN);
-		} else if (surface.isPressed(KeyEvent.VK_LEFT) || surface.isPressed(KeyEvent.VK_A)) {
+		} 
+		if (surface.isPressed(KeyEvent.VK_LEFT) || surface.isPressed(KeyEvent.VK_A)) {
 			player.moveBy(-4, 0);
-		} else if (surface.isPressed(KeyEvent.VK_RIGHT) || surface.isPressed(KeyEvent.VK_D)) {
+		} 
+		if (surface.isPressed(KeyEvent.VK_RIGHT) || surface.isPressed(KeyEvent.VK_D)) {
 			player.moveBy(4, 0);
-		} else if (surface.isPressed(KeyEvent.VK_Q) && time/60 > prevTime/60 + 1) {
+		} 
+		if (surface.isPressed(KeyEvent.VK_Q) && time/60 > prevTime/60 + 1) {
 			if (player.getAmmo() > 0) {
-				System.out.println("Q shoot");
 				enemies.add(player.shootLeft());
 				prevTime = time;
 			}
-		} else if (surface.isPressed(KeyEvent.VK_E) && time/60 > prevTime/60 + 1) {
+		} 
+		if (surface.isPressed(KeyEvent.VK_E) && time/60 > prevTime/60 + 1) {
 			if (player.getAmmo() > 0) {
-				System.out.println("E shoot");
 				enemies.add(player.shootRight());
 				prevTime = time;
 			}

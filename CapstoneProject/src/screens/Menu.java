@@ -39,11 +39,11 @@ public class Menu extends Screen {
 	}
 
 	public void setup() {
-		bg = surface.loadImage("mountain.jpg");
+		bg = surface.loadImage("assets"+fileSep+"mountain.jpg");
 		System.out.println(bg);
 		x1 = -10f;
 		y1 = -10f;
-		fg = surface.loadImage("downfall_text.png");
+		fg = surface.loadImage("assets"+fileSep+"downfall_text.png");
 		x2 = -0;
 		y2 = 32;
 	}
