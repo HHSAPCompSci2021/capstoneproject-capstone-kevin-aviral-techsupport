@@ -65,6 +65,7 @@ public class Platform extends Sprite {
         // p.line((float)getX(), (float)getY(), (float)(getX() + length),
         // (float)getY());
         p.strokeWeight(10);
+        l1.setStrokeWeight(4);
         l1.draw(p);
        // l2.draw(p);
        // loadAssets(p);

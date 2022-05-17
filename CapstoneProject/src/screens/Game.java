@@ -110,7 +110,7 @@ public class Game extends Screen {
 					continue;
 				}
 			}
-			if (enemies.get(i).isTouching(player)) {
+			if (player.getShape().isPointInside(enemies.get(i).getX(), enemies.get(i).getY())) {
 				System.out.println("player hit");
 				player.setLives(player.getLives()-1);
 			}
