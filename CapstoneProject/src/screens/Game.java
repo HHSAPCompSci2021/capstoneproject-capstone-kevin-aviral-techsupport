@@ -71,8 +71,10 @@ public class Game extends Screen {
 		time++;
 		if (time%60 == 0) {
 			System.out.println(time/60+ " " + prevTime/60);
-			if (enemies.size() > 0 && enemies.get(0) != null) {
-				enemies.add(enemies.get(0).shoot(player.getX(), player.getY()));
+			if (enemies.size() > 0) {
+				if (enemies.get(0) != null) {
+					enemies.add(enemies.get(0).shoot(player.getX(), player.getY()));
+				}
 			}
 		}
 		surface.background(36, 150, 177);
