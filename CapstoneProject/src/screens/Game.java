@@ -51,7 +51,7 @@ public class Game extends Screen {
 		Rectangle erect = new Rectangle(200, 200, 30, 30);
 		enemies.add(new Enemy(erect, 0, 0, 0, 0));
 		
-		player = new Player(new Circle(WIDTH / 2, 0, 16), 0, 0, 0, g, 3);
+		player = new Player(new Circle(WIDTH / 2, 0, 23), 0, 0, 0, g, 3);
 		time = 0;
 		prevTime = 0;
 		System.out.println("isdoijsdjdsoijds");
@@ -209,7 +209,7 @@ public class Game extends Screen {
 				horizontal.add(new Platform(newLine1, vx, vy));
 				horizontal.add(new Platform(newLine2, vx, vy));
 				platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, vx, vy), 0));
-				platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, vx, vy), 0));
+				platforms.add(new Pair<Platform, Integer>(new Platform(newLine2, vx, vy), 0));
 			} else {
 				double b = Math.random(); 
 				if (b >= .5) {

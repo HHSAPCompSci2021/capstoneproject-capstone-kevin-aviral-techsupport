@@ -4,6 +4,7 @@ import java.awt.*;
 import processing.core.*;
 import aviral.*;
 import aviral.shapes.Line;
+import processing.awt.*;
 /**
  * The platform class represents a double precision platform that can be
  * displayed with processing
@@ -18,7 +19,7 @@ public class Platform extends Sprite {
     private double length;
     private Line l1;
     private Line l2; 
-
+    private static Image cloudImg; 
     /**
      * creates a platform object at a random location
      * 
@@ -31,6 +32,7 @@ public class Platform extends Sprite {
         this.l1 = s;
         this.l2 = s;
         length = (double) s.getPerimeter();
+       // cloudImg = loadImage("platformcloud.png");
     }
 
     public void draw(PApplet p, Player player) {
