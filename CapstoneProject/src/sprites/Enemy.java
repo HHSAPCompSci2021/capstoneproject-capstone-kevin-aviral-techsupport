@@ -13,7 +13,7 @@ import aviral.shapes.Circle;
  */
 public class Enemy extends Sprite {
 
-    private float sideLength;
+    public static float sideLength;
 
 	/**
 	 * Creates an enemy
