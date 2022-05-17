@@ -29,6 +29,7 @@ public class Platform extends Sprite {
     public Platform(Line s, double vx, double vy) {
         super(s, vx, vy);
         this.l1 = s;
+        this.l2 = s;
         length = (double) s.getPerimeter();
     }
 
@@ -59,6 +60,7 @@ public class Platform extends Sprite {
         // (float)getY());
         p.strokeWeight(10);
         l1.draw(p);
+       // l2.draw(p);
         p.pop();
     }
 

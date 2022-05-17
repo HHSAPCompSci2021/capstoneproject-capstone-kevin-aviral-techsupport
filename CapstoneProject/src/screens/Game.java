@@ -70,7 +70,9 @@ public class Game extends Screen {
 		time++;
 		if (time%60 == 0) {
 			System.out.println(time/60+ " " + prevTime/60);
-			enemies.add(enemies.get(0).shoot(player.getX(), player.getY()));
+			if (enemies.size() != 0) {
+				enemies.add(enemies.get(0).shoot(player.getX(), player.getY()));
+			}
 		}
 		surface.background(36, 150, 177);
 		// draw all the sprites
@@ -194,19 +196,26 @@ public class Game extends Screen {
 			// 50% chance of being angular
 			a = Math.random();
 			if (a >= 0.5) {
-				Line newLine = new Line(lx, ly, lx + len, ly);
-				horizontal.add(new Platform(newLine, vx, vy));
-				platforms.add(new Pair<Platform, Integer>(new Platform(newLine, vx, vy), 0));
+				Line newLine1 = new Line(lx, ly, lx + len, ly);
+				Line newLine2 = new Line(lx + len, ly, lx, ly);
+				horizontal.add(new Platform(newLine1, vx, vy));
+				horizontal.add(new Platform(newLine2, vx, vy));
+				platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, vx, vy), 0));
+				platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, vx, vy), 0));
 			} else {
 				double b = Math.random(); 
 				if (b >= .5) {
-					int angle = (int) Math.random() * 180;
-					Line newLine = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly - len/Math.sqrt(2)));
-					platforms.add(new Pair<Platform, Integer>(new Platform(newLine, vx, vy), 1));
+					//int angle = (int) Math.random() * 180;
+					Line newLine1 = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly - len/Math.sqrt(2)));
+					Line newLine2 = new Line((float) (lx + len / Math.sqrt(2)), (float) (ly - len/Math.sqrt(2)), lx, ly);
+					platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, vx, vy), 1));
+					platforms.add(new Pair<Platform, Integer>(new Platform(newLine2, vx, vy), 1));
 				} else {
-					int angle = (int) Math.random() * 180;
-					Line newLine = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly + len/Math.sqrt(2)));
-					platforms.add(new Pair<Platform, Integer> (new Platform(newLine, vx, vy), 2));
+					//int angle = (int) Math.random() * 180;
+					Line newLine1 = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly + len/Math.sqrt(2)));
+					Line newLine2 = new Line ((float) (lx + len / Math.sqrt(2)), (float) (ly + len/Math.sqrt(2)), lx, ly);
+					platforms.add(new Pair<Platform, Integer> (new Platform(newLine1, vx, vy), 2));
+					platforms.add(new Pair<Platform, Integer> (new Platform(newLine2, vx, vy), 2));
 				}
 			}
 		}
