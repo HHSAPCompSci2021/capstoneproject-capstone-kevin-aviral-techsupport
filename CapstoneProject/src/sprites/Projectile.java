@@ -32,7 +32,7 @@ public class Projectile extends Sprite {
      */
     public void draw(PApplet p) {
         super.draw(p);
-        p.fill(255);
+        p.fill(7, 7, 7);
         p.circle((float)getX(), (float)getY(), 2*r);
         
     }

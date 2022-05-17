@@ -36,7 +36,6 @@ public class Menu extends Screen {
 		start = new Rectangle(WIDTH / 2 - rw / 2, HEIGHT / 2 - rh / 2 + 150, rw, rh);
 		quit = new Rectangle(WIDTH / 2 - rw / 2, HEIGHT / 2 + rh + 150, rw, rh);
 		buttonColor = new Color(236, 181, 176);
-		// surface.setup();
 	}
 
 	public void setup() {

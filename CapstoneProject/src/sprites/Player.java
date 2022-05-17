@@ -32,7 +32,7 @@ public class Player extends Sprite {
 	public Player(Circle s, double vx, double vy, double ax, double ay, int totalLives) {
 		super(s, vx, vy, ax, ay, totalLives);
 		r = (float) s.getRadius();
-		ammo = 10;
+		ammo = 5;
 	}
 
 	/**
@@ -44,9 +44,9 @@ public class Player extends Sprite {
 		if (ammo == 0)
 			return null;
 		ammo--;
-		Circle circle = new Circle(getX() - 8, getY(), 2);
+		Circle circle = new Circle(getX() - 16, getY(), 8);
 		System.out.println("left");
-		return new Projectile(circle, -8, 0, 0, 0);
+		return new Projectile(circle, -6, 0, 0, 0);
 	}
 
 	/**
@@ -58,10 +58,9 @@ public class Player extends Sprite {
 		if (ammo == 0)
 			return null;
 		ammo--;
-		Circle circle = new Circle(getX() + 8, getY(), 2);
+		Circle circle = new Circle(getX() + 16, getY(), 8);
 
-		return new Projectile(circle, 8, super.getX() / Math.abs(super.getX()), super.getY() / Math.abs(super.getY()),
-				0);
+		return new Projectile(circle, 6, 0, 0, 0);
 	}
 
 	public void draw(PApplet p) {

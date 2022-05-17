@@ -4,7 +4,8 @@ import java.awt.Color;
 import java.awt.event.*;
 import java.util.*;
 import aviral.shapes.*;
-import core.DrawingSurface;
+import core.*;
+import processing.core.*;
 import sprites.*;
 
 
@@ -15,7 +16,7 @@ import sprites.*;
  */
 public class Game extends Screen {
 
-	private static final double g = 0.03; 
+	private static final double g = 0.12; 
 	private static final float len = 40;
 	private DrawingSurface surface;
 	private Rectangle screenRect;
@@ -23,9 +24,10 @@ public class Game extends Screen {
 	// 0 if vert, 1 if right, 2 if left
 	private ArrayList<Pair<Platform, Integer>> platforms;
 	private ArrayList<Platform> horizontal;
-	private ArrayList<Sprite> enemies;
-	// this will store enemies AND projectiles
-										// easier to check for collisions
+	private ArrayList<Sprite> enemies; // and projectiles
+
+	private long time;
+	private long prevTime;
 	private Platform test;
 	/**
 	 * Creates a new game object
@@ -50,6 +52,8 @@ public class Game extends Screen {
 		enemies.add(new Enemy(erect, 0, 0, 0, 0));
 		
 		player = new Player(new Circle(WIDTH / 2, HEIGHT / 2, 16), 0, 0, 0, g, 3);
+		time = 0;
+		prevTime = 0;
 	}
 
 	/**
@@ -58,6 +62,11 @@ public class Game extends Screen {
 	 * @post The game screen is drawn
 	 */
 	public void draw() {
+		// for ALL "living" sprites, check if they are dead
+		time++;
+		if (time%60 == 0) {
+			System.out.println(time/60+ " " + prevTime/60);
+		}
 		surface.background(36, 150, 177);
 		// draw all the sprites
 		for (Pair<Platform, Integer>p : platforms) {
@@ -66,10 +75,36 @@ public class Game extends Screen {
 			}
 			p.first.draw(surface);
 		}
-		for (Sprite s : enemies) {
-			s.draw(surface);
+		for (int i = 0; i < enemies.size(); i++) {
+			if (enemies.get(i) instanceof Projectile) {
+				// check if projecitle hit anything
+				for (int j = 0; j < enemies.size(); j++) {
+					if (enemies.get(j) instanceof Projectile) continue;
+					if (enemies.get(i).isTouching(enemies.get(j))) {
+						enemies.get(j).setLives(enemies.get(j).getLives()-1);
+					} else if (enemies.get(i).isTouching(player)) {
+						player.setLives(player.getLives()-1);
+					}
+				}
+				double x = enemies.get(i).getX(), y = enemies.get(i).getY();
+				if (x < 0 || x > WIDTH || y < 0 || y > HEIGHT) {
+					enemies.remove(i--);
+					continue;
+				}
+			} else {
+				// check if enemy is dead
+				if (enemies.get(i).getLives() <= 0) {
+					enemies.remove(i--);
+					continue;
+				}
+			}
+			enemies.get(i).draw(surface);
 		}
 		player.draw(surface);
+		if (player.getLives() <= 0) {
+			// death
+			System.out.println("YOU DIED");
+		}
 		test.draw(surface);
 		// check for key presses and player input
 		if (surface.isPressed(KeyEvent.VK_ESCAPE)) {
@@ -78,15 +113,17 @@ public class Game extends Screen {
 			player.moveBy(-4, 0);
 		} else if (surface.isPressed(KeyEvent.VK_RIGHT) || surface.isPressed(KeyEvent.VK_D)) {
 			player.moveBy(4, 0);
-		} else if (surface.isPressed(KeyEvent.VK_Q)) {
-			// System.out.println("Q pressed");
+		} else if (surface.isPressed(KeyEvent.VK_Q) && time/60 > prevTime/60 + 1) {
 			if (player.getAmmo() > 0) {
+				System.out.println("Q shoot");
 				enemies.add(player.shootLeft());
+				prevTime = time;
 			}
-		} else if (surface.isPressed(KeyEvent.VK_E)) {
-			// System.out.println("E pressed");
+		} else if (surface.isPressed(KeyEvent.VK_E) && time/60 > prevTime/60 + 1) {
 			if (player.getAmmo() > 0) {
+				System.out.println("E shoot");
 				enemies.add(player.shootRight());
+				prevTime = time;
 			}
 		}
 
@@ -94,7 +131,6 @@ public class Game extends Screen {
 			System.out.println("test success");
 		}
 
-		// see if it works with horizontal
 		for (Pair<Platform, Integer> p : platforms) {
 			if (player.isTouching(p.first) && p.second == 0) {
 				System.out.println("collide ");
