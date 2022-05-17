@@ -56,7 +56,7 @@ public class Game extends Screen {
 		Rectangle erect = new Rectangle(200, 200, 30, 30);
 		enemies.add(new Enemy(erect, 0, 0, 0, 0));
 		
-		player = new Player(new Circle(WIDTH / 2, 0, 16), 0, 0, 0, g, 3);
+		player = new Player(new Circle(WIDTH / 2, 0, 23), 0, 0, 0, g, 3);
 		time = 0;
 		prevTime = 0;
 		System.out.println("isdoijsdjdsoijds");
@@ -79,8 +79,10 @@ public class Game extends Screen {
 		time++;
 		if (time%60 == 0) {
 			System.out.println(time/60+ " " + prevTime/60);
-			if (enemies.size() > 0 && enemies.get(0) != null) {
-				enemies.add(enemies.get(0).shoot(player.getX(), player.getY()));
+			if (enemies.size() > 0) {
+				if (enemies.get(0) != null) {
+					enemies.add(enemies.get(0).shoot(player.getX(), player.getY()));
+				}
 			}
 		}
 		surface.background(59, 66, 82);
@@ -191,7 +193,7 @@ public class Game extends Screen {
 		System.out.println("generating...");
 		// randomly generate all platforms on this screen and the screen below and make them seem random
 		// gets stuck at 20 platforms or above
-		for (int i = 0; i < 19; i++) {
+		for (int i = 0; i < 18; i++) {
 			final float len = 40;
 			float lx = (float) (Math.random() * WIDTH), ly = (float) (Math.random() * 2 * HEIGHT);
 			System.out.println("randomizing " + (i+1));
@@ -219,7 +221,7 @@ public class Game extends Screen {
 				horizontal.add(new Platform(newLine1, vx, vy));
 				horizontal.add(new Platform(newLine2, vx, vy));
 				platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, vx, vy), 0));
-				platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, vx, vy), 0));
+				platforms.add(new Pair<Platform, Integer>(new Platform(newLine2, vx, vy), 0));
 			} else {
 				double b = Math.random(); 
 				if (b >= .5) {

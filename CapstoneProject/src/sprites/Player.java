@@ -83,9 +83,9 @@ public class Player extends Sprite {
 		setScore((long) Math.max(getY() + 0, score));
 		p.fill(255, 250, 251);
 		// if player is partly off screen
-		if (getX() + r >= WIDTH) {
+		if (getX() - r >= WIDTH) {
 			p.circle((float) (WIDTH - getX() - r), (float) getY(), 2*r);
-		} else if (getX() - r <= 0) {
+		} else if (getX() + r <= 0) {
 			p.circle((float) (WIDTH + getX()), (float) getY(), 2*r);
 		}
 		setVx(getVx()*0.97);
