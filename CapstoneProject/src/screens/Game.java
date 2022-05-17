@@ -127,7 +127,8 @@ public class Game extends Screen {
 		player.draw(surface);
 		if (player.getLives() <= 0) {
 			// death
-			System.out.println("YOU DIED");
+			surface.textSize(64);
+			surface.text("GAME OVER", WIDTH/2 - surface.textWidth("GAME OVER")/2, 100);
 		}
 		test.draw(surface);
 		// check for key presses and player input
@@ -158,7 +159,12 @@ public class Game extends Screen {
 		}
 
 		for (Pair<Platform, Integer> p : platforms) {
+			// hjasdhfdfjsdfsaf
+			if (!(player.getY() + player.getR() >= p.first.getY())) {
+				continue;
+			}
 			if (player.isTouching(p.first) && p.second == 0) {
+				System.out.println((player.getY() + player.getR()) + " " + p.first.getY());
 				System.out.println("collide ");
 				player.moveBy(player.getVx(), -player.getVy());
 				player.setVy(-3);

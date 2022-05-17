@@ -81,6 +81,7 @@ public class Sprite {
      */
     public void draw(PApplet p) {
         s.move(vx, vy);
+        s.move(0, 0);
         vx += ax;
         vy += ay;
     }
