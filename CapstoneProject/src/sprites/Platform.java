@@ -47,7 +47,7 @@ public class Platform extends Sprite {
         return l1;
     }
     
-    public Line getL2 (){
+    public Line getL2(){
     	return l2; 
     }
 
@@ -60,7 +60,7 @@ public class Platform extends Sprite {
     public void draw(PApplet p) {
         super.draw(p);
         p.push();
-        p.stroke(39, 57, 71); // aviral does shape not have color?
+        p.stroke(255, 255, 2555);
         p.strokeWeight(10);
         // p.line((float)getX(), (float)getY(), (float)(getX() + length),
         // (float)getY());

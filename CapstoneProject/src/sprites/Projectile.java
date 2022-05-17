@@ -40,10 +40,15 @@ public class Projectile extends Sprite {
      * Checks if it is in contact with a sprite
      * @return returns true if projectile is hitting a sprite, false otherwise
      */
-    public boolean hit() {
+    public boolean isTouching(Enemy other) {
     	// loop through arraylist of sprites and if it is hitting a nonplatform remove it and 
     	// decrease teh lives of that sprite by one.
+        
     	return false; 
+    }
+
+    public float getR() {
+        return r;
     }
 
 }

@@ -18,6 +18,10 @@ public class Game extends Screen {
 
 	private static final double g = 0.1; 
 	private static final float len = 40;
+	
+	private PImage bg;
+	private float x1, y1;
+
 	private DrawingSurface surface;
 	private Rectangle screenRect;
 	private Player player;
@@ -29,6 +33,7 @@ public class Game extends Screen {
 	private long time;
 	private long prevTime;
 	private Platform test;
+
 	/**
 	 * Creates a new game object
 	 * 
@@ -59,6 +64,9 @@ public class Game extends Screen {
 	
 	public void setup() {
 		player.loadAssets(this.surface);
+		bg = surface.loadImage("assets" + fileSep + "stars.jpg");
+		x1 = 0;
+		y1 = 0;
 	}
 
 	/**
@@ -77,7 +85,7 @@ public class Game extends Screen {
 				}
 			}
 		}
-		surface.background(36, 150, 177);
+		surface.background(59, 66, 82);
 		// draw all the sprites
 		for (Pair<Platform, Integer>p : platforms) {
 			if (p.first.getX() >= WIDTH || p.first.getX() <= 0) {
@@ -177,7 +185,6 @@ public class Game extends Screen {
 			generatePlatforms();
 			*/
 			
-			
 		}
 		
 	}
@@ -190,9 +197,12 @@ public class Game extends Screen {
 			final float len = 40;
 			float lx = (float) (Math.random() * WIDTH), ly = (float) (Math.random() * 2 * HEIGHT);
 			System.out.println("randomizing " + (i+1));
+			int tries = 0;
 			while (tooClose(lx, ly, 200) || lx > WIDTH - len) {
+				if (tries > 10) break;
 				lx = (float) (Math.random() * WIDTH);
 				ly = (float) (Math.random() * 2 *HEIGHT);
+				tries++;
 			}
 			// 50% chance of having velocity (for testing purposes, 50% is a bit big)
 			double a = Math.random();
@@ -206,6 +216,8 @@ public class Game extends Screen {
 			if (a >= 0.5) {
 				Line newLine1 = new Line(lx, ly, lx + len, ly);
 				Line newLine2 = new Line(lx + len, ly, lx, ly);
+				newLine1.setFillColor(new Color(253, 254, 255));
+				newLine2.setFillColor(new Color(253, 254, 255));
 				horizontal.add(new Platform(newLine1, vx, vy));
 				horizontal.add(new Platform(newLine2, vx, vy));
 				platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, vx, vy), 0));
@@ -216,12 +228,16 @@ public class Game extends Screen {
 					//int angle = (int) Math.random() * 180;
 					Line newLine1 = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly - len/Math.sqrt(2)));
 					Line newLine2 = new Line((float) (lx + len / Math.sqrt(2)), (float) (ly - len/Math.sqrt(2)), lx, ly);
+					newLine1.setFillColor(new Color(253, 254, 255));
+					newLine2.setFillColor(new Color(253, 254, 255));
 					platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, vx, vy), 1));
 					platforms.add(new Pair<Platform, Integer>(new Platform(newLine2, vx, vy), 1));
 				} else {
 					//int angle = (int) Math.random() * 180;
 					Line newLine1 = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)), (float) (ly + len/Math.sqrt(2)));
 					Line newLine2 = new Line ((float) (lx + len / Math.sqrt(2)), (float) (ly + len/Math.sqrt(2)), lx, ly);
+					newLine1.setFillColor(new Color(253, 254, 255));
+					newLine2.setFillColor(new Color(253, 254, 255));
 					platforms.add(new Pair<Platform, Integer> (new Platform(newLine1, vx, vy), 2));
 					platforms.add(new Pair<Platform, Integer> (new Platform(newLine2, vx, vy), 2));
 				}
