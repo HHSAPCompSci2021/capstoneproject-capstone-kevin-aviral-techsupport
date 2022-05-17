@@ -88,6 +88,7 @@ public class Player extends Sprite {
 		} else if (getX() - r <= 0) {
 			p.circle((float) (WIDTH + getX()), (float) getY(), 2*r);
 		}
+		setVx(getVx()*0.97);
 		// System.out.println(getX() + " " + getY() + " " + r);
 		p.circle((float) getX(), (float) getY(), 2 * r);
 		int tx = (int) (10 * (playerNum == 2 ? 50 : 1));

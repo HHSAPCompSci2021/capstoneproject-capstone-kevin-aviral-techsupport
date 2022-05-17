@@ -51,9 +51,10 @@ public class Game extends Screen {
 		Rectangle erect = new Rectangle(200, 200, 30, 30);
 		enemies.add(new Enemy(erect, 0, 0, 0, 0));
 		
-		player = new Player(new Circle(WIDTH / 2, HEIGHT / 2, 16), 0, 0, 0, g, 3);
+		player = new Player(new Circle(WIDTH / 2, 0, 16), 0, 0, 0, g, 3);
 		time = 0;
 		prevTime = 0;
+		System.out.println("isdoijsdjdsoijds");
 	}
 	
 	public void setup() {
@@ -70,7 +71,9 @@ public class Game extends Screen {
 		time++;
 		if (time%60 == 0) {
 			System.out.println(time/60+ " " + prevTime/60);
-			enemies.add(enemies.get(0).shoot(player.getX(), player.getY()));
+			if (enemies.size() > 0 && enemies.get(0) != null) {
+				enemies.add(enemies.get(0).shoot(player.getX(), player.getY()));
+			}
 		}
 		surface.background(36, 150, 177);
 		// draw all the sprites
@@ -84,29 +87,30 @@ public class Game extends Screen {
 		for (int i = 0; i < enemies.size(); i++) {
 			if (enemies.get(i) == null) continue;
 			if (enemies.get(i) instanceof Projectile) {
-				// check if projecitle hit anything
-				for (int j = 0; j < enemies.size(); j++) {
-					if (enemies.get(j) == null || enemies.get(j) instanceof Projectile) continue;
-					if (enemies.get(i).isTouching(enemies.get(j))) {
-						enemies.get(j).setLives(enemies.get(j).getLives()-1);
-					}
-				}
-				if (enemies.get(i).isTouching(player)) {
-					System.out.println("player hit");
-					player.setLives(player.getLives()-1);
-				}
 				double x = enemies.get(i).getX(), y = enemies.get(i).getY();
 				if (x < 0 || x > WIDTH || y < 0 || y > HEIGHT) {
 					enemies.remove(i--);
 					continue;
 				}
+				// check if projecitle hit anything
+				for (int j = 0; j < enemies.size(); j++) {
+					if (enemies.get(j) == null || enemies.get(j) instanceof Projectile) continue;
+					if (enemies.get(i).isTouching(enemies.get(j))) {
+						System.out.println("hit enemy");
+						enemies.get(j).setLives(enemies.get(j).getLives()-1);
+					}
+				}
 			} else {
 				// check if enemy is dead
-				System.out.println("enemy with " + enemies.get(i).getLives());
 				if (enemies.get(i).getLives() <= 0) {
+					System.out.println("enemy dead ");
 					enemies.remove(i--);
 					continue;
 				}
+			}
+			if (enemies.get(i).isTouching(player)) {
+				System.out.println("player hit");
+				player.setLives(player.getLives()-1);
 			}
 			enemies.get(i).draw(surface);
 		}
@@ -126,13 +130,13 @@ public class Game extends Screen {
 		if (surface.isPressed(KeyEvent.VK_RIGHT) || surface.isPressed(KeyEvent.VK_D)) {
 			player.moveBy(4, 0);
 		} 
-		if (surface.isPressed(KeyEvent.VK_Q) && time/60 > prevTime/60 + 1) {
+		if (surface.isPressed(KeyEvent.VK_Q) && time/60 > prevTime/60 + 0.5) {
 			if (player.getAmmo() > 0) {
 				enemies.add(player.shootLeft());
 				prevTime = time;
 			}
 		} 
-		if (surface.isPressed(KeyEvent.VK_E) && time/60 > prevTime/60 + 1) {
+		if (surface.isPressed(KeyEvent.VK_E) && time/60 > prevTime/60 + 0.5) {
 			if (player.getAmmo() > 0) {
 				enemies.add(player.shootRight());
 				prevTime = time;
@@ -146,7 +150,8 @@ public class Game extends Screen {
 		for (Pair<Platform, Integer> p : platforms) {
 			if (player.isTouching(p.first) && p.second == 0) {
 				System.out.println("collide ");
-				player.setVy(-2);
+				player.moveBy(player.getVx(), -player.getVy());
+				player.setVy(-3);
 			}
 			if (player.isTouching(p.first) && p.second == 1) {
 				System.out.println("collide ");
@@ -157,8 +162,8 @@ public class Game extends Screen {
 			if (player.isTouching(p.first) && p.second == 2) {
 				System.out.println("collide ");
 				player.moveBy(player.getVx(), -player.getVy());
-				player.setVx(Math.sqrt(2));
-				player.setVy(-Math.sqrt(2));
+				player.setVx(3/Math.sqrt(2));
+				player.setVy(-3/Math.sqrt(2));
 			}
 		}
 		if (player.getY() >= HEIGHT) {
@@ -176,10 +181,13 @@ public class Game extends Screen {
 	}
 
 	private void generatePlatforms() {
+		System.out.println("generating...");
 		// randomly generate all platforms on this screen and the screen below and make them seem random
-		for (int i = 0; i < 20; i++) {
+		// gets stuck at 20 platforms or above
+		for (int i = 0; i < 19; i++) {
 			final float len = 40;
 			float lx = (float) (Math.random() * WIDTH), ly = (float) (Math.random() * 2 * HEIGHT);
+			System.out.println("randomizing " + (i+1));
 			while (tooClose(lx, ly, 200) || lx > WIDTH - len) {
 				lx = (float) (Math.random() * WIDTH);
 				ly = (float) (Math.random() * 2 *HEIGHT);
@@ -209,6 +217,7 @@ public class Game extends Screen {
 					platforms.add(new Pair<Platform, Integer> (new Platform(newLine, vx, vy), 2));
 				}
 			}
+			System.out.println((i+1) + " of " + 19 + " finished");
 		}
 	}
 

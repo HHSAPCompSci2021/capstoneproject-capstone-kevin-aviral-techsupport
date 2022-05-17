@@ -34,11 +34,15 @@ public class Enemy extends Sprite {
      * @return The projectile shot by this enemy.
      */ 
     public Projectile shoot(double targetX, double targetY) {
-        double pv = 3;
         double projVx = 0.02*(targetX - getX());
         double projVy = 0.02*(targetY - getY());
 
-        Circle circle = new Circle(getX() + projVx, getY() + projVy, 4);
+        Circle circle = new Circle();
+        circle.setRadius(6);
+
+        circle.setX(getX() + projVx + ((projVx > 0) ? sideLength : -30));
+        circle.setY(getY() + projVy + ((projVy > 0) ? sideLength : -30));
+        
         return new Projectile(circle, projVx, projVy, 0, 0);
     }
     /**
