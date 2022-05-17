@@ -242,7 +242,7 @@ public class Game extends Screen {
 					platforms.add(new Pair<Platform, Integer> (new Platform(newLine2, vx, vy), 2));
 				}
 			}
-			System.out.println((i+1) + " of " + 19 + " finished");
+			System.out.println((i+1) + " of " + 18 + " finished");
 		}
 	}
 
