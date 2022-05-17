@@ -118,7 +118,7 @@ public class Game extends Screen {
 					continue;
 				}
 			}
-			if (enemies.get(i).isTouching(player)) {
+			if (player.getShape().isPointInside(enemies.get(i).getX(), enemies.get(i).getY())) {
 				System.out.println("player hit");
 				player.setLives(player.getLives()-1);
 			}
@@ -248,7 +248,7 @@ public class Game extends Screen {
 					platforms.add(new Pair<Platform, Integer> (new Platform(newLine2, vx, vy), 2));
 				}
 			}
-			System.out.println((i+1) + " of " + 19 + " finished");
+			System.out.println((i+1) + " of " + 18 + " finished");
 		}
 	}
 
