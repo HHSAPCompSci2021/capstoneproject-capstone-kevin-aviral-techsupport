@@ -52,8 +52,7 @@ public class Player extends Sprite {
 		if (ammo == 0)
 			return null;
 		ammo--;
-		Circle circle = new Circle(getX() - 16, getY(), 8);
-		System.out.println("left");
+		Circle circle = new Circle(getX() - 32d, getY(), 8);
 		return new Projectile(circle, -6, 0, 0, 0);
 	}
 
@@ -66,8 +65,7 @@ public class Player extends Sprite {
 		if (ammo == 0)
 			return null;
 		ammo--;
-		Circle circle = new Circle(getX() + 16, getY(), 8);
-
+		Circle circle = new Circle(getX() + 32d, getY(), 8);
 		return new Projectile(circle, 6, 0, 0, 0);
 	}
 
@@ -80,7 +78,7 @@ public class Player extends Sprite {
 		} else if (getX() < 0) {
 			moveBy(WIDTH, 0);
 		}
-		setScore((long) Math.max(getY() + 0, score));
+		setScore((long) Math.max(getY()*2, score)); // *2 to compensate for going up
 		p.fill(255, 250, 251);
 		// if player is partly off screen
 		if (getX() - r >= WIDTH) {
@@ -88,7 +86,7 @@ public class Player extends Sprite {
 		} else if (getX() + r <= 0) {
 			p.circle((float) (WIDTH + getX()), (float) getY(), 2*r);
 		}
-		setVx(getVx()*0.97);
+		setVx(getVx()*0.985);
 		// System.out.println(getX() + " " + getY() + " " + r);
 		p.circle((float) getX(), (float) getY(), 2 * r);
 		int tx = (int) (10 * (playerNum == 2 ? 50 : 1));
@@ -97,7 +95,7 @@ public class Player extends Sprite {
 		int incr = 48;
 		int which = 0;
 		for (int ix = tx; which < 3; ix += incr, which++) {
-			p.image((getLives() >= which && getLives() > 0) ? lightOn : lightOff, ix, -6, incr, incr);
+			p.image((getLives() > which) ? lightOn : lightOff, ix, -6, incr, incr);
 		}
 		p.text("Score: " + score, tx, incr+24);
 		p.text("Ammo: " + ammo, tx, incr+64);

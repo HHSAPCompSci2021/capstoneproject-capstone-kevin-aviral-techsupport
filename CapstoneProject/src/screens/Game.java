@@ -19,6 +19,9 @@ public class Game extends Screen {
 	private static final double g = 0.1; 
 	private static final float len = 40;
 	
+	private double scrollBy; // how fast everything scrolls up
+	private double border;
+
 	private PImage bg;
 	private float x1, y1;
 	private PImage gameOverText;
@@ -34,7 +37,6 @@ public class Game extends Screen {
 	private long time; // keep track of game time
 	private long fireTime; // time of previous shooting from player
 	private long hitTime; // previous time player got hit
-	private Platform test;
 	private long gameOver;
 
 	/**
@@ -49,22 +51,21 @@ public class Game extends Screen {
 		platforms = new ArrayList<>();
 		horizontal = new ArrayList<>();
 		
-		Line lin = new Line(100, 500, 100+len, 500);
-		lin.setStrokeColor(new Color(210, 50, 69));;
-		test = new Platform(lin, 0, 0);
-		generatePlatforms();
+		border = 0;
+		generatePlatforms(HEIGHT/2, HEIGHT, 5);
+		
 		enemies = new ArrayList<>();
-
 		// spawn the enemies
 		Rectangle erect = new Rectangle(200, 200, 30, 30);
 		enemies.add(new Enemy(erect, 0, 0, 0, 0));
 		
-		player = new Player(new Circle(WIDTH / 2, 111, 23), 0, 0, 0, g, 3);
+		System.out.println("NEW GAME");
+		player = new Player(new Circle(WIDTH / 2, 0, 23), 0, 0, 0, g, 3);
 		time = 0;
-		fireTime = 0;
-		hitTime = 0;
+		fireTime = -9999;
+		hitTime = -9999;
 		gameOver = -1;
-		System.out.println("isdoijsdjdsoijds");
+		scrollBy = -1.5;
 	}
 	
 	public void setup() {
@@ -104,10 +105,10 @@ public class Game extends Screen {
 				fireTime = time;
 			}
 		}
-		if (time%5 == 0) System.out.println(hitTime + " " + time + " " + ((time - hitTime)/60 > 0.3));
+		// if (time%10 == 0) System.out.println(hitTime + " " + time + " " + ((time - hitTime)/60 > 0.3));
 		if (gameOver > 0) {
 			surface.textSize(64f);
-			surface.fill(215, 142, 122);
+			surface.fill(249, 255, 135);
 			
 			String message = "Score: " + player.getScore();
 			surface.text(message, WIDTH/2 - surface.textWidth(message)/2, 550);
@@ -119,22 +120,22 @@ public class Game extends Screen {
 		// for ALL "living" sprites, check if they are dead
 		time++;
 		if (time%60 == 0) {
-			System.out.println(time/60+ " " + fireTime/60);
 			if (enemies.size() > 0) {
 				if (enemies.get(0) != null) {
 					enemies.add(enemies.get(0).shoot(player.getX(), player.getY()));
 				}
 			}
 		}
-		surface.background(59, 66, 82);
-		// draw all the sprites
+		surface.background(20, 20, 64);
+		// platforms drawn
 		for (Pair<Platform, Integer>p : platforms) {
 			if (p.first.getX() >= WIDTH || p.first.getX() <= 0) {
 				p.first.setVx(-p.first.getVx());
 			}
+			p.first.moveBy(0, scrollBy);
 			p.first.draw(surface);
 		}
-		// sus loop
+		// sus loop（enemies are drawn）
 		for (int i = 0; i < enemies.size(); i++) {
 			if (enemies.get(i) == null) continue;
 			if (enemies.get(i) instanceof Projectile) {
@@ -153,7 +154,6 @@ public class Game extends Screen {
 				}
 			} 
 			if (enemies.get(i) instanceof Enemy) {
-				// check if enemy is dead
 				if (enemies.get(i).getLives() <= 0) {
 					System.out.println("enemy dead ");
 					enemies.remove(i--);
@@ -161,29 +161,22 @@ public class Game extends Screen {
 				}
 			}
 			// if player is hit, also grant temporary invincibility
-			// ???
-			if ((time - hitTime)/60 > 0.3 && player.getShape().isPointInside(enemies.get(i).getX(), enemies.get(i).getY())) {
-				System.out.println("player hit");
+			if (!(time/60 > hitTime/60 + 0.2)) System.out.println(player.getY() + " invincible");
+			// TODO: make player flicker when invincible
+			if (time/60 > hitTime/60 + 0.2 && player.getShape().isPointInside(enemies.get(i).getX(), enemies.get(i).getY())) {
+				System.out.println(enemies.get(i) + " hit player");
 				player.setLives(player.getLives()-1);
 				hitTime = time;
 			}
+			enemies.get(i).moveBy(0, scrollBy);
 			enemies.get(i).draw(surface);
 		}
-
-		test.draw(surface);
-		// check for key presses and player input
-
-		if (player.isTouching(test)) {
-			System.out.println("test success");
-		}
-
+		// player platform collisions
 		for (Pair<Platform, Integer> p : platforms) {
-			// hjasdhfdfjsdfsaf
 			if (!(player.getY() + player.getR() >= p.first.getY())) {
 				continue;
 			}
 			if (player.isTouching(p.first) && p.second == 0) {
-				System.out.println((player.getY() + player.getR()) + " " + p.first.getY());
 				System.out.println("collide ");
 				player.moveBy(player.getVx(), -player.getVy());
 				player.setVy(-3);
@@ -191,48 +184,50 @@ public class Game extends Screen {
 			if (player.isTouching(p.first) && p.second == 1) {
 				System.out.println("collide ");
 				player.moveBy(player.getVx(), -player.getVy());
-				player.setVx(-Math.sqrt(2));
-				player.setVy(-Math.sqrt(2));
+				player.setVx(-5/Math.sqrt(2));
+				player.setVy(-5/Math.sqrt(2));
 			}
 			if (player.isTouching(p.first) && p.second == 2) {
 				System.out.println("collide ");
 				player.moveBy(player.getVx(), -player.getVy());
-				player.setVx(3/Math.sqrt(2));
-				player.setVy(-3/Math.sqrt(2));
+				player.setVx(5/Math.sqrt(2));
+				player.setVy(-5/Math.sqrt(2));
 			}
 		}
-		player.draw(surface);
 		if (player.getLives() <= 0) {
 			surface.image(gameOverText, WIDTH/2 - 500/2, 100, 500, 100);
 			if (gameOver == -1) gameOver = time;
 			return;
 		}
 		if (player.getY() >= HEIGHT) {
-			player.moveBy(0, -HEIGHT);
-			player.setVy(2);
-			
-			// TODO re randomize tiles
-			/*
-			generatePlatforms();
-			*/
-			
+			// TODO: animation for falling down
+			player.setLives(0);
 		}
-		
+		border += scrollBy;
+		if (border <= 0) {
+			System.out.println("reset");
+			generatePlatforms(HEIGHT, 2*HEIGHT, 10);
+			border = HEIGHT;
+		}
+		surface.push();
+		surface.stroke(69);
+		surface.line(0, (float)border, WIDTH, (float)border);
+		surface.pop();
+
+		player.moveBy(0, scrollBy);
+		player.draw(surface);
+
 	}
 
-	private void generatePlatforms() {
-		System.out.println("generating...");
-		// randomly generate all platforms on this screen and the screen below and make them seem random
-		// gets stuck at 20 platforms or above
-		for (int i = 0; i < 18; i++) {
-			final float len = 40;
-			float lx = (float) (Math.random() * WIDTH), ly = (float) (Math.random() * 2 * HEIGHT);
-			System.out.println("randomizing " + (i+1));
+	private void generatePlatforms(float min, float max, int num) {
+		for (int i = 0; i < num; i++) {
+			float lx = (float) (Math.random() * WIDTH);
+			float ly = (float) (Math.random() * (max - min)) + min;
 			int tries = 0;
 			while (tooClose(lx, ly, 200) || lx > WIDTH - len) {
-				if (tries > 10) break;
+				if (tries > 15) break;
 				lx = (float) (Math.random() * WIDTH);
-				ly = (float) (Math.random() * 2 *HEIGHT);
+				ly = (float) (Math.random() * (max - min)) + min;
 				tries++;
 			}
 			// 50% chance of having velocity (for testing purposes, 50% is a bit big)
@@ -273,7 +268,6 @@ public class Game extends Screen {
 					platforms.add(new Pair<Platform, Integer> (new Platform(newLine2, vx, vy), 2));
 				}
 			}
-			System.out.println((i+1) + " of " + 18 + " finished");
 		}
 	}
 

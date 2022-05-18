@@ -39,10 +39,6 @@ public class Platform extends Sprite {
 		cloudImg = p.loadImage("assets" + fileSep + "platformcloud.png");
 	}
 
-    public void draw(PApplet p, Player player) {
-
-    }
-
     public Line getL1() {
         return l1;
     }
@@ -60,12 +56,11 @@ public class Platform extends Sprite {
     public void draw(PApplet p) {
         super.draw(p);
         p.push();
-        p.stroke(255, 255, 2555);
         p.strokeWeight(10);
         // p.line((float)getX(), (float)getY(), (float)(getX() + length),
         // (float)getY());
-        p.strokeWeight(10);
         l1.setStrokeWeight(4);
+        l1.setStrokeColor(new Color(255, 255, 255));
         l1.draw(p);
        // l2.draw(p);
        // loadAssets(p);
