@@ -18,14 +18,15 @@ public class Game extends Screen {
 
 	private static final double g = 0.1; 
 	private static final float len = 40;
+	private static final int maxePop = 9; 
 	
 	private double scrollBy; // how fast everything scrolls up
 	private double border;
-
+	
 	private PImage bg;
 	private float x1, y1;
 	private PImage gameOverText;
-
+	
 	private DrawingSurface surface;
 	private Rectangle screenRect;
 	private Player player;
@@ -39,6 +40,9 @@ public class Game extends Screen {
 	private long hitTime; // previous time player got hit
 	private long gameOver;
 	private boolean show = true;
+	
+	
+	
 
 	/**
 	 * Creates a new game object
@@ -223,9 +227,9 @@ public class Game extends Screen {
 		}
 		player.draw(surface);
 	}
-
+	//change num to getE() when funciton is working
 	private void spawnEnemies(float min, float max, int num) {
-		for (int i = 0; i < num; i++) {
+		for (int i = 0; i < getE(); i++) {
 			float sx = (float)(Math.random()*WIDTH);
 			float sy = (float)(Math.random()*(max-min)) + min;
 			int tries = 0;
@@ -291,7 +295,6 @@ public class Game extends Screen {
 				}
 			}
 		}
-
 	}
 
 	private boolean tooClose(double lx, double ly, double radius) {
@@ -327,5 +330,9 @@ public class Game extends Screen {
 			first = fv;
 			second = sv;
 		}
+	}
+	// use logistic equation proportional to time to have adaptive difficulty enemy generation
+	private int getE () {
+		return (int) ((maxePop)/ (1+Math.exp(-2 * maxePop * time/120)));
 	}
 }

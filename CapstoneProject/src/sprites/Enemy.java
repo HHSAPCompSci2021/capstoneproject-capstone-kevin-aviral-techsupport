@@ -34,16 +34,26 @@ public class Enemy extends Sprite {
      * @return The projectile shot by this enemy.
      */ 
     public Projectile shoot(double targetX, double targetY) {
+    	
         double projVx = 0.03*(targetX - getX());
         double projVy = 0.03*(targetY - getY());
 
         Circle circle = new Circle();
         circle.setRadius(6);
+       
+        
+        if (projVx > 0) {
+        	circle.setX(getX() + projVx + sideLength);
+        } else {
+        	circle.setX(getX() + projVx - 16);
+        }
+        
+        if (projVy > 0) {
+        	circle.setY(getY() + projVy + sideLength);
+        } else {
+        	circle.setY(getY() + projVy - 16);
+        }
 
-        circle.setX(getX() + projVx + ((projVx > 0) ? sideLength : -16));
-        
-        circle.setY(getY() + projVy + ((projVy > 0) ? sideLength : -16));
-        
         return new Projectile(circle, projVx, projVy, 0, 0);
     }
     /**
@@ -51,9 +61,10 @@ public class Enemy extends Sprite {
      * @param p surface to be drawn on
      */
     public void draw(PApplet p) {
+    	// set up surface
         super.draw(p);
         p.push();
-
+        // color
         p.fill(200, 100, 100);
         p.rect((float)getX(), (float)getY(), sideLength, sideLength, 5f, 5f, 5f, 5f);
 
