@@ -21,6 +21,7 @@ public class Game extends Screen {
 	
 	private PImage bg;
 	private float x1, y1;
+	private PImage gameOverText;
 
 	private DrawingSurface surface;
 	private Rectangle screenRect;
@@ -30,9 +31,11 @@ public class Game extends Screen {
 	private ArrayList<Platform> horizontal;
 	private ArrayList<Sprite> enemies; // and projectiles
 
-	private long time;
-	private long prevTime;
+	private long time; // keep track of game time
+	private long fireTime; // time of previous shooting from player
+	private long hitTime; // previous time player got hit
 	private Platform test;
+	private long gameOver;
 
 	/**
 	 * Creates a new game object
@@ -56,9 +59,11 @@ public class Game extends Screen {
 		Rectangle erect = new Rectangle(200, 200, 30, 30);
 		enemies.add(new Enemy(erect, 0, 0, 0, 0));
 		
-		player = new Player(new Circle(WIDTH / 2, 0, 23), 0, 0, 0, g, 3);
+		player = new Player(new Circle(WIDTH / 2, 111, 23), 0, 0, 0, g, 3);
 		time = 0;
-		prevTime = 0;
+		fireTime = 0;
+		hitTime = 0;
+		gameOver = -1;
 		System.out.println("isdoijsdjdsoijds");
 	}
 	
@@ -67,6 +72,8 @@ public class Game extends Screen {
 		bg = surface.loadImage("assets" + fileSep + "stars.jpg");
 		x1 = 0;
 		y1 = 0;
+		gameOverText = surface.loadImage("assets" + fileSep + "gameover.png");
+
 	}
 
 	/**
@@ -75,10 +82,44 @@ public class Game extends Screen {
 	 * @post The game screen is drawn
 	 */
 	public void draw() {
+		// check for keypresses
+		if (surface.isPressed(KeyEvent.VK_ESCAPE)) {
+			surface.switchScreen(ScreenSwitcher.MENU_SCREEN);
+		} 
+		if (surface.isPressed(KeyEvent.VK_LEFT) || surface.isPressed(KeyEvent.VK_A)) {
+			player.moveBy(-4, 0);
+		} 
+		if (surface.isPressed(KeyEvent.VK_RIGHT) || surface.isPressed(KeyEvent.VK_D)) {
+			player.moveBy(4, 0);
+		} 
+		if (surface.isPressed(KeyEvent.VK_Q) && time/60 > fireTime/60 + 0.5) {
+			if (player.getAmmo() > 0) {
+				enemies.add(player.shootLeft());
+				fireTime = time;
+			}
+		} 
+		if (surface.isPressed(KeyEvent.VK_E) && time/60 > fireTime/60 + 0.5) {
+			if (player.getAmmo() > 0) {
+				enemies.add(player.shootRight());
+				fireTime = time;
+			}
+		}
+		if (time%5 == 0) System.out.println(hitTime + " " + time + " " + ((time - hitTime)/60 > 0.3));
+		if (gameOver > 0) {
+			surface.textSize(64f);
+			surface.fill(215, 142, 122);
+			
+			String message = "Score: " + player.getScore();
+			surface.text(message, WIDTH/2 - surface.textWidth(message)/2, 550);
+			if (surface.isPressed(KeyEvent.VK_SPACE)) {
+				surface.switchScreen(ScreenSwitcher.MENU_SCREEN);
+			}
+			return;
+		}
 		// for ALL "living" sprites, check if they are dead
 		time++;
 		if (time%60 == 0) {
-			System.out.println(time/60+ " " + prevTime/60);
+			System.out.println(time/60+ " " + fireTime/60);
 			if (enemies.size() > 0) {
 				if (enemies.get(0) != null) {
 					enemies.add(enemies.get(0).shoot(player.getX(), player.getY()));
@@ -97,12 +138,12 @@ public class Game extends Screen {
 		for (int i = 0; i < enemies.size(); i++) {
 			if (enemies.get(i) == null) continue;
 			if (enemies.get(i) instanceof Projectile) {
+				// check if projecitle hit anything or is out of bounds
 				double x = enemies.get(i).getX(), y = enemies.get(i).getY();
 				if (x < 0 || x > WIDTH || y < 0 || y > HEIGHT) {
 					enemies.remove(i--);
 					continue;
 				}
-				// check if projecitle hit anything
 				for (int j = 0; j < enemies.size(); j++) {
 					if (enemies.get(j) == null || enemies.get(j) instanceof Projectile) continue;
 					if (enemies.get(i).isTouching(enemies.get(j))) {
@@ -110,7 +151,8 @@ public class Game extends Screen {
 						enemies.get(j).setLives(enemies.get(j).getLives()-1);
 					}
 				}
-			} else {
+			} 
+			if (enemies.get(i) instanceof Enemy) {
 				// check if enemy is dead
 				if (enemies.get(i).getLives() <= 0) {
 					System.out.println("enemy dead ");
@@ -118,41 +160,18 @@ public class Game extends Screen {
 					continue;
 				}
 			}
-			if (player.getShape().isPointInside(enemies.get(i).getX(), enemies.get(i).getY())) {
+			// if player is hit, also grant temporary invincibility
+			// ???
+			if ((time - hitTime)/60 > 0.3 && player.getShape().isPointInside(enemies.get(i).getX(), enemies.get(i).getY())) {
 				System.out.println("player hit");
 				player.setLives(player.getLives()-1);
+				hitTime = time;
 			}
 			enemies.get(i).draw(surface);
 		}
-		player.draw(surface);
-		if (player.getLives() <= 0) {
-			// death
-			surface.textSize(64);
-			surface.text("GAME OVER", WIDTH/2 - surface.textWidth("GAME OVER")/2, 100);
-		}
+
 		test.draw(surface);
 		// check for key presses and player input
-		if (surface.isPressed(KeyEvent.VK_ESCAPE)) {
-			surface.switchScreen(ScreenSwitcher.MENU_SCREEN);
-		} 
-		if (surface.isPressed(KeyEvent.VK_LEFT) || surface.isPressed(KeyEvent.VK_A)) {
-			player.moveBy(-4, 0);
-		} 
-		if (surface.isPressed(KeyEvent.VK_RIGHT) || surface.isPressed(KeyEvent.VK_D)) {
-			player.moveBy(4, 0);
-		} 
-		if (surface.isPressed(KeyEvent.VK_Q) && time/60 > prevTime/60 + 0.5) {
-			if (player.getAmmo() > 0) {
-				enemies.add(player.shootLeft());
-				prevTime = time;
-			}
-		} 
-		if (surface.isPressed(KeyEvent.VK_E) && time/60 > prevTime/60 + 0.5) {
-			if (player.getAmmo() > 0) {
-				enemies.add(player.shootRight());
-				prevTime = time;
-			}
-		}
 
 		if (player.isTouching(test)) {
 			System.out.println("test success");
@@ -181,6 +200,12 @@ public class Game extends Screen {
 				player.setVx(3/Math.sqrt(2));
 				player.setVy(-3/Math.sqrt(2));
 			}
+		}
+		player.draw(surface);
+		if (player.getLives() <= 0) {
+			surface.image(gameOverText, WIDTH/2 - 500/2, 100, 500, 100);
+			if (gameOver == -1) gameOver = time;
+			return;
 		}
 		if (player.getY() >= HEIGHT) {
 			player.moveBy(0, -HEIGHT);

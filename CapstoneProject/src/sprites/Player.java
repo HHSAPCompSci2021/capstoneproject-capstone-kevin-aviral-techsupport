@@ -97,7 +97,7 @@ public class Player extends Sprite {
 		int incr = 48;
 		int which = 0;
 		for (int ix = tx; which < 3; ix += incr, which++) {
-			p.image((getLives() >= which) ? lightOn : lightOff, ix, -6, incr, incr);
+			p.image((getLives() >= which && getLives() > 0) ? lightOn : lightOff, ix, -6, incr, incr);
 		}
 		p.text("Score: " + score, tx, incr+24);
 		p.text("Ammo: " + ammo, tx, incr+64);

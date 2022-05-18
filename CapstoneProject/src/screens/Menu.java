@@ -43,6 +43,7 @@ public class Menu extends Screen {
 		System.out.println(bg);
 		x1 = -10f;
 		y1 = -10f;
+		// font name is calamandria
 		fg = surface.loadImage("assets"+fileSep+"downfall_text.png");
 		x2 = -0;
 		y2 = 32;
