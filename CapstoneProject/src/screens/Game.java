@@ -33,7 +33,7 @@ public class Game extends Screen {
 	private ArrayList<Pair<Platform, Integer>> platforms;
 	private ArrayList<Platform> horizontal;
 	private ArrayList<Sprite> enemies; // and projectiles
-
+	
 	private long time; // keep track of game time
 	private long fireTime; // time of previous shooting from player
 	private long hitTime; // previous time player got hit
@@ -176,18 +176,19 @@ public class Game extends Screen {
 			if (!(player.getY() + player.getR() >= p.first.getY())) {
 				continue;
 			}
-			if (player.isTouching(p.first) && p.second == 0) {
+			// this might fix phasing
+			if (player.isTouching(p.first) && p.second == 0 && player.getVy() > 0) {
 				System.out.println("collide ");
 				player.moveBy(player.getVx(), -player.getVy());
 				player.setVy(-3);
 			}
-			if (player.isTouching(p.first) && p.second == 1) {
+			if (player.isTouching(p.first) && p.second == 1 && player.getVy() >= 0) {
 				System.out.println("collide ");
 				player.moveBy(player.getVx(), -player.getVy());
 				player.setVx(-5/Math.sqrt(2));
 				player.setVy(-5/Math.sqrt(2));
 			}
-			if (player.isTouching(p.first) && p.second == 2) {
+			if (player.isTouching(p.first) && p.second == 2 && player.getVy() <= 0) {
 				System.out.println("collide ");
 				player.moveBy(player.getVx(), -player.getVy());
 				player.setVx(5/Math.sqrt(2));
@@ -199,11 +200,12 @@ public class Game extends Screen {
 			if (gameOver == -1) gameOver = time;
 			return;
 		}
-		if (player.getY() >= HEIGHT) {
+		if (player.getY() > HEIGHT) {
 			// TODO: animation for falling down
 			player.setLives(0);
 		}
 		border += scrollBy;
+		// still has to fix scoring past this point
 		if (border <= 0) {
 			System.out.println("reset");
 			generatePlatforms(HEIGHT, 2*HEIGHT, 10);
@@ -213,7 +215,6 @@ public class Game extends Screen {
 		surface.stroke(69);
 		surface.line(0, (float)border, WIDTH, (float)border);
 		surface.pop();
-
 		player.moveBy(0, scrollBy);
 		player.draw(surface);
 
@@ -224,7 +225,7 @@ public class Game extends Screen {
 			float lx = (float) (Math.random() * WIDTH);
 			float ly = (float) (Math.random() * (max - min)) + min;
 			int tries = 0;
-			while (tooClose(lx, ly, 200) || lx > WIDTH - len) {
+			while (tooClose(lx, ly, 200) || lx > WIDTH - len || ly == HEIGHT || ly == 0) {
 				if (tries > 15) break;
 				lx = (float) (Math.random() * WIDTH);
 				ly = (float) (Math.random() * (max - min)) + min;
@@ -269,6 +270,7 @@ public class Game extends Screen {
 				}
 			}
 		}
+
 	}
 
 	private boolean tooClose(double lx, double ly, double radius) {
@@ -291,11 +293,10 @@ public class Game extends Screen {
 	public void addEnemyOrProjectile(Sprite s) {
 		enemies.add(s);
 	}
-	
+	// keeps track of platform orientations
 	private static class Pair<F, S> {
 		F first;
 		S second;
-		
 		public Pair(F fv, S sv) {
 			first = fv;
 			second = sv;
