@@ -80,7 +80,10 @@ public abstract class Screen {
 	public String toString() {
 		return WIDTH + " " + HEIGHT;
 	}
-
+	/**
+	 * sets color of the screen
+	 * @param c color
+	 */
 	public void setColor(Color c) {
 
 	}

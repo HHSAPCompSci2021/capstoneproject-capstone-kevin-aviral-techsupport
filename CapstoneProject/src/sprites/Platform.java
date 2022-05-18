@@ -34,15 +34,25 @@ public class Platform extends Sprite {
         length = (double) s.getPerimeter();
        // cloudImg = loadImage("platformcloud.png");
     }
-    
+    /**
+     * loads images for platform
+     * @param p surface on which image is loaded
+     * @post images are loaded on the surface
+     */
     public void loadAssets(PApplet p) {
 		cloudImg = p.loadImage("assets" + fileSep + "platformcloud.png");
 	}
-
+    /**
+     * getter for first line of sprite
+     * @return line 1 of sprite
+     */
     public Line getL1() {
         return l1;
     }
-    
+    /**
+     * getter for second line of sprite
+     * @return line 2 of sprite
+     */
     public Line getL2(){
     	return l2; 
     }
@@ -67,7 +77,10 @@ public class Platform extends Sprite {
        // p.image(cloudImg, (float) this.getX(), (float) this.getY(), 50, 20);
         p.pop();
     }
-
+    /**
+     * getter for length of line
+     * @return length of line
+     */
     public double getLength() {
         return length;
     }

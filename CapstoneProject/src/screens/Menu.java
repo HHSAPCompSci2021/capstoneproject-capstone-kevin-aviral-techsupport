@@ -37,7 +37,10 @@ public class Menu extends Screen {
 		quit = new Rectangle(WIDTH / 2 - rw / 2, HEIGHT / 2 + rh + 150, rw, rh);
 		buttonColor = new Color(236, 181, 176);
 	}
-
+	/**
+	 * sets up needed images on the screen
+	 * @post images are loaded on the screen
+	 */
 	public void setup() {
 		bg = surface.loadImage("assets"+fileSep+"mountain.jpg");
 		System.out.println(bg);
@@ -48,7 +51,10 @@ public class Menu extends Screen {
 		x2 = -0;
 		y2 = 32;
 	}
-
+	/**
+	 * draws the menu
+	 * @post menu is drawn 
+	 */
 	public void draw() {
 		x1 = (float) (-10 - (surface.mouseX - WIDTH / 2) * 0.02);
 		y1 = (float) (-10 - (surface.mouseY - HEIGHT / 2) * 0.02);
@@ -59,20 +65,8 @@ public class Menu extends Screen {
 		surface.image(fg, x2, y2, WIDTH, HEIGHT);
 		
 		surface.fill(buttonColor.getRGB());
-		if (false) {
-			if (between(surface.mouseY, start.y, start.y+start.height)) {
-				surface.rect(quit.x, quit.y, quit.width, quit.height, 10, 10, 10, 10);
-				surface.fill(237, 181, 176);
-				surface.rect(start.x, start.y, start.width, start.height, 10, 10, 10, 10);
-			} else if (between(surface.mouseY, quit.y, quit.y+start.height)) {
-				surface.rect(start.x, start.y, start.width, start.height, 10, 10, 10, 10);
-				surface.fill(237, 181, 176);
-				surface.rect(quit.x, quit.y, quit.width, quit.height, 10, 10, 10, 10);
-			}
-		} else {
-			surface.rect(start.x, start.y, start.width, start.height, 10, 10, 10, 10);
-			surface.rect(quit.x, quit.y, quit.width, quit.height, 10, 10, 10, 10);
-		}
+		surface.rect(start.x, start.y, start.width, start.height, 10, 10, 10, 10);
+		surface.rect(quit.x, quit.y, quit.width, quit.height, 10, 10, 10, 10);
 		// draw the buttons
 		// draw the text
 		surface.fill(4, 20, 43);
@@ -82,12 +76,17 @@ public class Menu extends Screen {
 		surface.text("START", start.x + start.width / 2 - textWidth1 / 2, start.y + start.height / 2);
 		surface.text("QUIT", quit.x + quit.width / 2 - textWidth2 / 2, quit.y + quit.height / 2);
 	}
-
+	/**
+	 * sets color of the screen
+	 * @param c color
+	 */
 	public void setColor(Color c) {
 		System.out.println("color set");
 		buttonColor = c;
 	}
-
+	/**
+	 * client mouse input detection
+	 */
 	public void mousePressed() {
 		// check if button was clicked
 		Point p = surface.actualToAssumed(new Point(surface.mouseX, surface.mouseY));
@@ -97,7 +96,6 @@ public class Menu extends Screen {
 			System.exit(0);
 		}
 	}
-
 	private boolean between(int x, int a, int b) {
 		return a < x && x < b;
 	}

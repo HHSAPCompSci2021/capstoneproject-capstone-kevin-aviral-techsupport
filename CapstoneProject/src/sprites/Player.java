@@ -39,7 +39,11 @@ public class Player extends Sprite {
 		ammo = 5;
 		visible = true;
 	}
-
+	/**
+	 * loads images for lives left
+	 * @param p surface on which images are loaded
+	 * @post images are loaded on the surface
+	 */
 	public void loadAssets(PApplet p) {
 		lightOn = p.loadImage("assets" + fileSep + "lantern_on.png");
 		lightOff = p.loadImage("assets" + fileSep + "lantern_off.png");
@@ -105,6 +109,7 @@ public class Player extends Sprite {
 
 	/**
 	 * Setter for player visibility
+	 * @param isVisible visibility of sprite
 	 */
 	public void setVisible(boolean isVisible) {
 		visible = isVisible;

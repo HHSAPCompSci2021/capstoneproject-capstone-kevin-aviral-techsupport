@@ -317,7 +317,11 @@ public class Game extends Screen {
 	public void addEnemyOrProjectile(Sprite s) {
 		enemies.add(s);
 	}
-
+	
+	/**
+	 * returns boolean value based on player visibility
+	 * @return true if it is shown, otherwise false
+	 */
 	public boolean drawPlayer() {
 		return show;
 	}
