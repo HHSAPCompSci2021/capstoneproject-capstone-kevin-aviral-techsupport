@@ -8,9 +8,8 @@ import java.awt.*;
 
 /**
  * 
- * @author Aviral Vaidya, Kevin Ren
- *         The Player class represents a double precision player that can be
- *         visualized using the processing library
+ * @author Aviral Vaidya, Kevin Ren The Player class represents a double
+ *         precision player that can be visualized using the processing library
  *
  */
 public class Player extends Sprite {
@@ -39,8 +38,10 @@ public class Player extends Sprite {
 		ammo = 5;
 		visible = true;
 	}
+
 	/**
 	 * loads images for lives left
+	 * 
 	 * @param p surface on which images are loaded
 	 * @post images are loaded on the surface
 	 */
@@ -84,15 +85,15 @@ public class Player extends Sprite {
 		} else if (getX() < 0) {
 			moveBy(WIDTH, 0);
 		}
-		setScore((long) Math.max(getY()*2, score)); // *2 to compensate for going up
-		setVx(getVx()*0.985);
+		setScore((long) Math.max(getY() * 2, score)); // *2 to compensate for going up
+		setVx(getVx() * 0.985);
 		if (visible) {
 			// if player is partly off screen
 			p.fill(255, 250, 251);
 			if (getX() - r >= WIDTH) {
-				p.circle((float) (WIDTH - getX() - r), (float) getY(), 2*r);
+				p.circle((float) (WIDTH - getX() - r), (float) getY(), 2 * r);
 			} else if (getX() + r <= 0) {
-				p.circle((float) (WIDTH + getX()), (float) getY(), 2*r);
+				p.circle((float) (WIDTH + getX()), (float) getY(), 2 * r);
 			}
 			// System.out.println(getX() + " " + getY() + " " + r);
 			p.circle((float) getX(), (float) getY(), 2 * r);
@@ -103,12 +104,13 @@ public class Player extends Sprite {
 		for (int ix = tx; which < 3; ix += incr, which++) {
 			p.image((getLives() > which) ? lightOn : lightOff, ix, -6, incr, incr);
 		}
-		p.text("Score: " + score, tx, incr+24);
-		p.text("Ammo: " + ammo, tx, incr+64);
+		p.text("Score: " + score, tx, incr + 24);
+		p.text("Ammo: " + ammo, tx, incr + 64);
 	}
 
 	/**
 	 * Setter for player visibility
+	 * 
 	 * @param isVisible visibility of sprite
 	 */
 	public void setVisible(boolean isVisible) {
@@ -122,8 +124,9 @@ public class Player extends Sprite {
 		visible = !visible;
 	}
 
-	/** 
+	/**
 	 * Gets player number
+	 * 
 	 * @return The player number
 	 */
 	public int getPlayerNum() {
