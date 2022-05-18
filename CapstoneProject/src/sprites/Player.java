@@ -21,6 +21,7 @@ public class Player extends Sprite {
 	private float r;
 	private int ammo;
 	private long score;
+	private boolean visible;
 
 	/**
 	 * creates a player object
@@ -36,6 +37,7 @@ public class Player extends Sprite {
 		super(s, vx, vy, ax, ay, totalLives);
 		r = (float) s.getRadius();
 		ammo = 5;
+		visible = true;
 	}
 
 	public void loadAssets(PApplet p) {
@@ -79,19 +81,19 @@ public class Player extends Sprite {
 			moveBy(WIDTH, 0);
 		}
 		setScore((long) Math.max(getY()*2, score)); // *2 to compensate for going up
-		p.fill(255, 250, 251);
-		// if player is partly off screen
-		if (getX() - r >= WIDTH) {
-			p.circle((float) (WIDTH - getX() - r), (float) getY(), 2*r);
-		} else if (getX() + r <= 0) {
-			p.circle((float) (WIDTH + getX()), (float) getY(), 2*r);
-		}
 		setVx(getVx()*0.985);
-		// System.out.println(getX() + " " + getY() + " " + r);
-		p.circle((float) getX(), (float) getY(), 2 * r);
+		if (visible) {
+			// if player is partly off screen
+			p.fill(255, 250, 251);
+			if (getX() - r >= WIDTH) {
+				p.circle((float) (WIDTH - getX() - r), (float) getY(), 2*r);
+			} else if (getX() + r <= 0) {
+				p.circle((float) (WIDTH + getX()), (float) getY(), 2*r);
+			}
+			// System.out.println(getX() + " " + getY() + " " + r);
+			p.circle((float) getX(), (float) getY(), 2 * r);
+		}
 		int tx = (int) (10 * (playerNum == 2 ? 50 : 1));
-		// make these graphic later
-		// figure this out
 		int incr = 48;
 		int which = 0;
 		for (int ix = tx; which < 3; ix += incr, which++) {
@@ -101,6 +103,24 @@ public class Player extends Sprite {
 		p.text("Ammo: " + ammo, tx, incr+64);
 	}
 
+	/**
+	 * Setter for player visibility
+	 */
+	public void setVisible(boolean isVisible) {
+		visible = isVisible;
+	}
+
+	/**
+	 * Toggles player visibility on the PApplet.
+	 */
+	public void toggleVisible() {
+		visible = !visible;
+	}
+
+	/** 
+	 * Gets player number
+	 * @return The player number
+	 */
 	public int getPlayerNum() {
 		return this.playerNum;
 	}

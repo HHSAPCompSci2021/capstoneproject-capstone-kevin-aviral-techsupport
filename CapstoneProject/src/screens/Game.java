@@ -38,6 +38,7 @@ public class Game extends Screen {
 	private long fireTime; // time of previous shooting from player
 	private long hitTime; // previous time player got hit
 	private long gameOver;
+	private boolean show = true;
 
 	/**
 	 * Creates a new game object
@@ -50,14 +51,11 @@ public class Game extends Screen {
 		screenRect = new Rectangle(0, 0, WIDTH, HEIGHT);
 		platforms = new ArrayList<>();
 		horizontal = new ArrayList<>();
+		enemies = new ArrayList<>();
 		
 		border = 0;
 		generatePlatforms(HEIGHT/2, HEIGHT, 5);
-		
-		enemies = new ArrayList<>();
-		// spawn the enemies
-		Rectangle erect = new Rectangle(200, 200, 30, 30);
-		enemies.add(new Enemy(erect, 0, 0, 0, 0));
+		spawnEnemies(HEIGHT/2, HEIGHT, 3);
 		
 		System.out.println("NEW GAME");
 		player = new Player(new Circle(WIDTH / 2, 0, 23), 0, 0, 0, g, 3);
@@ -65,7 +63,7 @@ public class Game extends Screen {
 		fireTime = -9999;
 		hitTime = -9999;
 		gameOver = -1;
-		scrollBy = -1.5;
+		scrollBy = -1;
 	}
 	
 	public void setup() {
@@ -139,16 +137,18 @@ public class Game extends Screen {
 		for (int i = 0; i < enemies.size(); i++) {
 			if (enemies.get(i) == null) continue;
 			if (enemies.get(i) instanceof Projectile) {
-				// check if projecitle hit anything or is out of bounds
 				double x = enemies.get(i).getX(), y = enemies.get(i).getY();
+				// check if projecitle is out of bounds
 				if (x < 0 || x > WIDTH || y < 0 || y > HEIGHT) {
 					enemies.remove(i--);
 					continue;
 				}
+				// check if projcetile hit anything
 				for (int j = 0; j < enemies.size(); j++) {
 					if (enemies.get(j) == null || enemies.get(j) instanceof Projectile) continue;
-					if (enemies.get(i).isTouching(enemies.get(j))) {
-						System.out.println("hit enemy");
+					if (enemies.get(j).getShape().isPointInside(x, y)) {
+						System.out.println("bullet hit enemy");
+						// player.setScore(player.getScore() + 200);
 						enemies.get(j).setLives(enemies.get(j).getLives()-1);
 					}
 				}
@@ -159,10 +159,9 @@ public class Game extends Screen {
 					enemies.remove(i--);
 					continue;
 				}
+				
 			}
-			// if player is hit, also grant temporary invincibility
-			if (!(time/60 > hitTime/60 + 0.2)) System.out.println(player.getY() + " invincible");
-			// TODO: make player flicker when invincible
+			// grant temporary invincibility if player is hit or shot
 			if (time/60 > hitTime/60 + 0.2 && player.getShape().isPointInside(enemies.get(i).getX(), enemies.get(i).getY())) {
 				System.out.println(enemies.get(i) + " hit player");
 				player.setLives(player.getLives()-1);
@@ -180,7 +179,7 @@ public class Game extends Screen {
 			if (player.isTouching(p.first) && p.second == 0 && player.getVy() > 0) {
 				System.out.println("collide ");
 				player.moveBy(player.getVx(), -player.getVy());
-				player.setVy(-3);
+				player.setVy(-4);
 			}
 			if (player.isTouching(p.first) && p.second == 1 && player.getVx() >= 0) {
 				System.out.println("collide ");
@@ -209,6 +208,7 @@ public class Game extends Screen {
 		if (border <= 0) {
 			System.out.println("reset");
 			generatePlatforms(HEIGHT, 2*HEIGHT, 10);
+			spawnEnemies(HEIGHT, 2*HEIGHT, 4);
 			border = HEIGHT;
 		}
 		surface.push();
@@ -216,8 +216,29 @@ public class Game extends Screen {
 		surface.line(0, (float)border, WIDTH, (float)border);
 		surface.pop();
 		player.moveBy(0, scrollBy);
+		if (time/60 - hitTime/60 <= 0.3) {
+			if (time%2 == 0) player.toggleVisible();
+		} else {
+			player.setVisible(true);
+		}
 		player.draw(surface);
+	}
 
+	private void spawnEnemies(float min, float max, int num) {
+		for (int i = 0; i < num; i++) {
+			float sx = (float)(Math.random()*WIDTH);
+			float sy = (float)(Math.random()*(max-min)) + min;
+			int tries = 0;
+			while (tooClose(sx, sy, 400)) {
+				if (tries > 10) break;
+				sx = (float) (Math.random() * WIDTH);
+				sy = (float) (Math.random() * (max - min)) + min;
+				tries++;
+			}
+		// spawn the enemies
+		Rectangle rect = new Rectangle(sx, sy, 30, 30);
+		enemies.add(new Enemy(rect, 0, 0, 0, 0));
+		}
 	}
 
 	private void generatePlatforms(float min, float max, int num) {
@@ -293,6 +314,11 @@ public class Game extends Screen {
 	public void addEnemyOrProjectile(Sprite s) {
 		enemies.add(s);
 	}
+
+	public boolean drawPlayer() {
+		return show;
+	}
+
 	// keeps track of platform orientations
 	private static class Pair<F, S> {
 		F first;
