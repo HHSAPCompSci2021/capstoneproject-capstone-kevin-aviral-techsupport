@@ -181,13 +181,13 @@ public class Game extends Screen {
 				player.moveBy(player.getVx(), -player.getVy());
 				player.setVy(-4);
 			}
-			if (player.isTouching(p.first) && p.second == 1 && player.getVx() >= 0) {
+			if (player.isTouching(p.first) && p.second == 1) {
 				System.out.println("collide ");
 				player.moveBy(player.getVx(), -player.getVy());
 				player.setVx(-5/Math.sqrt(2));
 				player.setVy(-5/Math.sqrt(2));
 			}
-			if (player.isTouching(p.first) && p.second == 2 && player.getVx() <= 0) {
+			if (player.isTouching(p.first) && p.second == 2) {
 				System.out.println("collide ");
 				player.moveBy(player.getVx(), -player.getVy());
 				player.setVx(5/Math.sqrt(2));
