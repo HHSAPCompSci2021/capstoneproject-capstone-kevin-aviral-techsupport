@@ -8,9 +8,8 @@ import java.awt.*;
 
 /**
  * 
- * @author Aviral Vaidya, Kevin Ren
- *         The Player class represents a double precision player that can be
- *         visualized using the processing library
+ * @author Aviral Vaidya, Kevin Ren The Player class represents a double
+ *         precision player that can be visualized using the processing library
  *
  */
 public class Player extends Sprite {
@@ -46,6 +45,12 @@ public class Player extends Sprite {
 		lastJump = -9999;
 	}
 
+	/**
+	 * loads images for lives left
+	 * 
+	 * @param p surface on which images are loaded
+	 * @post images are loaded on the surface
+	 */
 	public void loadAssets(PApplet p) {
 		lightOn = p.loadImage("assets" + fileSep + "lantern_on.png");
 		lightOff = p.loadImage("assets" + fileSep + "lantern_off.png");
@@ -69,9 +74,9 @@ public class Player extends Sprite {
 			// if player is partly off screen
 			p.fill(255, 250, 251);
 			if (getX() - r >= WIDTH) {
-				p.circle((float) (WIDTH - getX() - r), (float) getY(), 2*r);
+				p.circle((float) (WIDTH - getX() - r), (float) getY(), 2 * r);
 			} else if (getX() + r <= 0) {
-				p.circle((float) (WIDTH + getX()), (float) getY(), 2*r);
+				p.circle((float) (WIDTH + getX()), (float) getY(), 2 * r);
 			}
 			// System.out.println(getX() + " " + getY() + " " + r);
 			p.circle((float) getX(), (float) getY(), 2 * r);
@@ -142,6 +147,8 @@ public class Player extends Sprite {
 
 	/**
 	 * Setter for player visibility
+	 * 
+	 * @param isVisible visibility of sprite
 	 */
 	public void setVisible(boolean isVisible) {
 		visible = isVisible;
@@ -154,8 +161,9 @@ public class Player extends Sprite {
 		visible = !visible;
 	}
 
-	/** 
+	/**
 	 * Gets player number
+	 * 
 	 * @return The player number
 	 */
 	public int getPlayerNum() {

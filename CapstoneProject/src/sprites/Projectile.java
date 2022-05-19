@@ -38,6 +38,7 @@ public class Projectile extends Sprite {
     }
     /**
      * Checks if it is in contact with a sprite
+     * @param other other enemy to check if is touching
      * @return returns true if projectile is hitting a sprite, false otherwise
      */
     public boolean isTouching(Enemy other) {
@@ -46,7 +47,10 @@ public class Projectile extends Sprite {
         
     	return false; 
     }
-
+    /**
+     * getter for radius of projectile
+     * @return radius of projectile
+     */
     public float getR() {
         return r;
     }
