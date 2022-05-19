@@ -350,6 +350,6 @@ public class Game extends Screen {
 	}
 	// use logistic equation proportional to time to have adaptive difficulty enemy generation
 	private int getE () {
-		return (int) ((maxePop)/ (1+Math.exp(-2 * maxePop * time/120)));
+		return (int) ((maxePop)/ (1+Math.exp(-2.7 * maxePop * time/120)));
 	}
 }
