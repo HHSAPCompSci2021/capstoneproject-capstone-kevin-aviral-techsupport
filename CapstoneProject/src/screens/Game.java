@@ -18,7 +18,7 @@ public class Game extends Screen {
 
 	private static final double g = 0.1; 
 	private static final float len = 40;
-	private static final int maxePop = 9; 
+	private static final int maxePop = 2; 
 	
 	private double scrollBy; // how fast everything scrolls up
 	private double border;
@@ -346,10 +346,19 @@ public class Game extends Screen {
 				Line newLine2 = new Line(lx + len, ly, lx, ly);
 				newLine1.setFillColor(new Color(253, 254, 255));
 				newLine2.setFillColor(new Color(253, 254, 255));
-				horizontal.add(new Platform(newLine1, vx, vy));
-				horizontal.add(new Platform(newLine2, vx, vy));
-				platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, vx, vy), 0));
-				platforms.add(new Pair<Platform, Integer>(new Platform(newLine2, vx, vy), 0));
+				double c = Math.random();
+				if (c <= 0.2) {
+					horizontal.add(new Platform(newLine1, .5, vy));
+					horizontal.add(new Platform(newLine2, .5, vy));
+					platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, .5, vy), 0));
+					platforms.add(new Pair<Platform, Integer>(new Platform(newLine2, .5, vy), 0));
+				} else {
+					horizontal.add(new Platform(newLine1, vx, vy));
+					horizontal.add(new Platform(newLine2, vx, vy));
+					platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, vx, vy), 0));
+					platforms.add(new Pair<Platform, Integer>(new Platform(newLine2, vx, vy), 0));
+				}
+				
 			} else {
 				double b = Math.random(); 
 				if (b >= .5) {
@@ -413,6 +422,6 @@ public class Game extends Screen {
 	}
 	// use logistic equation proportional to time to have adaptive difficulty enemy generation
 	private int getE () {
-		return (int) ((maxePop)/ (1+Math.exp(-1.6 * maxePop * time/120)));
+		return (int) (maxePop * (Math.log(time/60)));
 	}
 }
