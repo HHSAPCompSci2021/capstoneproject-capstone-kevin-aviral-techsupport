@@ -21,6 +21,7 @@ public class Menu extends Screen {
 	private Color buttonColor;
 	private DrawingSurface surface;
 	private Rectangle start;
+	private Rectangle help;
 	private Rectangle quit;
 
 	/**
@@ -31,9 +32,10 @@ public class Menu extends Screen {
 	public Menu(DrawingSurface surface) {
 		super(600, 800);
 		this.surface = surface;
-		int rw = 300, rh = 80;
-		start = new Rectangle(WIDTH / 2 - rw / 2, HEIGHT / 2 - rh / 2 + 150, rw, rh);
-		quit = new Rectangle(WIDTH / 2 - rw / 2, HEIGHT / 2 + rh + 150, rw, rh);
+		int rw = 300, rh = 60;
+		start = new Rectangle(WIDTH/2 - rw/2, HEIGHT/2 - rh/2 + 150, rw, rh);
+		help = new Rectangle(WIDTH/2 - rw/2, HEIGHT/2 + rh + 150, rw, rh);
+		quit = new Rectangle(WIDTH/2 - rw/2, HEIGHT/2 + 5*rh/2 + 150, rw, rh);
 		buttonColor = new Color(236, 181, 176);
 	}
 
@@ -44,7 +46,6 @@ public class Menu extends Screen {
 	 */
 	public void setup() {
 		bg = surface.loadImage("assets" + fileSep + "mountain.jpg");
-		System.out.println(bg);
 		x1 = -10f;
 		y1 = -10f;
 		// font name is calamandria
@@ -59,25 +60,28 @@ public class Menu extends Screen {
 	 * @post menu is drawn
 	 */
 	public void draw() {
-		x1 = (float) (-10 - (surface.mouseX - WIDTH / 2) * 0.02);
-		y1 = (float) (-10 - (surface.mouseY - HEIGHT / 2) * 0.02);
+		x1 = (float) (-10 - (surface.mouseX - WIDTH/2) * 0.02);
+		y1 = (float) (-10 - (surface.mouseY - HEIGHT/2) * 0.02);
 		surface.image(bg, x1, y1, WIDTH + 64f, HEIGHT + 64f);
 
-		x2 = (float) (-(surface.mouseX - WIDTH / 2) * 0.07);
-		y2 = (float) (-(surface.mouseY - HEIGHT / 2) * 0.07);
+		x2 = (float) (-(surface.mouseX - WIDTH/2) * 0.07);
+		y2 = (float) (-(surface.mouseY - HEIGHT/2) * 0.07);
 		surface.image(fg, x2, y2, WIDTH, HEIGHT);
-
+		
+		// draw the buttons
 		surface.fill(buttonColor.getRGB());
 		surface.rect(start.x, start.y, start.width, start.height, 10, 10, 10, 10);
 		surface.rect(quit.x, quit.y, quit.width, quit.height, 10, 10, 10, 10);
-		// draw the buttons
+		surface.rect(help.x, help.y, help.width, help.height, 10, 10, 10, 10);
 		// draw the text
 		surface.fill(4, 20, 43);
 		surface.textSize(16);
-		float textWidth1 = surface.textWidth("START");
-		float textWidth2 = surface.textWidth("QUIT");
-		surface.text("START", start.x + start.width / 2 - textWidth1 / 2, start.y + start.height / 2);
-		surface.text("QUIT", quit.x + quit.width / 2 - textWidth2 / 2, quit.y + quit.height / 2);
+		float textWidth1 = surface.textWidth("Start");
+		float textWidth2 = surface.textWidth("Help");
+		float textWidth3 = surface.textWidth("Quit");
+		surface.text("Start", start.x + start.width/2 - textWidth1/2, start.y + start.height/2);
+		surface.text("Help", help.x + help.width/2 - textWidth2/2, help.y + help.height/2);
+		surface.text("Quit", quit.x + quit.width/2 - textWidth3/2, quit.y + quit.height/2);
 	}
 
 	/**
@@ -86,7 +90,6 @@ public class Menu extends Screen {
 	 * @param c color
 	 */
 	public void setColor(Color c) {
-		System.out.println("color set");
 		buttonColor = c;
 	}
 
@@ -98,6 +101,9 @@ public class Menu extends Screen {
 		Point p = surface.actualToAssumed(new Point(surface.mouseX, surface.mouseY));
 		if (start.contains(p)) {
 			surface.switchScreen(ScreenSwitcher.GAME_SCREEN);
+		} else if (help.contains(p)) {
+			System.out.println("help clicked");
+			surface.switchScreen(ScreenSwitcher.HELP_SCREEN);
 		} else if (quit.contains(p)) {
 			System.exit(0);
 		}

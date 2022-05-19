@@ -43,9 +43,6 @@ public class Game extends Screen {
 	private long deathTime;
 	private boolean show = true;
 	
-	
-	
-
 	/**
 	 * Creates a new game object
 	 * 
@@ -310,7 +307,7 @@ public class Game extends Screen {
 			float sy = (float)(Math.random()*(max-min)) + min;
 			int tries = 0;
 			while (tooClose(sx, sy, 400)) {
-				if (tries > 10) break;
+				if (tries > 15) break;
 				sx = (float) (Math.random() * WIDTH);
 				sy = (float) (Math.random() * (max - min)) + min;
 				tries++;
