@@ -33,14 +33,14 @@ public class Game extends Screen {
 	// 0 if vert, 1 if right, 2 if left
 	private ArrayList<Pair<Platform, Integer>> platforms;
 	private ArrayList<Platform> horizontal;
-	private ArrayList<Sprite> enemies; // and projectiles
-	private ArrayList<Powerup> powerups;
+	private ArrayList<Sprite> enemies; // 30 by 30 (also store projectiles)
+	private ArrayList<Powerup> powerups; // 25 by 25
 	
 	private long time; // keep track of game time
 	private long fireTime; // time of previous shooting from player
 	private long hitTime; // previous time player got hit
 	private long lastJump; // time of last double jump
-	private long gameOver;
+	private long deathTime;
 	private boolean show = true;
 	
 	
@@ -59,14 +59,6 @@ public class Game extends Screen {
 		horizontal = new ArrayList<>();
 		enemies = new ArrayList<>();
 		powerups = new ArrayList<>();
-		
-		Rectangle rect = new Rectangle(700, 750, 25, 25);
-		Powerup pu = new Powerup(rect, 0, 0, 1);
-		powerups.add(pu);
-
-		Rectangle ar = new Rectangle(300, 650, 25, 25);
-		Powerup pu2 = new Powerup(ar, 0, 0, 2);
-		powerups.add(pu2);
 
 		border = 0;
 		generatePlatforms(HEIGHT/2, HEIGHT, 5);
@@ -78,7 +70,7 @@ public class Game extends Screen {
 		fireTime = -9999;
 		hitTime = -9999;
 		lastJump = -9999;
-		gameOver = -1;
+		deathTime = -1;
 		scrollBy = -2d;
 	}
 	
@@ -125,19 +117,7 @@ public class Game extends Screen {
 				lastJump = time;
 			}
 		}
-		// if (time%10 == 0) System.out.println(hitTime + " " + time + " " + ((time - hitTime)/60 > 0.3));
-		if (gameOver > 0) {
-			surface.textSize(64f);
-			surface.fill(249, 255, 135);
-			
-			String message = "Score: " + player.getScore();
-			surface.text(message, WIDTH/2 - surface.textWidth(message)/2, 550);
-			if (surface.isPressed(KeyEvent.VK_SPACE)) {
-				surface.switchScreen(ScreenSwitcher.MENU_SCREEN);
-			}
-			return;
-		}
-		// for ALL "living" sprites, check if they are dead
+		
 		time++;
 		if (time%60 == 0) {
 			if (enemies.size() > 0) {
@@ -194,7 +174,7 @@ public class Game extends Screen {
 				
 			}
 			// grant temporary invincibility if player is hit or shot
-			if (time/60 > hitTime/60 + 0.2 && player.getShape().isPointInside(enemies.get(i).getX(), enemies.get(i).getY())) {
+			if (time/60 > hitTime/60 + 0.3 && player.getShape().isPointInside(enemies.get(i).getX(), enemies.get(i).getY())) {
 				System.out.println(enemies.get(i) + " hit player");
 				player.setLives(player.getLives()-1);
 				hitTime = time;
@@ -219,30 +199,37 @@ public class Game extends Screen {
 			}
 			// this might fix phasing
 			if (player.isTouching(p.first) && p.second == 0 && player.getVy() > 0) {
-				System.out.println("collide ");
 				player.moveBy(player.getVx(), -player.getVy());
 				player.setVy(-4);
 			}
 			if (player.isTouching(p.first) && p.second == 1) {
-				System.out.println("collide ");
 				player.moveBy(player.getVx(), -player.getVy());
 				player.setVx(-5/Math.sqrt(2));
 				player.setVy(-5/Math.sqrt(2));
 			}
 			if (player.isTouching(p.first) && p.second == 2) {
-				System.out.println("collide ");
 				player.moveBy(player.getVx(), -player.getVy());
 				player.setVx(5/Math.sqrt(2));
 				player.setVy(-5/Math.sqrt(2));
 			}
 		}
 		if (player.getLives() <= 0) {
+			if (time/60 - deathTime/60 < 5) scrollBy = -75; else scrollBy = 0;
+			surface.push();
 			surface.image(gameOverText, WIDTH/2 - 500/2, 100, 500, 100);
-			if (gameOver == -1) gameOver = time;
+			surface.textSize(64f);
+			surface.fill(249, 255, 135);
+			String message = "Score: " + player.getScore();
+			surface.text(message, WIDTH/2 - surface.textWidth(message)/2, 550);
+			surface.pop();
+			if (surface.isPressed(KeyEvent.VK_SPACE)) {
+				surface.switchScreen(ScreenSwitcher.MENU_SCREEN);
+			}
 			return;
 		}
 		if (player.getY() > HEIGHT) {
 			// TODO: animation for falling down
+			deathTime = time;
 			player.setLives(0);
 		} else if (time/60 > hitTime/60 + 0.3 && player.getY() <= 0) {
 			player.moveBy(0, player.getY() + 25);
@@ -252,9 +239,11 @@ public class Game extends Screen {
 		}
 		border += scrollBy;
 		// still has to fix scoring past this point
+		// respawn the entities
 		if (border <= 0) {
 			generatePlatforms(HEIGHT, 2*HEIGHT, 10);
 			spawnEnemies(HEIGHT, 2*HEIGHT, 4);
+			spawnPowerups(HEIGHT, 2*HEIGHT, (int)(Math.random()*4));
 			border = HEIGHT;
 		}
 		surface.push();
@@ -283,6 +272,25 @@ public class Game extends Screen {
 			case 1: player.setLives(player.getLives()+1); break;
 			case 2: player.setAmmo(player.getAmmo()+3); break;
 			case 3: player.setLives(3); break;
+		}
+	}
+
+	//change num to getE() when funciton is working
+	private void spawnPowerups(float min, float max, int num) {
+		for (int i = 0; i < num; i++) {
+			float sx = (float)(Math.random()*WIDTH);
+			float sy = (float)(Math.random()*(max-min)) + min;
+			int tries = 0;
+			while (tooClose(sx, sy, 300)) {
+				if (tries > 10) break;
+				sx = (float) (Math.random() * WIDTH);
+				sy = (float) (Math.random() * (max - min)) + min;
+				tries++;
+			}
+			Rectangle rect = new Rectangle(sx, sy, 25, 25);
+			Powerup pu = new Powerup(rect, 0, 0, (int)(Math.random()*3) + 1);
+			pu.loadAssets(surface);
+			powerups.add(pu);
 		}
 	}
 
