@@ -41,7 +41,7 @@ public class Enemy extends Sprite {
         circle.setRadius(6);
 
         circle.setX(getX() + projVx + ((projVx > 0) ? sideLength : -16));
-        
+
         circle.setY(getY() + projVy + ((projVy > 0) ? sideLength : -16));
         
         return new Projectile(circle, projVx, projVy, 0, 0);
@@ -57,7 +57,7 @@ public class Enemy extends Sprite {
         p.fill(200, 100, 100);
         p.rect((float)getX(), (float)getY(), sideLength, sideLength, 5f, 5f, 5f, 5f);
 
-        p.pop();        
+        p.pop();
     }
     
 }

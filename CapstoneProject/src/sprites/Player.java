@@ -14,14 +14,18 @@ import java.awt.*;
  *
  */
 public class Player extends Sprite {
+	
+	private final double djFreq = 3; // frequency at which player can double jump
 
 	private PImage lightOn, lightOff;
+	private long time;
 
 	private int playerNum; // for multiplayer, 1 is on left, 2 is on right
 	private float r;
 	private int ammo;
 	private long score;
 	private boolean visible;
+	private long lastJump;
 
 	/**
 	 * creates a player object
@@ -38,11 +42,76 @@ public class Player extends Sprite {
 		r = (float) s.getRadius();
 		ammo = 5;
 		visible = true;
+		time = 0;
+		lastJump = -9999;
 	}
 
 	public void loadAssets(PApplet p) {
 		lightOn = p.loadImage("assets" + fileSep + "lantern_on.png");
 		lightOff = p.loadImage("assets" + fileSep + "lantern_off.png");
+	}
+
+	public void draw(PApplet p) {
+		super.draw(p);
+		time++;
+		final float WIDTH = 600;
+		final float HEIGHT = 800;
+		// check if player is out of bounds and have him appear on other side
+		if (getX() >= WIDTH) {
+			moveBy(-WIDTH, 0);
+		} else if (getX() < 0) {
+			moveBy(WIDTH, 0);
+		}
+		setScore((long) Math.max(getY()*2, score)); // *2 to compensate for going up
+		setVx(getVx()*0.985);
+		// actually draw the player
+		if (visible) {
+			// if player is partly off screen
+			p.fill(255, 250, 251);
+			if (getX() - r >= WIDTH) {
+				p.circle((float) (WIDTH - getX() - r), (float) getY(), 2*r);
+			} else if (getX() + r <= 0) {
+				p.circle((float) (WIDTH + getX()), (float) getY(), 2*r);
+			}
+			// System.out.println(getX() + " " + getY() + " " + r);
+			p.circle((float) getX(), (float) getY(), 2 * r);
+		}
+		// draw the icons
+		p.push();
+		int tx = (int) (10 * (playerNum == 2 ? 50 : 1));
+		int incr = 48;
+		int which = 0;
+		for (int ix = tx; which < 3; ix += incr, which++) {
+			p.image((getLives() > which) ? lightOn : lightOff, ix, -6, incr, incr);
+		}
+		p.text("Score: " + score, tx, incr+24);
+		p.text("Ammo: " + ammo, tx, incr+64);
+		// bar should be full (halfway up screen) when double jump is available
+		float percent = (float) Math.min(100, (time - lastJump)/(60*djFreq/100));
+		p.strokeWeight(10);
+		if (percent < 100) {
+			p.stroke(126, 158, 122);
+		} else {
+			p.stroke(10, 220, 120);
+		}
+		p.line(0, HEIGHT, 0, Math.max(400, HEIGHT - 400*percent/100));
+		p.pop();
+	}
+
+	/**
+	 * Gets the freqeucny for player doube jump.
+	 * @return The minimum value, in seconds, between double jumps of the player.
+	 */
+	public double getFreq() {
+		return djFreq;
+	}
+
+	/**
+	 *	Gives the player an upward velocity and saves the time that this happens
+	 */
+	public void jump() {
+		setVy(-5);
+		lastJump = time;
 	}
 
 	/**
@@ -71,38 +140,6 @@ public class Player extends Sprite {
 		return new Projectile(circle, 6, 0, 0, 0);
 	}
 
-	public void draw(PApplet p) {
-		super.draw(p);
-		final int WIDTH = 600;
-		// check if player is out of bounds and have him appear on other side
-		if (getX() >= WIDTH) {
-			moveBy(-WIDTH, 0);
-		} else if (getX() < 0) {
-			moveBy(WIDTH, 0);
-		}
-		setScore((long) Math.max(getY()*2, score)); // *2 to compensate for going up
-		setVx(getVx()*0.985);
-		if (visible) {
-			// if player is partly off screen
-			p.fill(255, 250, 251);
-			if (getX() - r >= WIDTH) {
-				p.circle((float) (WIDTH - getX() - r), (float) getY(), 2*r);
-			} else if (getX() + r <= 0) {
-				p.circle((float) (WIDTH + getX()), (float) getY(), 2*r);
-			}
-			// System.out.println(getX() + " " + getY() + " " + r);
-			p.circle((float) getX(), (float) getY(), 2 * r);
-		}
-		int tx = (int) (10 * (playerNum == 2 ? 50 : 1));
-		int incr = 48;
-		int which = 0;
-		for (int ix = tx; which < 3; ix += incr, which++) {
-			p.image((getLives() > which) ? lightOn : lightOff, ix, -6, incr, incr);
-		}
-		p.text("Score: " + score, tx, incr+24);
-		p.text("Ammo: " + ammo, tx, incr+64);
-	}
-
 	/**
 	 * Setter for player visibility
 	 */
@@ -125,6 +162,10 @@ public class Player extends Sprite {
 		return this.playerNum;
 	}
 
+	/**
+	 * Sets the player number.
+	 * @param playerNum Player number
+	 */
 	public void setPlayerNum(int playerNum) {
 		this.playerNum = playerNum;
 	}
@@ -156,10 +197,18 @@ public class Player extends Sprite {
 		return r;
 	}
 
+	/**
+	 * Gets the score of this player
+	 * @return this player's score
+	 */
 	public long getScore() {
 		return this.score;
 	}
 
+	/**
+	 * Sets the score of this player
+	 * @param new score
+	 */
 	public void setScore(long score) {
 		this.score = score;
 	}

@@ -5,7 +5,7 @@ import processing.core.PApplet;
 import aviral.shapes.Circle;
 import aviral.shapes.Rectangle;
 import aviral.shapes.Shape;
-import aviral.shapes.*;
+
 /**
  * 
  * @author Aviral Vaidya, Kevin Ren
