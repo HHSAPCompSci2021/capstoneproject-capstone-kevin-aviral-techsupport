@@ -120,28 +120,33 @@ public class Game extends Screen {
 		
 		time++;
 		if (time%60 == 0) {
-			if (enemies.size() > 0) {
-				if (enemies.get(0) != null) {
-					enemies.add(enemies.get(0).shoot(player.getX(), player.getY()));
-				}
-			}
+			System.out.println(enemies.size() + " enemies");
+			System.out.println(platforms.size() + " platforms\n");
 		}
 		surface.background(20, 20, 64);
 		// platforms drawn
-		for (Pair<Platform, Integer>p : platforms) {
-			if (p.first.getX() >= WIDTH || p.first.getX() <= 0) {
-				p.first.setVx(-p.first.getVx());
+		for (int i = 0; i < platforms.size(); i++) {
+			if (platforms.get(i) == null || platforms.get(i).first.getY() < 0) {
+				platforms.remove(i--);
+				continue;
 			}
-			p.first.moveBy(0, scrollBy);
-			p.first.draw(surface);
+			if (platforms.get(i).first.getX() >= WIDTH || platforms.get(i).first.getX() <= 0) {
+				platforms.get(i).first.setVx(-platforms.get(i).first.getVx());
+			}
+			platforms.get(i).first.moveBy(0, scrollBy);
+			platforms.get(i).first.draw(surface);
 		}
 		// sus loop（enemies are drawn）
 		for (int i = 0; i < enemies.size(); i++) {
 			if (enemies.get(i) == null) continue;
+			double x = enemies.get(i).getX(), y = enemies.get(i).getY();
+			// check if it is out of bounds
+			if (x < 0 || x > WIDTH || y < 0) {
+				enemies.remove(i--);
+				continue;
+			}
 			if (enemies.get(i) instanceof Projectile) {
-				double x = enemies.get(i).getX(), y = enemies.get(i).getY();
-				// check if projecitle is out of bounds
-				if (x < 0 || x > WIDTH || y < 0 || y > HEIGHT) {
+				if (y > HEIGHT) {
 					enemies.remove(i--);
 					continue;
 				}
@@ -166,12 +171,16 @@ public class Game extends Screen {
 				}
 			} 
 			if (enemies.get(i) instanceof Enemy) {
+				// check for death
 				if (enemies.get(i).getLives() <= 0) {
 					System.out.println("enemy dead ");
 					enemies.remove(i--);
 					continue;
 				}
-				
+				// if not dead, shoot every second
+				if ((time+30*i)%210 == 0) {
+					enemies.add(enemies.get(i).shoot(player.getX(), player.getY()));
+				}
 			}
 			// grant temporary invincibility if player is hit or shot
 			if (time/60 > hitTime/60 + 0.3 && player.getShape().isPointInside(enemies.get(i).getX(), enemies.get(i).getY())) {

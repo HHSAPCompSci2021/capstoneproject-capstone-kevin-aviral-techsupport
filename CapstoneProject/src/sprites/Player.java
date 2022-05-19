@@ -129,7 +129,7 @@ public class Player extends Sprite {
 			return null;
 		ammo--;
 		Circle circle = new Circle(getX() - 32d, getY(), 8);
-		return new Projectile(circle, -6, 0, 0, 0);
+		return new Projectile(circle, -10, 0, 0, 0);
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class Player extends Sprite {
 			return null;
 		ammo--;
 		Circle circle = new Circle(getX() + 32d, getY(), 8);
-		return new Projectile(circle, 6, 0, 0, 0);
+		return new Projectile(circle, 10, 0, 0, 0);
 	}
 
 	/**
