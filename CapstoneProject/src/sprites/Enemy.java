@@ -39,8 +39,8 @@ public class Enemy extends Sprite {
 	 */
 	public Projectile shoot(double targetX, double targetY) {
 
-		double projVx = 0.03 * (targetX - getX());
-		double projVy = 0.03 * (targetY - getY());
+		double projVx = 0.025 * (targetX - getX());
+		double projVy = 0.025 * (targetY - getY());
 
 		Circle circle = new Circle();
 		circle.setRadius(6);
