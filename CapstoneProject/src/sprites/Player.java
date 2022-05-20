@@ -128,9 +128,9 @@ public class Player extends Sprite {
 		// bar should be full when ready to fire
 		percent = (float) Math.min(100, (time - lastShot)/(60*fireRate/100));
 		if (percent < 100) {
-			p.stroke(190, 140, 57); // dull yellow
+			p.stroke(180, 130, 50); // dull yellow
 		} else {
-			p.stroke(250, 193, 31); // charged yellow
+			p.stroke(255, 195, 31); // charged yellow
 		}
 		if (ammo > 0) p.line(WIDTH, HEIGHT, WIDTH, Math.max(400, HEIGHT - 400*percent/100));
 		p.pop();
