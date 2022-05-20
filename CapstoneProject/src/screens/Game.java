@@ -242,6 +242,13 @@ public class Game extends Screen {
 				// vertical so no need to multiply by - 1 because there is only one direction
 				player.setVy(-3.4);
 			}
+			
+			if (player.isTouching(platforms.get(i).first) && platforms.get(i).second == 3 && player.getVy() > 0) {
+				player.moveBy(player.getVx(), -player.getVy());
+				player.setVy(-3.4);
+				platforms.remove(i);
+			}
+			
 			if (player.isTouching(platforms.get(i).first) && platforms.get(i).second == 2) {
 				player.moveBy(player.getVx(), -player.getVy());
 				player.setVx(3.4/Math.sqrt(2));
@@ -319,15 +326,15 @@ public class Game extends Screen {
 		}
 	}
 
-	// change num to getE() when funciton is working
+	// change num to getE() when function is working
 	private void spawnPowerups(float min, float max, int num) {
 		for (int i = 0; i < num; i++) {
 			float sx = (float) (Math.random() * WIDTH);
 			float sy = (float) (Math.random() * (max - min)) + min;
 			int tries = 0;
 			while (tooClose(sx, sy, 300)) {
-				if (tries > 10)
-					break;
+				if (tries > 10) break;
+				// takes a while
 				sx = (float) (Math.random() * WIDTH);
 				sy = (float) (Math.random() * (max - min)) + min;
 				tries++;
@@ -346,8 +353,8 @@ public class Game extends Screen {
 			float sy = (float) (Math.random() * (max - min)) + min;
 			int tries = 0;
 			while (tooClose(sx, sy, 400)) {
-				if (tries > 15)
-					break;
+				if (! (tries <= 16)) break;
+				// this takes too much time sometimes so have a counter
 				sx = (float) (Math.random() * WIDTH);
 				sy = (float) (Math.random() * (max - min)) + min;
 				tries++;
@@ -388,8 +395,24 @@ public class Game extends Screen {
 					platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, .5, vy), 0));
 					platforms.add(new Pair<Platform, Integer>(new Platform(newLine2, .5, vy), 0));
 				} else {
-					platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, vx, vy), 0));
-					platforms.add(new Pair<Platform, Integer>(new Platform(newLine2, vx, vy), 0));
+					double d = Math.random();
+					if (d <= 0.1) {
+						newLine1 = new Line(lx, ly, lx + len, ly);
+						newLine2 = new Line(lx + len, ly, lx, ly);
+						newLine1.setFillColor(new Color(2, 254, 3));
+						newLine2.setFillColor(new Color(3, 254, 3));
+						platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, vx, vy), 3));
+						platforms.add(new Pair<Platform, Integer>(new Platform(newLine2, vx, vy), 3));
+
+					} else {
+						newLine1 = new Line(lx, ly, lx + len, ly);
+						newLine2 = new Line(lx + len, ly, lx, ly);
+						newLine1.setFillColor(new Color(253, 254, 255));
+						newLine2.setFillColor(new Color(253, 254, 255));
+						platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, vx, vy), 0));
+						platforms.add(new Pair<Platform, Integer>(new Platform(newLine2, vx, vy), 0));
+					}
+					
 				}
 
 			} else {
