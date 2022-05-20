@@ -37,7 +37,7 @@ public class Game extends Screen {
 	private float hitTime; // previous time player got hit
 	private float lastJump; // time of last double jump
 	private float deathTime;
-	private Color fadeBackground;
+	private int dr = 12, dg = 12, db = 58;
 	private boolean show = true;
 	private boolean hideCursor = false;
 
@@ -65,7 +65,6 @@ public class Game extends Screen {
 		lastJump = -9999;
 		deathTime = -1;
 		scrollBy = -2d;
-		fadeBackground = new Color(50, 50, 50);
 	}
 
 	public void setup() {
@@ -126,14 +125,15 @@ public class Game extends Screen {
 
 		time++;
 		
-		if (player.getLives() == 3) surface.background(26, 26, 73);
+		if (player.getLives() >= 3) surface.background(26, 26, 73);
 		else if (player.getLives() == 2) surface.background(20, 20, 64);
 		else if (player.getLives() == 1) surface.background(12, 12, 58);
-		else if (player.getLives() == 0) {
-			surface.background(fadeBackground.getRGB());
-			if (time%6 == 0) {
-				System.out.println("death background");
-				fadeBackground.darker();
+		else if (player.getLives() <= 0) {
+			if (dr >= 0 && dg >= 0 && db >= 0) surface.background(dr, dg, db);
+			if (time%3 == 0) {
+				dr -= 0.1;
+				dg -= 0.1;
+				db -= 0.1;
 			}
 		}
 
@@ -276,10 +276,10 @@ public class Game extends Screen {
 			surface.push();
 			surface.image(gameOverText, WIDTH/2 - 500/2, 100, 500, 100);
 			surface.textSize(64f);
-			surface.fill(249, 255, 135);
+			surface.fill(85, 81, 91);
 			String message = "Score: " + player.getScore();
 			surface.text(message, WIDTH/2 - surface.textWidth(message)/2, 550);
-			message = "Press SPACE to continue";
+			message = "[SPACE] to continue";
 			surface.textSize(48f);
 			surface.text(message, WIDTH/2 - surface.textWidth(message)/2, 650);
 			surface.pop();
