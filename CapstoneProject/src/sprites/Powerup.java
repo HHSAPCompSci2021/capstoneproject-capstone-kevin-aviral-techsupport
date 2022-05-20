@@ -59,10 +59,6 @@ public class Powerup extends Sprite {
             case 3:
                 p.image(t3, (float)getX(), (float)getY(), sideLength, sideLength); break;
         }
-
-        p.fill(0);
-        p.text(type, (float)getX() + 10, (float)getY() + sideLength);
-
         p.pop();
     }
     /**

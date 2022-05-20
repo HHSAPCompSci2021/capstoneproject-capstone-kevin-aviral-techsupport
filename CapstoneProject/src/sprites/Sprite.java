@@ -83,6 +83,9 @@ public class Sprite {
         lastTime = (long)Math.random()*60;
         toggle = true;
     }
+    public void loadAssets(PApplet p) {
+
+    }
     /**
      * draws the sprite on the drawingsurface
      * @param p surface for sprite to be drawn on
