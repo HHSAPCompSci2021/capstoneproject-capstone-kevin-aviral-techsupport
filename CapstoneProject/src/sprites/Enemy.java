@@ -15,6 +15,7 @@ import aviral.shapes.Circle;
 public class Enemy extends Sprite {
 
 	public static float sideLength;
+    private int firePattern;
 
 	/**
 	 * Creates an enemy
@@ -28,6 +29,7 @@ public class Enemy extends Sprite {
 	public Enemy(Rectangle s, double vx, double vy, double ax, double ay) {
 		super(s, vx, vy, ax, ay);
 		sideLength = (float) s.getPerimeter() / 4;
+        firePattern = Math.random() > 0.8 ? 1 : 0;
 	}
 
 	/**
@@ -38,6 +40,7 @@ public class Enemy extends Sprite {
 	 * @return The projectile shot by this enemy.
 	 */
 	public Projectile shoot(double targetX, double targetY) {
+        if (getBoolean() == false) return null;
 
 		double projVx = 0.025 * (targetX - getX());
 		double projVy = 0.025 * (targetY - getY());
@@ -75,5 +78,13 @@ public class Enemy extends Sprite {
 
 		p.pop();
 	}
+
+    public int getFirePattern() {
+        return this.firePattern;
+    }
+
+    public void setFirePattern(int firePattern) {
+        this.firePattern = firePattern;
+    }
 
 }

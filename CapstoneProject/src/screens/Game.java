@@ -62,7 +62,7 @@ public class Game extends Screen {
 		spawnEnemies(HEIGHT/2, HEIGHT, 3);
 		
 		System.out.println("NEW GAME");
-		player = new Player(new Circle(WIDTH / 2, 48, 24), 0, 0, 0, g, 3);
+		player = new Player(new Circle(WIDTH / 2, 48, 24), 0, 0, 0, g, 999);
 		time = 0;
 		fireTime = -9999;
 		hitTime = -9999;
@@ -135,7 +135,10 @@ public class Game extends Screen {
 		}
 		// sus loop（enemies are drawn）
 		for (int i = 0; i < enemies.size(); i++) {
-			if (enemies.get(i) == null) continue;
+			if (enemies.get(i) == null) {
+				enemies.remove(i--);
+				continue;
+			}
 			double x = enemies.get(i).getX(), y = enemies.get(i).getY();
 			// check if it is out of bounds
 			if (x < 0 || x > WIDTH || y < 0) {
@@ -168,15 +171,26 @@ public class Game extends Screen {
 				}
 			} 
 			if (enemies.get(i) instanceof Enemy) {
+				if (y <= HEIGHT) enemies.get(i).setLastTime(time);
 				// check for death
 				if (enemies.get(i).getLives() <= 0) {
 					System.out.println("enemy dead ");
 					enemies.remove(i--);
 					continue;
 				}
-				// if not dead, shoot every second
-				if ((time+30*i)%210 == 0) {
+				// different attack patterns
+				if (((Enemy)enemies.get(i)).getFirePattern() == 1 && time%6 == 0) {
 					enemies.add(enemies.get(i).shoot(player.getX(), player.getY()));
+					enemies.get(i).setLastTime(time);
+					if (time%120 == 0) {
+						enemies.get(i).setBoolean(true);
+					} else if (time%10 == 0) {
+						enemies.get(i).setBoolean(false);
+					}
+				} else if (time%90 == i*10) {
+					enemies.get(i).setBoolean(true);
+					enemies.add(enemies.get(i).shoot(player.getX(), player.getY()));
+					enemies.get(i).setLastTime(time);
 				}
 			}
 			// grant temporary invincibility if player is hit or shot
@@ -276,7 +290,7 @@ public class Game extends Screen {
 		item.setLives(0);
 		switch (item.getType()) {
 			case 1: player.setLives(player.getLives()+1); break;
-			case 2: player.setAmmo(player.getAmmo()+3); break;
+			case 2: player.setAmmo(player.getAmmo()+5); break;
 			case 3: player.setLives(3); break;
 		}
 	}

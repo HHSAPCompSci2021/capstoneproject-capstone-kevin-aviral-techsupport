@@ -23,6 +23,9 @@ public class Sprite {
     private double vx, vy;
     private double ax, ay;
     private int lives, totalLives;
+    // only used in enemy class for now
+    private long lastTime; 
+    private boolean toggle;
     
     /**
      * Creates a sprite
@@ -41,6 +44,8 @@ public class Sprite {
         this.ay = ay;
         this.totalLives = totalLives;
         lives = totalLives;
+        lastTime = (long)Math.random()*60;
+        toggle = true;
     }
     /**
      * alternate constructor for a sprite with just 1 life and no acceleration
@@ -56,6 +61,8 @@ public class Sprite {
         ay = 0;
         totalLives = 1;
         lives = 1;
+        lastTime = (long)Math.random()*60;
+        toggle = true;
     }
     /**
      * alternate constructor for a sprite with just 1 life
@@ -73,6 +80,8 @@ public class Sprite {
         this.ay = ay;
         totalLives = 1;
         lives = 1;
+        lastTime = (long)Math.random()*60;
+        toggle = true;
     }
     /**
      * draws the sprite on the drawingsurface
@@ -93,8 +102,24 @@ public class Sprite {
         // different shapes in this game:
         // rectangle 
         // line 
-        // circle
+        // true
     	return s.isPointInside(other.getX(), other.getY());
+    }
+
+    public long getLastTime() {
+        return this.lastTime;
+    }
+
+    public void setLastTime(long lastTime) {
+        this.lastTime = lastTime;
+    }
+
+    public boolean getBoolean() {
+        return toggle;
+    }
+
+    public void setBoolean(boolean b) {
+        toggle = b;
     }
 
     public Projectile shoot(double targetX, double targetY) {
