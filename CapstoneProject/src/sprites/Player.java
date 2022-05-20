@@ -215,7 +215,7 @@ public class Player extends Sprite {
 
 	/**
 	 * Sets the score of this player
-	 * @param new score
+	 * @param score new score
 	 */
 	public void setScore(long score) {
 		this.score = score;

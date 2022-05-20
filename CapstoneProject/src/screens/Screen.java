@@ -5,9 +5,7 @@ import java.awt.Color;
 
 /**
  * 
- * @author Aviral Vaidya, Kevin Ren The screen is a superclass which cannot
- *         instantiated, and represents a double precision screen using
- *         processing java
+ * @author Kevin Ren
  *
  */
 public abstract class Screen {
