@@ -245,13 +245,13 @@ public class Game extends Screen {
 			}
 			if (player.isTouching(platforms.get(i).first) && platforms.get(i).second == 2) {
 				player.moveBy(player.getVx(), -player.getVy());
-				player.setVx(5 / Math.sqrt(2));
-				player.setVy(-5 / Math.sqrt(2));
+				player.setVx(3.4 / Math.sqrt(2));
+				player.setVy(-3.4 / Math.sqrt(2));
 			}
 			if (player.isTouching(platforms.get(i).first) && platforms.get(i).second == 1) {
 				player.moveBy(player.getVx(), -player.getVy());
-				player.setVx(-5 / Math.sqrt(2));
-				player.setVy(-5 / Math.sqrt(2));
+				player.setVx(-3.4 / Math.sqrt(2));
+				player.setVy(-3.4 / Math.sqrt(2));
 			}
 		}
 
@@ -433,7 +433,7 @@ public class Game extends Screen {
 		}
 		for (int i = horizontal.size() - 1; i >= 0; i--) {
 			if (horizontal.get(i).getX() > WIDTH - len || horizontal.get(i).getX() < len) {
-				platforms.remove(i);
+				horizontal.remove(i);
 			}
 		}
 	}
