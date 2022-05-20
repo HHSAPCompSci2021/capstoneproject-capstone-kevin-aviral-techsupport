@@ -14,7 +14,7 @@ import java.awt.*;
  */
 public class Player extends Sprite {
 	
-	private final double djFreq = 3; // frequency at which player can double jump
+	private final double djFreq = 2.5; // frequency at which player can double jump
 
 	private PImage lightOn, lightOff;
 	private long time;

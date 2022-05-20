@@ -61,7 +61,7 @@ public class Game extends Screen {
 		spawnEnemies(HEIGHT / 2, HEIGHT, 3);
 
 		System.out.println("NEW GAME");
-		player = new Player(new Circle(WIDTH / 2, 48, 24), 0, 0, 0, g, 999);
+		player = new Player(new Circle(WIDTH / 2, 48, 24), 0, 0, 0, g, 3);
 		time = 0;
 		fireTime = -9999;
 		hitTime = -9999;
