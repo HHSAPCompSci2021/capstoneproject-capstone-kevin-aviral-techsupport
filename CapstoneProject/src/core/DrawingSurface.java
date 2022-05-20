@@ -7,8 +7,8 @@ import screens.*;
 import processing.core.*;
 
 public class DrawingSurface extends PApplet implements ScreenSwitcher {
-
-	public float ratioX, ratioY;
+	public float ratioX;
+	public float ratioY;
 
 	private ArrayList<Integer> keys;
 	private ArrayList<Screen> screens;
