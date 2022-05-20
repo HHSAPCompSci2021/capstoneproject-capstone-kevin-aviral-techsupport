@@ -236,9 +236,6 @@ public class Game extends Screen {
 				platforms.remove(i--);
 				continue;
 			}
-			if (platforms.get(i).first.getX() >= WIDTH || platforms.get(i).first.getX() <= 0) {
-				platforms.get(i).first.setVx(-platforms.get(i).first.getVx());
-			}
 			platforms.get(i).first.moveBy(0, scrollBy);
 			platforms.get(i).first.draw(surface);
 			// cant collide from below
@@ -404,12 +401,12 @@ public class Game extends Screen {
 				} else {
 					double d = Math.random();
 					if (d <= 0.1) {
-						newLine1 = new Line(lx, ly, lx + len, ly);
-						newLine2 = new Line(lx + len, ly, lx, ly);
-						newLine1.setFillColor(new Color(2, 254, 3));
-						newLine2.setFillColor(new Color(3, 254, 3));
+						newLine1 = new Line(lx, ly, lx + len/2, ly);
+						newLine2 = new Line(lx + len/2, ly, lx, ly);
+						newLine1.setFillColor(new Color(0, 254, 0));
+						newLine2.setFillColor(new Color(0, 254,0));
 						platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, vx, vy), 3));
-						platforms.add(new Pair<Platform, Integer>(new Platform(newLine2, vx, vy), 3));
+						System.out.println("disappearing added");
 
 					} else {
 						newLine1 = new Line(lx, ly, lx + len, ly);
