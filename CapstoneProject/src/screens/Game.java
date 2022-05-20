@@ -37,6 +37,7 @@ public class Game extends Screen {
 	private float hitTime; // previous time player got hit
 	private float lastJump; // time of last double jump
 	private float deathTime;
+	private Color fadeBackground;
 	private boolean show = true;
 	private boolean hideCursor = false;
 
@@ -55,8 +56,7 @@ public class Game extends Screen {
 		powerups = new ArrayList<>();
 
 		border = 0;
-		generatePlatforms(HEIGHT/2, HEIGHT, 5);
-		
+		generatePlatforms(HEIGHT/2, HEIGHT, 5);		
 
 		player = new Player(new Circle(WIDTH/2, 48, 24), 0, 0, 0, g, 3);
 		time = 0;
@@ -65,6 +65,7 @@ public class Game extends Screen {
 		lastJump = -9999;
 		deathTime = -1;
 		scrollBy = -2d;
+		fadeBackground = new Color(50, 50, 50);
 	}
 
 	public void setup() {
@@ -128,7 +129,13 @@ public class Game extends Screen {
 		if (player.getLives() == 3) surface.background(26, 26, 73);
 		else if (player.getLives() == 2) surface.background(20, 20, 64);
 		else if (player.getLives() == 1) surface.background(12, 12, 58);
-		else if (player.getLives() == 0) surface.background(7, 7, 7);
+		else if (player.getLives() == 0) {
+			surface.background(fadeBackground.getRGB());
+			if (time%6 == 0) {
+				System.out.println("death background");
+				fadeBackground.darker();
+			}
+		}
 
 		// sus loop（enemies are drawn）
 		for (int i = 0; i < enemies.size(); i++) {
@@ -340,7 +347,7 @@ public class Game extends Screen {
 	}
 
 	// change num to getE() when funciton is working
-	private void spawnEnemies(float min, float max, int num) {
+	private void spawnEnemies(float min, float max) {
 		for (int i = 0; i < getE(false); i++) {
 			float sx = (float) (Math.random() * WIDTH);
 			float sy = (float) (Math.random() * (max - min)) + min;
