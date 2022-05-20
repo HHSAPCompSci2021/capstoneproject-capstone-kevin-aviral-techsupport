@@ -343,7 +343,7 @@ public class Game extends Screen {
 
 	// change num to getE() when funciton is working
 	private void spawnEnemies(float min, float max, int num) {
-		for (int i = 0; i < getE(); i++) {
+		for (int i = 0; i < getE(false); i++) {
 			float sx = (float) (Math.random() * WIDTH);
 			float sy = (float) (Math.random() * (max - min)) + min;
 			int tries = 0;
@@ -478,9 +478,20 @@ public class Game extends Screen {
 		}
 	}
 
-	// use logistic equation proportional to time to have adaptive difficulty enemy
-	// generation
-	private int getE() {
-		return (int) (maxePop * (Math.log(time/60)));
+	// enemy population to have adaptive difficulty
+	
+	private int getE(boolean islog) {
+		if (!islog) {
+			if ((int) (maxePop * (Math.log(time/60))) <= maxePop * 8 ) {
+				return (int) (maxePop * (Math.log(time/60)));
+			} else {
+				return (int) (maxePop * (Math.log(time/60)));
+			}
+		} else {
+			int a;
+			a = 5;
+			a *= (1+120 * Math.exp(time/60));
+			return a;
+		} 
 	}
 }
