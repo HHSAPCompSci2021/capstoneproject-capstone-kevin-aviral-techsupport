@@ -34,7 +34,7 @@ public class Game extends Screen {
 	private ArrayList<Pair<Platform, Integer>> platforms;
 	private ArrayList<Platform> horizontal;
 	private ArrayList<Sprite> enemies; // 30 by 30 (also store projectiles)
-	private ArrayList<Powerup> powerups; // 25 by 25
+	private ArrayList<Powerup> powerups; // 35 by 35
 	
 	private long time; // keep track of game time
 	private long fireTime; // time of previous shooting from player
@@ -62,7 +62,7 @@ public class Game extends Screen {
 		spawnEnemies(HEIGHT/2, HEIGHT, 3);
 		
 		System.out.println("NEW GAME");
-		player = new Player(new Circle(WIDTH / 2, 48, 24), 0, 0, 0, g, 999);
+		player = new Player(new Circle(WIDTH / 2, 48, 24), 0, 0, 0, g, 3);
 		time = 0;
 		fireTime = -9999;
 		hitTime = -9999;
@@ -96,13 +96,13 @@ public class Game extends Screen {
 		if (surface.isPressed(KeyEvent.VK_RIGHT) || surface.isPressed(KeyEvent.VK_D)) {
 			player.moveBy(4, 0);
 		} 
-		if (surface.isPressed(KeyEvent.VK_Q) && time/60 > fireTime/60 + 0.5) {
+		if (surface.isPressed(KeyEvent.VK_Q) && time/60 > fireTime/60 + 0.1) {
 			if (player.getAmmo() > 0) {
 				enemies.add(player.shootLeft());
 				fireTime = time;
 			}
 		} 
-		if (surface.isPressed(KeyEvent.VK_E) && time/60 > fireTime/60 + 0.5) {
+		if (surface.isPressed(KeyEvent.VK_E) && time/60 > fireTime/60 + 0.1) {
 			if (player.getAmmo() > 0) {
 				enemies.add(player.shootRight());
 				fireTime = time;
@@ -262,7 +262,7 @@ public class Game extends Screen {
 		// respawn the entities
 		if (border <= 0) {
 			generatePlatforms(HEIGHT, 2*HEIGHT, 10);
-			spawnEnemies(HEIGHT, 2*HEIGHT, 4);
+			spawnEnemies(HEIGHT, 2*HEIGHT, 3);
 			spawnPowerups(HEIGHT, 2*HEIGHT, (int)(Math.random()*4));
 			border = HEIGHT;
 		}
@@ -302,12 +302,12 @@ public class Game extends Screen {
 			float sy = (float)(Math.random()*(max-min)) + min;
 			int tries = 0;
 			while (tooClose(sx, sy, 300)) {
-				if (tries > 10) break;
+				if (tries > 50) break;
 				sx = (float) (Math.random() * WIDTH);
 				sy = (float) (Math.random() * (max - min)) + min;
 				tries++;
 			}
-			Rectangle rect = new Rectangle(sx, sy, 25, 25);
+			Rectangle rect = new Rectangle(sx, sy, 35, 35);
 			Powerup pu = new Powerup(rect, 0, 0, (int)(Math.random()*3) + 1);
 			pu.loadAssets(surface);
 			powerups.add(pu);
@@ -320,7 +320,7 @@ public class Game extends Screen {
 			float sx = (float)(Math.random()*WIDTH);
 			float sy = (float)(Math.random()*(max-min)) + min;
 			int tries = 0;
-			while (tooClose(sx, sy, 400)) {
+			while (tooClose(sx, sy, 30)) {
 				if (tries > 15) break;
 				sx = (float) (Math.random() * WIDTH);
 				sy = (float) (Math.random() * (max - min)) + min;
@@ -338,7 +338,7 @@ public class Game extends Screen {
 			float ly = (float) (Math.random() * (max - min)) + min;
 			int tries = 0;
 			while (tooClose(lx, ly, 200) || lx > WIDTH - len || ly == HEIGHT || ly == 0) {
-				if (tries > 15) break;
+				if (tries > 20) break;
 				lx = (float) (Math.random() * WIDTH);
 				ly = (float) (Math.random() * (max - min)) + min;
 				tries++;

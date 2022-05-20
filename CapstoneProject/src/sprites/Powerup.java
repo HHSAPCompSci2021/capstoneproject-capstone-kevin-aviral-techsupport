@@ -24,8 +24,9 @@ public class Powerup extends Sprite {
     }
 
     public void loadAssets(PApplet p) {
-
-        t2 = p.loadImage("assets" + fileSep + "energy.png");
+        t1 = p.loadImage("assets" + fileSep + "red_potion.png");
+        t2 = p.loadImage("assets" + fileSep + "bullet.png");
+        t3 = p.loadImage("assets" + fileSep + "medkit.png");
     }
 
     public void draw(PApplet p) {
@@ -33,8 +34,15 @@ public class Powerup extends Sprite {
         p.push();
 
         p.fill(200, 200, 210);
-        // p.image(t2, (float)getX(), (float)getY(), sideLength, sideLength);
-        p.rect((float)getX(), (float)getY(), sideLength, sideLength, 5f, 5f, 5f, 5f);
+        switch (type) {
+            case 1:
+                p.image(t1, (float)getX(), (float)getY(), sideLength, sideLength); break;
+            case 2:
+                p.image(t2, (float)getX(), (float)getY(), sideLength, sideLength); break;
+            case 3:
+                p.image(t3, (float)getX(), (float)getY(), sideLength, sideLength); break;
+        }
+
         p.fill(0);
         p.text(type, (float)getX() + 10, (float)getY() + sideLength);
 
