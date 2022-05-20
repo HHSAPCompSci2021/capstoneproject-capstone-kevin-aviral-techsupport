@@ -64,7 +64,7 @@ public class Help extends Screen {
 		float buttonT = surface.textWidth("Return to Game Menu");
         surface.fill(20);
         surface.textSize(20);
-        surface.text("Back", back.x + back.width/2 - buttonT/2, back.y + back.height/2);
+        surface.text("Return to Game Menu", back.x + back.width/2 - buttonT/2, back.y + back.height/2);
     }
     @Override
     /**

@@ -201,9 +201,24 @@ public class Game extends Screen {
 				System.out.println(enemies.get(i) + " hit player");
 				player.setLives(player.getLives() - 1);
 				hitTime = time;
+				if (player.getLives() == 0) {
+					for (int j = platforms.size() - 1; j >= 0; j--) {
+						platforms.remove(j);
+					} for (int j = enemies.size() - 1; j >= 0; j--) {
+						enemies.remove(j);
+					} for (int j = powerups.size() - 1; j >= 0; j--) {
+						powerups.remove(j);
+					}
+					for (int j = horizontal.size() - 1; j >= 0; j--) {
+						horizontal.remove(j);
+					}
+				}
 			}
-			enemies.get(i).moveBy(0, scrollBy);
-			enemies.get(i).draw(surface);
+			if (enemies.size() > 0) {
+				enemies.get(i).moveBy(0, scrollBy);
+				enemies.get(i).draw(surface);
+			}
+			
 		}
 		// powerups drawn
 		for (int i = 0; i < powerups.size(); i++) {
@@ -223,7 +238,7 @@ public class Game extends Screen {
 			if (player.isTouching(platforms.get(i).first) && platforms.get(i).second == 0 && player.getVy() > 0) {
 				player.moveBy(player.getVx(), -player.getVy());
 				// vertical so no need to multiply by - 1 because there is only one direction
-				player.setVy(-4.3);
+				player.setVy(-3.4);
 			}
 			if (player.isTouching(platforms.get(i).first) && platforms.get(i).second == 2) {
 				player.moveBy(player.getVx(), -player.getVy());
