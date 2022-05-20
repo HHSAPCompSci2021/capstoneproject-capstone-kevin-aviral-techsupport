@@ -10,8 +10,8 @@ import sprites.*;
 
 /**
  * 
- * @author Aviral Vaidya, Kevin Ren The game class represents a double precision
- *         game screen screen that can be represented using processing
+ * @author Aviral Vaidya, Kevin Ren 
+ * The game class represents a double precision game screen screen that can be represented using processing
  */
 public class Game extends Screen {
 
