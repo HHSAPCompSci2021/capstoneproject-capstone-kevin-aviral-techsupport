@@ -22,10 +22,7 @@ public class Game extends Screen {
 	private double scrollBy; // how fast everything scrolls up
 	private double border;
 
-	private PImage background;
-	private float x1, y1;
 	private PImage gameOverText;
-
 	private DrawingSurface surface;
 	private Rectangle screenRect;
 	private Player player;
@@ -71,9 +68,6 @@ public class Game extends Screen {
 
 	public void setup() {
 		player.loadAssets(this.surface);
-		background = surface.loadImage("assets" + fileSep + "moon.jpg");
-		x1 = 0;
-		y1 = 0;
 		gameOverText = surface.loadImage("assets" + fileSep + "gameover.png");
 	}
 
@@ -154,7 +148,6 @@ public class Game extends Screen {
 					if (enemies.get(j) == null || enemies.get(j) instanceof Projectile)
 						continue;
 					if (enemies.get(j).getShape().isPointInside(x, y)) {
-						System.out.println("bullet hit enemy");
 						// player.setScore(player.getScore() + 200);
 						enemies.get(j).setLives(enemies.get(j).getLives() - 1);
 					}
@@ -356,6 +349,7 @@ public class Game extends Screen {
 			// spawn the enemies
 			Rectangle rect = new Rectangle(sx, sy, 30, 30);
 			enemies.add(new Enemy(rect, 0, 0, 0, 0));
+			enemies.get(enemies.size()-1).loadAssets(surface);
 		}
 	}
 
