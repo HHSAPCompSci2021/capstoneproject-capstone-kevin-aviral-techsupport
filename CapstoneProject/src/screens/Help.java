@@ -15,11 +15,13 @@ import java.awt.event.KeyEvent;
 public class Help extends Screen {
 
     private DrawingSurface surface;
-    private PImage controls;
-    private float x1, y1;
-    private float w1, h1;
-    private PImage bg;
+
+    private PImage inst;
     private float x2, y2;
+
+    private PImage bg;
+    private float x1, y1;
+
     private Rectangle back;
     private Color buttonColor;
     /**
@@ -38,15 +40,13 @@ public class Help extends Screen {
      * @post images are loaded on the surface
      */
     public void setup() {
-		controls = surface.loadImage("assets" + fileSep + "instructions.png");
-        w1 = 500;
-        h1 = 300;
-		x1 = WIDTH/2 - w1/2;
-		y1 = 100;
-		// sets background menu
+        // font name is artick
+		inst = surface.loadImage("assets" + fileSep + "instructions.png");
+        x1 = -10f;
+		y1 = -10f;
         bg = surface.loadImage("assets" + fileSep + "northern_lights.jpg");
-        x2 = -10;
-        y2 = -10;
+        x2 = 0;
+		y2 = 32;
     }
     /**
      * Draws help menu
@@ -57,14 +57,20 @@ public class Help extends Screen {
         if (surface.isPressed(KeyEvent.VK_ESCAPE)) {
 			surface.switchScreen(ScreenSwitcher.MENU_SCREEN);
 		}
-        surface.image(bg, x2, y2, WIDTH + 50, HEIGHT + 50);
-        surface.image(controls, x1, y1, w1, h1);
+        x1 = (float) (-10 - (surface.mouseX - WIDTH/2) * 0.03);
+		y1 = (float) (-10 - (surface.mouseY - HEIGHT/2) * 0.03);
+		surface.image(bg, x1, y1, WIDTH + 64f, HEIGHT + 64f);
+
+		x2 = (float) (-(surface.mouseX - WIDTH/2) * 0.08);
+		y2 = (float) (-(surface.mouseY - HEIGHT/2) * 0.08);
+		surface.image(inst, x2, y2, WIDTH, HEIGHT);
+
         surface.fill(buttonColor.getRGB());
 		surface.rect(back.x, back.y, back.width, back.height, 10, 10, 10, 10);
-		float buttonT = surface.textWidth("Return to Game Menu");
+		float buttonT = surface.textWidth("Return to Menu");
         surface.fill(20);
         surface.textSize(20);
-        surface.text("Return to Game Menu", back.x + back.width/2 - buttonT/2, back.y + back.height/2);
+        surface.text("Return to Menu", back.x + back.width/2 - buttonT/2, back.y + back.height/2);
     }
     @Override
     /**

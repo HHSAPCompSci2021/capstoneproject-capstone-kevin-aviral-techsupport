@@ -17,6 +17,7 @@ public class Enemy extends Sprite {
 
 	public static float sideLength;
     private int firePattern;
+    private PImage img;
 
 	/**
 	 * Creates an enemy
@@ -36,6 +37,10 @@ public class Enemy extends Sprite {
 			firePattern = 0;
 		}
 	}
+
+    public void loadAssets(PApplet p) {
+        img = p.loadImage("assets" + fileSep + "gem.png");
+    }
 
 	/**
 	 * Shoots a projectile towards x,y
@@ -79,7 +84,7 @@ public class Enemy extends Sprite {
 		p.push();
 		// color
 		p.fill(200, 100, 100);
-		p.rect((float) getX(), (float) getY(), sideLength, sideLength, 5f, 5f, 5f, 5f);
+        p.image(img, (float) getX(), (float) getY(), sideLength, sideLength);
 
 		p.pop();
 	}

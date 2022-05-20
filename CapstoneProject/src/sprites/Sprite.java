@@ -24,7 +24,7 @@ public class Sprite {
     private double ax, ay;
     private int lives, totalLives;
     // only used in enemy class for now
-    private long lastTime; 
+    private double lastTime; 
     private boolean toggle;
     
     /**
@@ -44,7 +44,7 @@ public class Sprite {
         this.ay = ay;
         this.totalLives = totalLives;
         lives = totalLives;
-        lastTime = (long)Math.random()*60;
+        lastTime = Math.random()*60;
         toggle = true;
     }
     /**
@@ -61,7 +61,7 @@ public class Sprite {
         ay = 0;
         totalLives = 1;
         lives = 1;
-        lastTime = (long)Math.random()*60;
+        lastTime = Math.random()*60;
         toggle = true;
     }
     /**
@@ -80,7 +80,7 @@ public class Sprite {
         this.ay = ay;
         totalLives = 1;
         lives = 1;
-        lastTime = (long)Math.random()*60;
+        lastTime = Math.random()*60;
         toggle = true;
     }
     public void loadAssets(PApplet p) {
@@ -109,11 +109,11 @@ public class Sprite {
     	return s.isPointInside(other.getX(), other.getY());
     }
 
-    public long getLastTime() {
+    public double getLastTime() {
         return this.lastTime;
     }
 
-    public void setLastTime(long lastTime) {
+    public void setLastTime(double lastTime) {
         this.lastTime = lastTime;
     }
 

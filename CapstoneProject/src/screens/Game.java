@@ -22,10 +22,7 @@ public class Game extends Screen {
 	private double scrollBy; // how fast everything scrolls up
 	private double border;
 
-	private PImage background;
-	private float x1, y1;
 	private PImage gameOverText;
-
 	private DrawingSurface surface;
 	private Rectangle screenRect;
 	private Player player;
@@ -35,12 +32,13 @@ public class Game extends Screen {
 	private ArrayList<Sprite> enemies; // 30 by 30 (also store projectiles)
 	private ArrayList<Powerup> powerups; // 25 by 25
 
-	private long time; // keep track of game time
-	private long fireTime; // time of previous shooting from player
-	private long hitTime; // previous time player got hit
-	private long lastJump; // time of last double jump
-	private long deathTime;
+	private float time; // keep track of game time
+	private float fireTime; // time of previous shooting from player
+	private float hitTime; // previous time player got hit
+	private float lastJump; // time of last double jump
+	private float deathTime;
 	private boolean show = true;
+	private boolean hideCursor = false;
 
 	/**
 	 * Creates a new game object
@@ -57,11 +55,10 @@ public class Game extends Screen {
 		powerups = new ArrayList<>();
 
 		border = 0;
-		generatePlatforms(HEIGHT / 2, HEIGHT, 5);
-		spawnEnemies(HEIGHT / 2, HEIGHT, 3);
+		generatePlatforms(HEIGHT/2, HEIGHT, 5);
+		spawnEnemies(HEIGHT/2, HEIGHT, 3);
 
-		System.out.println("NEW GAME");
-		player = new Player(new Circle(WIDTH / 2, 48, 24), 0, 0, 0, g, 3);
+		player = new Player(new Circle(WIDTH/2, 48, 24), 0, 0, 0, g, 3);
 		time = 0;
 		fireTime = -9999;
 		hitTime = -9999;
@@ -72,9 +69,6 @@ public class Game extends Screen {
 
 	public void setup() {
 		player.loadAssets(this.surface);
-		background = surface.loadImage("assets" + fileSep + "moon.jpg");
-		x1 = 0;
-		y1 = 0;
 		gameOverText = surface.loadImage("assets" + fileSep + "gameover.png");
 	}
 
@@ -90,49 +84,52 @@ public class Game extends Screen {
 		}
 		if (surface.isPressed(KeyEvent.VK_LEFT) || surface.isPressed(KeyEvent.VK_A)) {
 			player.moveBy(-4, 0);
+			hideCursor = true;
 		}
 		if (surface.isPressed(KeyEvent.VK_RIGHT) || surface.isPressed(KeyEvent.VK_D)) {
 			player.moveBy(4, 0);
+			hideCursor = true;
 		}
-		if (surface.isPressed(KeyEvent.VK_Q) && time / 60 > fireTime / 60 + player.getFireRate()) {
+		if (surface.isPressed(KeyEvent.VK_Q) && (time - fireTime)/60 >= player.getFireRate()) {
 			if (player.getAmmo() > 0) {
 				enemies.add(player.shootLeft());
 				enemies.get(enemies.size() - 1).loadAssets(surface);
 				fireTime = time;
 			}
+			hideCursor = true;
 		}
-		if (surface.isPressed(KeyEvent.VK_E) && time / 60 > fireTime / 60 + player.getFireRate()) {
+		if (surface.isPressed(KeyEvent.VK_E) && (time - fireTime)/60 >= player.getFireRate()) {
 			if (player.getAmmo() > 0) {
 				enemies.add(player.shootRight());
 				enemies.get(enemies.size() - 1).loadAssets(surface);
 				fireTime = time;
 			}
+			hideCursor = true;
 		}
 		if (surface.isPressed(KeyEvent.VK_W) || surface.isPressed(KeyEvent.VK_UP)) {
-			if (time / 60 - lastJump / 60 >= player.getFreq()) {
+			if ((time - lastJump)/60 >= player.getFreq()) {
 				player.jump();
 				lastJump = time;
 			}
+			hideCursor = true;
+		}
+		if (surface.isPressed(KeyEvent.VK_S) || surface.isPressed(KeyEvent.VK_DOWN)) {
+			if ((time - lastJump)/60 >= player.getFreq()) {
+				player.jumpDown();
+				lastJump = time;
+			}
+			hideCursor = true;
 		}
 
+		if (hideCursor) surface.noCursor(); else surface.cursor();
+
 		time++;
-		if (time % 60 == 0) {
-			System.out.println(enemies.size() + " enemies");
-			System.out.println(platforms.size() + " platforms\n");
-		}
-		surface.background(20, 20, 64);
-		// platforms drawn
-		for (int i = 0; i < platforms.size(); i++) {
-			if (platforms.get(i) == null || platforms.get(i).first.getY() < 0) {
-				platforms.remove(i--);
-				continue;
-			}
-			if (platforms.get(i).first.getX() >= WIDTH || platforms.get(i).first.getX() <= 0) {
-				platforms.get(i).first.setVx(-platforms.get(i).first.getVx());
-			}
-			platforms.get(i).first.moveBy(0, scrollBy);
-			platforms.get(i).first.draw(surface);
-		}
+		
+		if (player.getLives() == 3) surface.background(26, 26, 73);
+		else if (player.getLives() == 2) surface.background(20, 20, 64);
+		else if (player.getLives() == 1) surface.background(12, 12, 58);
+		else if (player.getLives() == 0) surface.background(7, 7, 7);
+
 		// sus loop（enemies are drawn）
 		for (int i = 0; i < enemies.size(); i++) {
 			if (enemies.get(i) == null) {
@@ -155,7 +152,6 @@ public class Game extends Screen {
 					if (enemies.get(j) == null || enemies.get(j) instanceof Projectile)
 						continue;
 					if (enemies.get(j).getShape().isPointInside(x, y)) {
-						System.out.println("bullet hit enemy");
 						// player.setScore(player.getScore() + 200);
 						enemies.get(j).setLives(enemies.get(j).getLives() - 1);
 					}
@@ -165,7 +161,6 @@ public class Game extends Screen {
 					if (powerups.get(j) == null)
 						continue;
 					if (powerups.get(j).getShape().isPointInside(x, y)) {
-						System.out.println("bullet hit powerup");
 						applyPowerup(powerups.get(j));
 						powerups.remove(j--);
 						continue;
@@ -177,7 +172,6 @@ public class Game extends Screen {
 					enemies.get(i).setLastTime(time);
 				// check for death
 				if (enemies.get(i).getLives() <= 0) {
-					System.out.println("enemy dead ");
 					enemies.remove(i--);
 					continue;
 				}
@@ -197,9 +191,8 @@ public class Game extends Screen {
 				}
 			}
 			// grant temporary invincibility if player is hit or shot
-			if (time / 60 > hitTime / 60 + 0.3
+			if (time/60 > hitTime/60 + 0.3
 					&& player.getShape().isPointInside(enemies.get(i).getX(), enemies.get(i).getY())) {
-				System.out.println(enemies.get(i) + " hit player");
 				player.setLives(player.getLives() - 1);
 				hitTime = time;
 				if (player.getLives() == 0) {
@@ -211,9 +204,6 @@ public class Game extends Screen {
 					}
 					for (int j = powerups.size() - 1; j >= 0; j--) {
 						powerups.remove(j);
-					}
-					for (int j = horizontal.size() - 1; j >= 0; j--) {
-						horizontal.remove(j);
 					}
 				}
 			}
@@ -233,8 +223,17 @@ public class Game extends Screen {
 			powerups.get(i).moveBy(0, scrollBy);
 			powerups.get(i).draw(surface);
 		}
-		// player platform collisions
+		// platforms drawn and player platform collisions
 		for (int i = 0; i < platforms.size(); i++) {
+			if (platforms.get(i) == null || platforms.get(i).first.getY() < 0) {
+				platforms.remove(i--);
+				continue;
+			}
+			if (platforms.get(i).first.getX() >= WIDTH || platforms.get(i).first.getX() <= 0) {
+				platforms.get(i).first.setVx(-platforms.get(i).first.getVx());
+			}
+			platforms.get(i).first.moveBy(0, scrollBy);
+			platforms.get(i).first.draw(surface);
 			// cant collide from below
 			if (player.getR() + player.getY() < platforms.get(i).first.getY())
 				continue;
@@ -245,39 +244,45 @@ public class Game extends Screen {
 			}
 			if (player.isTouching(platforms.get(i).first) && platforms.get(i).second == 2) {
 				player.moveBy(player.getVx(), -player.getVy());
-				player.setVx(3.4 / Math.sqrt(2));
-				player.setVy(-3.4 / Math.sqrt(2));
+				player.setVx(3.4/Math.sqrt(2));
+				player.setVy(-3.4/Math.sqrt(2));
 			}
 			if (player.isTouching(platforms.get(i).first) && platforms.get(i).second == 1) {
 				player.moveBy(player.getVx(), -player.getVy());
-				player.setVx(-3.4 / Math.sqrt(2));
-				player.setVy(-3.4 / Math.sqrt(2));
+				player.setVx(-3.4/Math.sqrt(2));
+				player.setVy(-3.4/Math.sqrt(2));
 			}
 		}
 
+
+		
 		if (player.getLives() <= 0) {
-			if (time / 60 - deathTime / 60 < 5)
+			if (time/60 - deathTime/60 < 5)
 				scrollBy = -75;
 			else
 				scrollBy = 0;
 			surface.push();
-			surface.image(gameOverText, WIDTH / 2 - 500 / 2, 100, 500, 100);
+			surface.image(gameOverText, WIDTH/2 - 500/2, 100, 500, 100);
 			surface.textSize(64f);
 			surface.fill(249, 255, 135);
 			String message = "Score: " + player.getScore();
-			surface.text(message, WIDTH / 2 - surface.textWidth(message) / 2, 550);
+			surface.text(message, WIDTH/2 - surface.textWidth(message)/2, 550);
+			message = "Press SPACE to continue";
+			surface.textSize(48f);
+			surface.text(message, WIDTH/2 - surface.textWidth(message)/2, 650);
 			surface.pop();
 			if (surface.isPressed(KeyEvent.VK_SPACE)) {
 				surface.switchScreen(ScreenSwitcher.MENU_SCREEN);
 			}
 			return;
 		}
+		
 		if (player.getY() > HEIGHT) {
 			deathTime = time;
 			player.setLives(0);
-		} else if (time / 60 > hitTime / 60 + 0.3 && player.getY() <= 0) {
-			player.moveBy(0, player.getY() + 25);
-			player.setVy(1);
+		} else if (time/60 > hitTime/60 + 0.3 && player.getY() <= 0) {
+			player.moveBy(0, player.getY() + 2*player.getR());
+			player.setVy(1.5);
 			player.setLives(player.getLives() - 1);
 			hitTime = time;
 		}
@@ -290,17 +295,9 @@ public class Game extends Screen {
 			spawnPowerups(HEIGHT, 2 * HEIGHT, (int) (Math.random() * 4));
 			border = HEIGHT;
 		}
-		surface.push();
-		// signify that ceiling damages the player
-		surface.stroke(251, 175, 59);
-		surface.strokeWeight(4);
-		surface.line(0, 0, WIDTH, 0);
-
-		surface.pop();
-
 		player.moveBy(0, scrollBy);
-		scrollBy = -Math.max(Math.abs(-2d), Math.abs(player.getVy()) / 3);
-		if (time / 60 - hitTime / 60 <= 0.3) {
+		scrollBy = -Math.max(Math.abs(-2d), Math.abs(player.getVy())/2);
+		if (time/60 - hitTime/60 <= 0.3) {
 			if (time % 5 == 0)
 				player.toggleVisible();
 		} else {
@@ -313,7 +310,7 @@ public class Game extends Screen {
 		item.setLives(0);
 		switch (item.getType()) {
 		case 1:
-			player.setLives(player.getLives() + 1);
+			if (player.getLives() < 3) player.setLives(player.getLives() + 1);
 			break;
 		case 2:
 			player.setAmmo(player.getAmmo() + 3);
@@ -360,6 +357,7 @@ public class Game extends Screen {
 			// spawn the enemies
 			Rectangle rect = new Rectangle(sx, sy, 30, 30);
 			enemies.add(new Enemy(rect, 0, 0, 0, 0));
+			enemies.get(enemies.size()-1).loadAssets(surface);
 		}
 	}
 
@@ -389,13 +387,9 @@ public class Game extends Screen {
 				newLine2.setFillColor(new Color(253, 254, 255));
 				double c = Math.random();
 				if (c <= 0.2) {
-					horizontal.add(new Platform(newLine1, .5, vy));
-					horizontal.add(new Platform(newLine2, .5, vy));
 					platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, .5, vy), 0));
 					platforms.add(new Pair<Platform, Integer>(new Platform(newLine2, .5, vy), 0));
 				} else {
-					horizontal.add(new Platform(newLine1, vx, vy));
-					horizontal.add(new Platform(newLine2, vx, vy));
 					platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, vx, vy), 0));
 					platforms.add(new Pair<Platform, Integer>(new Platform(newLine2, vx, vy), 0));
 				}
@@ -404,9 +398,9 @@ public class Game extends Screen {
 				double b = Math.random();
 				if (b >= .5) {
 					// int angle = (int) Math.random() * 180;
-					Line newLine1 = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)),
-							(float) (ly - len / Math.sqrt(2)));
-					Line newLine2 = new Line((float) (lx + len / Math.sqrt(2)), (float) (ly - len / Math.sqrt(2)), lx,
+					Line newLine1 = new Line(lx, ly, (float) (lx + len/Math.sqrt(2)),
+							(float) (ly - len/Math.sqrt(2)));
+					Line newLine2 = new Line((float) (lx + len/Math.sqrt(2)), (float) (ly - len/Math.sqrt(2)), lx,
 							ly);
 					newLine1.setFillColor(new Color(253, 254, 255));
 					newLine2.setFillColor(new Color(253, 254, 255));
@@ -414,9 +408,9 @@ public class Game extends Screen {
 					platforms.add(new Pair<Platform, Integer>(new Platform(newLine2, vx, vy), 1));
 				} else {
 					// int angle = (int) Math.random() * 180;
-					Line newLine1 = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)),
-							(float) (ly + len / Math.sqrt(2)));
-					Line newLine2 = new Line((float) (lx + len / Math.sqrt(2)), (float) (ly + len / Math.sqrt(2)), lx,
+					Line newLine1 = new Line(lx, ly, (float) (lx + len/Math.sqrt(2)),
+							(float) (ly + len/Math.sqrt(2)));
+					Line newLine2 = new Line((float) (lx + len/Math.sqrt(2)), (float) (ly + len/Math.sqrt(2)), lx,
 							ly);
 					newLine1.setFillColor(new Color(253, 254, 255));
 					newLine2.setFillColor(new Color(253, 254, 255));
@@ -451,6 +445,10 @@ public class Game extends Screen {
 		return false;
 	}
 
+	public void mouseMoved() {
+		if (hideCursor) hideCursor = false;
+	}
+
 	/**
 	 * adds and enemy or projectile to the list of things to be added to the screen
 	 * 
@@ -483,6 +481,6 @@ public class Game extends Screen {
 	// use logistic equation proportional to time to have adaptive difficulty enemy
 	// generation
 	private int getE() {
-		return (int) (maxePop * (Math.log(time / 60)));
+		return (int) (maxePop * (Math.log(time/60)));
 	}
 }
