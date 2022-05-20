@@ -9,8 +9,9 @@ import aviral.shapes.Circle;
 
 /**
  * 
- * @author Aviral Vaidya, Kevin Ren Double precision enemy which can be
- *         represented using processing
+ * @author Aviral Vaidya, Kevin Ren
+ * The Enemy class represents a double precision enemy which can be
+ * represented using processing
  */
 public class Enemy extends Sprite {
 
@@ -19,7 +20,6 @@ public class Enemy extends Sprite {
 
 	/**
 	 * Creates an enemy
-	 * 
 	 * @param s  shape of enemy
 	 * @param vx x velocity of enemy
 	 * @param vy y velocity of enemy
@@ -29,7 +29,12 @@ public class Enemy extends Sprite {
 	public Enemy(Rectangle s, double vx, double vy, double ax, double ay) {
 		super(s, vx, vy, ax, ay);
 		sideLength = (float) s.getPerimeter() / 4;
-        firePattern = Math.random() > 0.8 ? 1 : 0;
+		double a = Math.random();
+		if (a >= 0.8) {
+			firePattern = 1; 
+		} else {
+			firePattern = 0;
+		}
 	}
 
 	/**
@@ -78,11 +83,17 @@ public class Enemy extends Sprite {
 
 		p.pop();
 	}
-
+	/**
+	 * getter for the fire pattern of the enemy
+	 * @return integer value of the fire pattern of the enemy
+	 */
     public int getFirePattern() {
         return this.firePattern;
     }
-
+    /**
+     * setter for the fire pattern of the enemy
+     * @param firePattern sets fire pattern to the argued integer
+     */
     public void setFirePattern(int firePattern) {
         this.firePattern = firePattern;
     }

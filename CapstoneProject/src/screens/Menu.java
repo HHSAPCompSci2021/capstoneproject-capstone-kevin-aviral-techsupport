@@ -8,8 +8,7 @@ import processing.core.*;
 
 /**
  * 
- * @author Aviral Vaidya, Kevin Ren The menu class represents a double precision
- *         game menu that can be displayed with processing
+ * @author Kevin Ren
  */
 public class Menu extends Screen {
 

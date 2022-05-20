@@ -8,7 +8,7 @@ import aviral.shapes.Shape;
 
 /**
  * 
- * @author Aviral Vaidya, Kevin Ren
+ * @author Aviral Vaidya
  * The Sprite class represents a double precision sprite in Downfall which can be visualized using 
  * the processing library
  */
