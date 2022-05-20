@@ -476,14 +476,16 @@ public class Game extends Screen {
 		}
 	}
 
+	
+	
 	// enemy population to have adaptive difficulty
 	
 	private int getE(boolean islog) {
 		if (!islog) {
-			if ((int) (maxePop * (Math.log(time/60))) <= maxePop * 8 ) {
+			if ((int) (maxePop * (Math.log(time/60))) <= maxePop * 4 ) {
 				return (int) (maxePop * (Math.log(time/60)));
 			} else {
-				return (int) (maxePop * (Math.log(time/60)));
+				return (int) (maxePop *  4);
 			}
 		} else {
 			int a;
@@ -493,3 +495,5 @@ public class Game extends Screen {
 		} 
 	}
 }
+
+
