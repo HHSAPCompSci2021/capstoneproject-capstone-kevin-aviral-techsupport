@@ -22,7 +22,7 @@ public class Game extends Screen {
 	private double scrollBy; // how fast everything scrolls up
 	private double border;
 
-	private PImage bg;
+	private PImage background;
 	private float x1, y1;
 	private PImage gameOverText;
 
@@ -72,11 +72,10 @@ public class Game extends Screen {
 
 	public void setup() {
 		player.loadAssets(this.surface);
-		bg = surface.loadImage("assets" + fileSep + "stars.jpg");
+		background = surface.loadImage("assets" + fileSep + "moon.jpg");
 		x1 = 0;
 		y1 = 0;
 		gameOverText = surface.loadImage("assets" + fileSep + "gameover.png");
-
 	}
 
 	/**
@@ -95,14 +94,14 @@ public class Game extends Screen {
 		if (surface.isPressed(KeyEvent.VK_RIGHT) || surface.isPressed(KeyEvent.VK_D)) {
 			player.moveBy(4, 0);
 		}
-		if (surface.isPressed(KeyEvent.VK_Q) && time / 60 > fireTime / 60 + 0.5) {
+		if (surface.isPressed(KeyEvent.VK_Q) && time / 60 > fireTime / 60 + player.getFireRate()) {
 			if (player.getAmmo() > 0) {
 				enemies.add(player.shootLeft());
 				enemies.get(enemies.size()-1).loadAssets(surface);
 				fireTime = time;
 			}
 		}
-		if (surface.isPressed(KeyEvent.VK_E) && time / 60 > fireTime / 60 + 0.5) {
+		if (surface.isPressed(KeyEvent.VK_E) && time / 60 > fireTime / 60 + player.getFireRate()) {
 			if (player.getAmmo() > 0) {
 				enemies.add(player.shootRight());
 				enemies.get(enemies.size()-1).loadAssets(surface);

@@ -15,6 +15,10 @@ import java.awt.*;
 public class Player extends Sprite {
 	
 	private final double djFreq = 2.5; // frequency at which player can double jump
+	private final double fireRate = 0.45;
+
+	private long lastJump;
+	private long lastShot;
 
 	private PImage lightOn, lightOff;
 	private long time;
@@ -24,7 +28,6 @@ public class Player extends Sprite {
 	private int ammo;
 	private long score;
 	private boolean visible;
-	private long lastJump;
 
 	/**
 	 * creates a player object
@@ -43,6 +46,7 @@ public class Player extends Sprite {
 		visible = true;
 		time = 0;
 		lastJump = -9999;
+		lastShot = -9999;
 	}
 
 	/**
@@ -95,11 +99,19 @@ public class Player extends Sprite {
 		float percent = (float) Math.min(100, (time - lastJump)/(60*djFreq/100));
 		p.strokeWeight(10);
 		if (percent < 100) {
-			p.stroke(126, 158, 122);
+			p.stroke(126, 158, 122); // dull green
 		} else {
-			p.stroke(10, 220, 120);
+			p.stroke(10, 220, 120); // charged green
 		}
 		p.line(0, HEIGHT, 0, Math.max(400, HEIGHT - 400*percent/100));
+		// bar should be full when ready to fire
+		percent = (float)Math.min(100, (time - lastShot)/(60*fireRate/100));
+		if (percent < 100) {
+			p.stroke(190, 140, 57); // dull yellow
+		} else {
+			p.stroke(250, 193, 31); // charged yellow
+		}
+		p.line(WIDTH, HEIGHT, WIDTH, Math.max(400, HEIGHT - 400*percent/100));
 		p.pop();
 	}
 
@@ -109,6 +121,10 @@ public class Player extends Sprite {
 	 */
 	public double getFreq() {
 		return djFreq;
+	}
+
+	public double getFireRate() {
+		return fireRate;
 	}
 
 	/**
@@ -128,6 +144,7 @@ public class Player extends Sprite {
 		if (ammo == 0)
 			return null;
 		ammo--;
+		lastShot = time;
 		Circle circle = new Circle(getX() - 32d, getY(), 8);
 		return new Projectile(circle, -20, 0, 0, 0, true);
 	}
@@ -141,6 +158,7 @@ public class Player extends Sprite {
 		if (ammo == 0)
 			return null;
 		ammo--;
+		lastShot = time;
 		Circle circle = new Circle(getX() + 32d, getY(), 8);
 		return new Projectile(circle, 20, 0, 0, 0, true);
 	}
