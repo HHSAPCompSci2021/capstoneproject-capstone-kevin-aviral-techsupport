@@ -14,8 +14,8 @@ import java.awt.*;
  */
 public class Player extends Sprite {
 	
-	private final double djRate = 2.5; // double jump every 2.5s
-	private final double fireRate = 0.45;
+	private double djRate = 3;
+	private double fireRate = 0.55;
 
 	private double lastJump;
 	private double lastShot;
@@ -75,6 +75,22 @@ public class Player extends Sprite {
 		}
 		setScore((int) Math.max(getY()*2, score)); // *2 to compensate for going up
 		setVx(getVx()*0.981);
+		// update the fire cooldown
+		
+		if (time/60 >= 40) {
+			fireRate = 0.15;
+			djRate = 1;
+		} else if (time/60 >= 20) {
+			fireRate = 0.25;
+			djRate = 1.5;
+		} if (time/60 >= 10) {
+			fireRate = 0.35;
+			djRate = 2;
+		} else if (time/60 >= 5) {
+			fireRate = 0.45;
+			djRate = 2.5;
+		}
+
 		// actually draw the player
 		if (visible) {
 			// if player is partly off screen
@@ -133,10 +149,18 @@ public class Player extends Sprite {
 	}
 
 	/**
-	 *	Gives the player an upward velocdoubleity and saves the time that this happens
+	 *	Gives the player an upward velocity and saves the time that this happens
 	 */
 	public void jump() {
 		setVy(-5);
+		lastJump = time;
+	}
+
+	/**
+	 * Gives the player a downward velocity and saves the time that this happens
+	 */
+	public void jumpDown() {
+		setVy(3);
 		lastJump = time;
 	}
 

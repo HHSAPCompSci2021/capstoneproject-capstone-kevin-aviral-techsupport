@@ -38,6 +38,7 @@ public class Game extends Screen {
 	private float lastJump; // time of last double jump
 	private float deathTime;
 	private boolean show = true;
+	private boolean hideCursor = false;
 
 	/**
 	 * Creates a new game object
@@ -83,9 +84,11 @@ public class Game extends Screen {
 		}
 		if (surface.isPressed(KeyEvent.VK_LEFT) || surface.isPressed(KeyEvent.VK_A)) {
 			player.moveBy(-4, 0);
+			hideCursor = true;
 		}
 		if (surface.isPressed(KeyEvent.VK_RIGHT) || surface.isPressed(KeyEvent.VK_D)) {
 			player.moveBy(4, 0);
+			hideCursor = true;
 		}
 		if (surface.isPressed(KeyEvent.VK_Q) && (time - fireTime)/60 >= player.getFireRate()) {
 			if (player.getAmmo() > 0) {
@@ -93,6 +96,7 @@ public class Game extends Screen {
 				enemies.get(enemies.size() - 1).loadAssets(surface);
 				fireTime = time;
 			}
+			hideCursor = true;
 		}
 		if (surface.isPressed(KeyEvent.VK_E) && (time - fireTime)/60 >= player.getFireRate()) {
 			if (player.getAmmo() > 0) {
@@ -100,32 +104,32 @@ public class Game extends Screen {
 				enemies.get(enemies.size() - 1).loadAssets(surface);
 				fireTime = time;
 			}
+			hideCursor = true;
 		}
 		if (surface.isPressed(KeyEvent.VK_W) || surface.isPressed(KeyEvent.VK_UP)) {
 			if ((time - lastJump)/60 >= player.getFreq()) {
 				player.jump();
 				lastJump = time;
 			}
+			hideCursor = true;
 		}
+		if (surface.isPressed(KeyEvent.VK_S) || surface.isPressed(KeyEvent.VK_DOWN)) {
+			if ((time - lastJump)/60 >= player.getFreq()) {
+				player.jumpDown();
+				lastJump = time;
+			}
+			hideCursor = true;
+		}
+
+		if (hideCursor) surface.noCursor(); else surface.cursor();
 
 		time++;
 		
 		if (player.getLives() == 3) surface.background(26, 26, 73);
 		else if (player.getLives() == 2) surface.background(20, 20, 64);
-		else surface.background(12, 12, 58);
+		else if (player.getLives() == 1) surface.background(12, 12, 58);
+		else if (player.getLives() == 0) surface.background(7, 7, 7);
 
-		// platforms drawn
-		for (int i = 0; i < platforms.size(); i++) {
-			if (platforms.get(i) == null || platforms.get(i).first.getY() < 0) {
-				platforms.remove(i--);
-				continue;
-			}
-			if (platforms.get(i).first.getX() >= WIDTH || platforms.get(i).first.getX() <= 0) {
-				platforms.get(i).first.setVx(-platforms.get(i).first.getVx());
-			}
-			platforms.get(i).first.moveBy(0, scrollBy);
-			platforms.get(i).first.draw(surface);
-		}
 		// sus loop（enemies are drawn）
 		for (int i = 0; i < enemies.size(); i++) {
 			if (enemies.get(i) == null) {
@@ -219,8 +223,17 @@ public class Game extends Screen {
 			powerups.get(i).moveBy(0, scrollBy);
 			powerups.get(i).draw(surface);
 		}
-		// player platform collisions
+		// platforms drawn and player platform collisions
 		for (int i = 0; i < platforms.size(); i++) {
+			if (platforms.get(i) == null || platforms.get(i).first.getY() < 0) {
+				platforms.remove(i--);
+				continue;
+			}
+			if (platforms.get(i).first.getX() >= WIDTH || platforms.get(i).first.getX() <= 0) {
+				platforms.get(i).first.setVx(-platforms.get(i).first.getVx());
+			}
+			platforms.get(i).first.moveBy(0, scrollBy);
+			platforms.get(i).first.draw(surface);
 			// cant collide from below
 			if (player.getR() + player.getY() < platforms.get(i).first.getY())
 				continue;
@@ -241,6 +254,8 @@ public class Game extends Screen {
 			}
 		}
 
+
+		
 		if (player.getLives() <= 0) {
 			if (time/60 - deathTime/60 < 5)
 				scrollBy = -75;
@@ -261,12 +276,13 @@ public class Game extends Screen {
 			}
 			return;
 		}
+		
 		if (player.getY() > HEIGHT) {
 			deathTime = time;
 			player.setLives(0);
 		} else if (time/60 > hitTime/60 + 0.3 && player.getY() <= 0) {
-			player.moveBy(0, player.getY() + 25);
-			player.setVy(1);
+			player.moveBy(0, player.getY() + 2*player.getR());
+			player.setVy(1.5);
 			player.setLives(player.getLives() - 1);
 			hitTime = time;
 		}
@@ -279,14 +295,6 @@ public class Game extends Screen {
 			spawnPowerups(HEIGHT, 2 * HEIGHT, (int) (Math.random() * 4));
 			border = HEIGHT;
 		}
-		surface.push();
-		// signify that ceiling damages the player
-		surface.stroke(251, 175, 59);
-		surface.strokeWeight(4);
-		surface.line(0, 0, WIDTH, 0);
-
-		surface.pop();
-
 		player.moveBy(0, scrollBy);
 		scrollBy = -Math.max(Math.abs(-2d), Math.abs(player.getVy())/2);
 		if (time/60 - hitTime/60 <= 0.3) {
@@ -302,7 +310,7 @@ public class Game extends Screen {
 		item.setLives(0);
 		switch (item.getType()) {
 		case 1:
-			player.setLives(player.getLives() + 1);
+			if (player.getLives() < 3) player.setLives(player.getLives() + 1);
 			break;
 		case 2:
 			player.setAmmo(player.getAmmo() + 3);
@@ -430,6 +438,10 @@ public class Game extends Screen {
 			}
 		}
 		return false;
+	}
+
+	public void mouseMoved() {
+		if (hideCursor) hideCursor = false;
 	}
 
 	/**

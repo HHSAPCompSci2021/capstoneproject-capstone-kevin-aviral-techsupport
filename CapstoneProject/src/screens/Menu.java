@@ -59,6 +59,7 @@ public class Menu extends Screen {
 	 * @post menu is drawn
 	 */
 	public void draw() {
+		surface.cursor();
 		x1 = (float) (-10 - (surface.mouseX - WIDTH/2) * 0.02);
 		y1 = (float) (-10 - (surface.mouseY - HEIGHT/2) * 0.02);
 		surface.image(bg, x1, y1, WIDTH + 64f, HEIGHT + 64f);
