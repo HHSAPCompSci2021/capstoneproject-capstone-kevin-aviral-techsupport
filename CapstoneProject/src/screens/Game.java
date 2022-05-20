@@ -251,7 +251,6 @@ public class Game extends Screen {
 				player.setVx(-5 / Math.sqrt(2));
 				player.setVy(-5 / Math.sqrt(2));
 			}
-
 		}
 
 		if (player.getLives() <= 0) {
@@ -315,7 +314,7 @@ public class Game extends Screen {
 			player.setLives(player.getLives() + 1);
 			break;
 		case 2:
-			player.setAmmo(player.getAmmo() + 5);
+			player.setAmmo(player.getAmmo() + 3);
 			break;
 		case 3:
 			player.setLives(3);

@@ -54,15 +54,15 @@ public class Enemy extends Sprite {
 		circle.setRadius(6);
 
 		if (projVx > 0) {
-			circle.setX(getX() + projVx + sideLength);
+			circle.setX(getX() + Math.max(sideLength, projVx) + 1);
 		} else {
-			circle.setX(getX() + projVx - 16);
+			circle.setX(getX() + projVx - 1);
 		}
 
 		if (projVy > 0) {
-			circle.setY(getY() + projVy + sideLength);
+			circle.setY(getY() + Math.max(sideLength, projVy) + 1);
 		} else {
-			circle.setY(getY() + projVy - 16);
+			circle.setY(getY() + projVy - 1);
 		}
 
 		return new Projectile(circle, projVx, projVy, 0, 0, false);

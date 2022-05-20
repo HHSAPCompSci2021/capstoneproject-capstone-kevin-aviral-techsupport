@@ -21,6 +21,7 @@ public class Player extends Sprite {
 	private long lastShot;
 
 	private PImage lightOn, lightOff;
+	private PImage bulletIcon;
 	private long time;
 
 	private int playerNum; // for multiplayer, 1 is on left, 2 is on right
@@ -58,6 +59,7 @@ public class Player extends Sprite {
 	public void loadAssets(PApplet p) {
 		lightOn = p.loadImage("assets" + fileSep + "lantern_on.png");
 		lightOff = p.loadImage("assets" + fileSep + "lantern_off.png");
+		bulletIcon = p.loadImage("assets" + fileSep + "bulleticon.png");
 	}
 
 	public void draw(PApplet p) {
@@ -72,7 +74,7 @@ public class Player extends Sprite {
 			moveBy(WIDTH, 0);
 		}
 		setScore((long) Math.max(getY()*2, score)); // *2 to compensate for going up
-		setVx(getVx()*0.985);
+		setVx(getVx()*0.983);
 		// actually draw the player
 		if (visible) {
 			// if player is partly off screen
@@ -94,7 +96,12 @@ public class Player extends Sprite {
 			p.image((getLives() > which) ? lightOn : lightOff, ix, -6, incr, incr);
 		}
 		p.text("Score: " + score, tx, incr+24);
-		p.text("Ammo: " + ammo, tx, incr+64);
+		incr = 18;
+		which = 0;
+		for (int ix = (int) (WIDTH - 30); which < ammo; ix -= (incr+5), which++) {
+			p.image(bulletIcon, ix, 5, incr, incr*4.5f);
+		}
+
 		// bar should be full (halfway up screen) when double jump is available
 		float percent = (float) Math.min(100, (time - lastJump)/(60*djFreq/100));
 		p.strokeWeight(10);
