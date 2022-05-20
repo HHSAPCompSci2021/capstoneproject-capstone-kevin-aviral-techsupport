@@ -56,6 +56,7 @@ public class Game extends Screen {
 
 		border = 0;
 		generatePlatforms(HEIGHT/2, HEIGHT, 5);
+		
 
 		player = new Player(new Circle(WIDTH/2, 48, 24), 0, 0, 0, g, 3);
 		time = 0;
@@ -243,13 +244,13 @@ public class Game extends Screen {
 			}
 			if (player.isTouching(platforms.get(i).first) && platforms.get(i).second == 2) {
 				player.moveBy(player.getVx(), -player.getVy());
-				player.setVx(5/Math.sqrt(2));
-				player.setVy(-5/Math.sqrt(2));
+				player.setVx(3.4/Math.sqrt(2));
+				player.setVy(-3.4/Math.sqrt(2));
 			}
 			if (player.isTouching(platforms.get(i).first) && platforms.get(i).second == 1) {
 				player.moveBy(player.getVx(), -player.getVy());
-				player.setVx(-5/Math.sqrt(2));
-				player.setVy(-5/Math.sqrt(2));
+				player.setVx(-3.4/Math.sqrt(2));
+				player.setVy(-3.4/Math.sqrt(2));
 			}
 		}
 
@@ -338,8 +339,9 @@ public class Game extends Screen {
 		}
 	}
 
-	private void spawnEnemies(float min, float max) {
-		for (int i = 0; i < getE(); i++) {
+	// change num to getE() when funciton is working
+	private void spawnEnemies(float min, float max, int num) {
+		for (int i = 0; i < getE(false); i++) {
 			float sx = (float) (Math.random() * WIDTH);
 			float sy = (float) (Math.random() * (max - min)) + min;
 			int tries = 0;
@@ -417,8 +419,13 @@ public class Game extends Screen {
 		}
 		for (int i = platforms.size() - 1; i >= 0; i--) {
 			if (platforms.get(i).second == 0
-					&& (platforms.get(i).first.getX() > WIDTH - len || platforms.get(i).first.getX() < len)) {
+					&& (platforms.get(i).first.getX() >= WIDTH - len || platforms.get(i).first.getX() <= len)) {
 				platforms.remove(i);
+			}
+		}
+		for (int i = horizontal.size() - 1; i >= 0; i--) {
+			if (horizontal.get(i).getX() >= WIDTH - len || horizontal.get(i).getX() <= len) {
+				horizontal.remove(i);
 			}
 		}
 	}
@@ -469,9 +476,20 @@ public class Game extends Screen {
 		}
 	}
 
-	// use logistic equation proportional to time to have adaptive difficulty enemy
-	// generation
-	private int getE() {
-		return (int) (maxePop * (Math.log(time/60)));
+	// enemy population to have adaptive difficulty
+	
+	private int getE(boolean islog) {
+		if (!islog) {
+			if ((int) (maxePop * (Math.log(time/60))) <= maxePop * 8 ) {
+				return (int) (maxePop * (Math.log(time/60)));
+			} else {
+				return (int) (maxePop * (Math.log(time/60)));
+			}
+		} else {
+			int a;
+			a = 5;
+			a *= (1+120 * Math.exp(time/60));
+			return a;
+		} 
 	}
 }
