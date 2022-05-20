@@ -99,12 +99,14 @@ public class Game extends Screen {
 		if (surface.isPressed(KeyEvent.VK_Q) && time/60 > fireTime/60 + 0.1) {
 			if (player.getAmmo() > 0) {
 				enemies.add(player.shootLeft());
+				enemies.get(enemies.size()-1).loadAssets(surface);
 				fireTime = time;
 			}
 		} 
 		if (surface.isPressed(KeyEvent.VK_E) && time/60 > fireTime/60 + 0.1) {
 			if (player.getAmmo() > 0) {
 				enemies.add(player.shootRight());
+				enemies.get(enemies.size()-1).loadAssets(surface);
 				fireTime = time;
 			}
 		}
@@ -268,12 +270,10 @@ public class Game extends Screen {
 		}
 		surface.push();
 		// signify that ceiling damages the player
-		surface.stroke(220, 100, 100);
-		surface.strokeWeight(7);
+		surface.stroke(251, 175, 59);
+		surface.strokeWeight(4);
 		surface.line(0, 0, WIDTH, 0);
-
-		surface.stroke(69);
-		surface.line(0, (float)border, WIDTH, (float)border);
+		
 		surface.pop();
 
 		player.moveBy(0, scrollBy);

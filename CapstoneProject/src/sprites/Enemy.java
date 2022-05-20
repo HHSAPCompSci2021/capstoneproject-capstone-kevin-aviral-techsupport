@@ -60,7 +60,7 @@ public class Enemy extends Sprite {
 			circle.setY(getY() + projVy - 16);
 		}
 
-		return new Projectile(circle, projVx, projVy, 0, 0);
+		return new Projectile(circle, projVx, projVy, 0, 0, false);
 	}
 
 	/**

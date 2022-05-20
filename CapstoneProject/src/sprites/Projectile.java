@@ -12,6 +12,9 @@ import aviral.shapes.*;
 public class Projectile extends Sprite {
 
     private float r;
+    private PImage left;
+    private PImage right;
+    private boolean fromPlayer;
 
 	/**
 	 * Creates a projectile
@@ -20,10 +23,18 @@ public class Projectile extends Sprite {
 	 * @param vy y velocity of projectile
 	 * @param ax x acelleration of projectile
 	 * @param ay y acceleration of projectile
+     * @param fromPlayer if this projectile was shot by a player
 	 */
-    public Projectile(Circle s, double vx, double vy, double ax, double ay) {
+    public Projectile(Circle s, double vx, double vy, double ax, double ay, boolean fromPlayer) {
         super(s, vx, vy, ax, ay);
         r = (float)s.getRadius();
+        this.fromPlayer = fromPlayer;
+    }
+
+    public void loadAssets(PApplet p) {
+        // we only need to load the images if the player shoots the projectile
+        left = p.loadImage("assets" + fileSep + "shootleft.png");
+        right = p.loadImage("assets" + fileSep + "shootright.png");
     }
     /**
      * draws projetile
@@ -33,8 +44,12 @@ public class Projectile extends Sprite {
     public void draw(PApplet p) {
         super.draw(p);
         p.fill(249, 255, 135);
-        p.circle((float)getX(), (float)getY(), 2*r);
-        
+        if (fromPlayer) {
+            // draw the image
+            p.image(getVx() < 0 ? left : right, (float)getX(), (float)getY(), 8*r, 2*r);
+        } else {
+            p.circle((float)getX(), (float)getY(), 2*r);
+        }
     }
     /**
      * Checks if it is in contact with a sprite
