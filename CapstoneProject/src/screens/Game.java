@@ -97,14 +97,14 @@ public class Game extends Screen {
 		if (surface.isPressed(KeyEvent.VK_Q) && time / 60 > fireTime / 60 + player.getFireRate()) {
 			if (player.getAmmo() > 0) {
 				enemies.add(player.shootLeft());
-				enemies.get(enemies.size()-1).loadAssets(surface);
+				enemies.get(enemies.size() - 1).loadAssets(surface);
 				fireTime = time;
 			}
 		}
 		if (surface.isPressed(KeyEvent.VK_E) && time / 60 > fireTime / 60 + player.getFireRate()) {
 			if (player.getAmmo() > 0) {
 				enemies.add(player.shootRight());
-				enemies.get(enemies.size()-1).loadAssets(surface);
+				enemies.get(enemies.size() - 1).loadAssets(surface);
 				fireTime = time;
 			}
 		}
@@ -141,7 +141,7 @@ public class Game extends Screen {
 			}
 			double x = enemies.get(i).getX(), y = enemies.get(i).getY();
 			// check if it is out of bounds
-			if (x < 10 || x > WIDTH - 10|| y < 5) {
+			if (x < 10 || x > WIDTH - 10 || y < 5) {
 				enemies.remove(i--);
 				continue;
 			}
@@ -205,9 +205,11 @@ public class Game extends Screen {
 				if (player.getLives() == 0) {
 					for (int j = platforms.size() - 1; j >= 0; j--) {
 						platforms.remove(j);
-					} for (int j = enemies.size() - 1; j >= 0; j--) {
+					}
+					for (int j = enemies.size() - 1; j >= 0; j--) {
 						enemies.remove(j);
-					} for (int j = powerups.size() - 1; j >= 0; j--) {
+					}
+					for (int j = powerups.size() - 1; j >= 0; j--) {
 						powerups.remove(j);
 					}
 					for (int j = horizontal.size() - 1; j >= 0; j--) {
@@ -219,7 +221,7 @@ public class Game extends Screen {
 				enemies.get(i).moveBy(0, scrollBy);
 				enemies.get(i).draw(surface);
 			}
-			
+
 		}
 		// powerups drawn
 		for (int i = 0; i < powerups.size(); i++) {
@@ -294,7 +296,7 @@ public class Game extends Screen {
 		surface.stroke(251, 175, 59);
 		surface.strokeWeight(4);
 		surface.line(0, 0, WIDTH, 0);
-		
+
 		surface.pop();
 
 		player.moveBy(0, scrollBy);
@@ -425,8 +427,8 @@ public class Game extends Screen {
 			}
 		}
 		for (int i = platforms.size() - 1; i >= 0; i--) {
-			if (platforms.get(i).second == 0 && 
-					(platforms.get(i).first.getX() > WIDTH - len || platforms.get(i).first.getX() < len)) {
+			if (platforms.get(i).second == 0
+					&& (platforms.get(i).first.getX() > WIDTH - len || platforms.get(i).first.getX() < len)) {
 				platforms.remove(i);
 			}
 		}
