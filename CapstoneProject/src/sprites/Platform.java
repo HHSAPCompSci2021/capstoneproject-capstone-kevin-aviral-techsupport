@@ -30,7 +30,6 @@ public class Platform extends Sprite {
     public Platform(Line s, double vx, double vy) {
         super(s, vx, vy);
         this.l1 = s;
-        this.l2 = s;
         length = (double) s.getPerimeter();
        // cloudImg = loadImage("platformcloud.png");
     }
@@ -70,7 +69,7 @@ public class Platform extends Sprite {
         // p.line((float)getX(), (float)getY(), (float)(getX() + length),
         // (float)getY());
         l1.setStrokeWeight(4);
-        l1.setStrokeColor(new Color(255, 255, 255));
+        l1.setStrokeColor(l1.getFillColor());
         l1.draw(p);
        // l2.draw(p);
        // loadAssets(p);
