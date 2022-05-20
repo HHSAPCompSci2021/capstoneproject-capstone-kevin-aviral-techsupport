@@ -421,12 +421,12 @@ public class Game extends Screen {
 		}
 		for (int i = platforms.size() - 1; i >= 0; i--) {
 			if (platforms.get(i).second == 0
-					&& (platforms.get(i).first.getX() > WIDTH - len || platforms.get(i).first.getX() < len)) {
+					&& (platforms.get(i).first.getX() >= WIDTH - len || platforms.get(i).first.getX() <= len)) {
 				platforms.remove(i);
 			}
 		}
 		for (int i = horizontal.size() - 1; i >= 0; i--) {
-			if (horizontal.get(i).getX() > WIDTH - len || horizontal.get(i).getX() < len) {
+			if (horizontal.get(i).getX() >= WIDTH - len || horizontal.get(i).getX() <= len) {
 				horizontal.remove(i);
 			}
 		}
