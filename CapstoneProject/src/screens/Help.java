@@ -8,7 +8,7 @@ import processing.core.*;
 import java.awt.event.KeyEvent;
 /**
  * 
- * @author Aviral Vaidya, Kevin Ren
+ * @author Kevin Ren
  * The Help class represents a help menu for the game that can be drawn in processing
  *
  */
@@ -65,10 +65,14 @@ public class Help extends Screen {
 		y2 = (float) (-(surface.mouseY - HEIGHT/2) * 0.08);
 		surface.image(inst, x2, y2, WIDTH, HEIGHT);
 
-        surface.fill(buttonColor.getRGB());
+        surface.noStroke();
+		Point p = surface.actualToAssumed(new Point(surface.mouseX, surface.mouseY));
+		if (back.contains(p)) surface.fill(buttonColor.getRGB(), 255);
+		else surface.fill(buttonColor.getRGB(), 170);
 		surface.rect(back.x, back.y, back.width, back.height, 10, 10, 10, 10);
+
 		float buttonT = surface.textWidth("Return to Menu");
-        surface.fill(20);
+        surface.fill(201, 210, 195);
         surface.textSize(20);
         surface.text("Return to Menu", back.x + back.width/2 - buttonT/2, back.y + back.height/2);
     }

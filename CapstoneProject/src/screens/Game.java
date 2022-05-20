@@ -56,7 +56,7 @@ public class Game extends Screen {
 
 		border = 0;
 		generatePlatforms(HEIGHT/2, HEIGHT, 5);
-		spawnEnemies(HEIGHT/2, HEIGHT, 3);
+		
 
 		player = new Player(new Circle(WIDTH/2, 48, 24), 0, 0, 0, g, 3);
 		time = 0;
@@ -254,8 +254,6 @@ public class Game extends Screen {
 			}
 		}
 
-
-		
 		if (player.getLives() <= 0) {
 			if (time/60 - deathTime/60 < 5)
 				scrollBy = -75;
@@ -291,7 +289,7 @@ public class Game extends Screen {
 		// respawn the entities
 		if (border <= 0) {
 			generatePlatforms(HEIGHT, 2 * HEIGHT, 10);
-			spawnEnemies(HEIGHT, 2 * HEIGHT, 4);
+			spawnEnemies(HEIGHT, 2 * HEIGHT);
 			spawnPowerups(HEIGHT, 2 * HEIGHT, (int) (Math.random() * 4));
 			border = HEIGHT;
 		}
