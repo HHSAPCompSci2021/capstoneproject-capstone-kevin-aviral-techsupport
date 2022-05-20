@@ -35,11 +35,11 @@ public class Game extends Screen {
 	private ArrayList<Sprite> enemies; // 30 by 30 (also store projectiles)
 	private ArrayList<Powerup> powerups; // 25 by 25
 
-	private long time; // keep track of game time
-	private long fireTime; // time of previous shooting from player
-	private long hitTime; // previous time player got hit
-	private long lastJump; // time of last double jump
-	private long deathTime;
+	private float time; // keep track of game time
+	private float fireTime; // time of previous shooting from player
+	private float hitTime; // previous time player got hit
+	private float lastJump; // time of last double jump
+	private float deathTime;
 	private boolean show = true;
 
 	/**
@@ -60,7 +60,6 @@ public class Game extends Screen {
 		generatePlatforms(HEIGHT / 2, HEIGHT, 5);
 		spawnEnemies(HEIGHT / 2, HEIGHT, 3);
 
-		System.out.println("NEW GAME");
 		player = new Player(new Circle(WIDTH / 2, 48, 24), 0, 0, 0, g, 3);
 		time = 0;
 		fireTime = -9999;
@@ -94,14 +93,14 @@ public class Game extends Screen {
 		if (surface.isPressed(KeyEvent.VK_RIGHT) || surface.isPressed(KeyEvent.VK_D)) {
 			player.moveBy(4, 0);
 		}
-		if (surface.isPressed(KeyEvent.VK_Q) && time / 60 > fireTime / 60 + player.getFireRate()) {
+		if (surface.isPressed(KeyEvent.VK_Q) && (time - fireTime)/60 >= player.getFireRate()) {
 			if (player.getAmmo() > 0) {
 				enemies.add(player.shootLeft());
 				enemies.get(enemies.size() - 1).loadAssets(surface);
 				fireTime = time;
 			}
 		}
-		if (surface.isPressed(KeyEvent.VK_E) && time / 60 > fireTime / 60 + player.getFireRate()) {
+		if (surface.isPressed(KeyEvent.VK_E) && (time - fireTime)/60 >= player.getFireRate()) {
 			if (player.getAmmo() > 0) {
 				enemies.add(player.shootRight());
 				enemies.get(enemies.size() - 1).loadAssets(surface);
@@ -109,17 +108,14 @@ public class Game extends Screen {
 			}
 		}
 		if (surface.isPressed(KeyEvent.VK_W) || surface.isPressed(KeyEvent.VK_UP)) {
-			if (time / 60 - lastJump / 60 >= player.getFreq()) {
+			if ((time - lastJump) / 60 >= player.getFreq()) {
 				player.jump();
 				lastJump = time;
 			}
 		}
 
 		time++;
-		if (time % 60 == 0) {
-			System.out.println(enemies.size() + " enemies");
-			System.out.println(platforms.size() + " platforms\n");
-		}
+		
 		surface.background(20, 20, 64);
 		// platforms drawn
 		for (int i = 0; i < platforms.size(); i++) {
@@ -165,7 +161,6 @@ public class Game extends Screen {
 					if (powerups.get(j) == null)
 						continue;
 					if (powerups.get(j).getShape().isPointInside(x, y)) {
-						System.out.println("bullet hit powerup");
 						applyPowerup(powerups.get(j));
 						powerups.remove(j--);
 						continue;
@@ -177,7 +172,6 @@ public class Game extends Screen {
 					enemies.get(i).setLastTime(time);
 				// check for death
 				if (enemies.get(i).getLives() <= 0) {
-					System.out.println("enemy dead ");
 					enemies.remove(i--);
 					continue;
 				}
@@ -199,7 +193,6 @@ public class Game extends Screen {
 			// grant temporary invincibility if player is hit or shot
 			if (time / 60 > hitTime / 60 + 0.3
 					&& player.getShape().isPointInside(enemies.get(i).getX(), enemies.get(i).getY())) {
-				System.out.println(enemies.get(i) + " hit player");
 				player.setLives(player.getLives() - 1);
 				hitTime = time;
 				if (player.getLives() == 0) {
@@ -428,12 +421,12 @@ public class Game extends Screen {
 		for (int i = platforms.size() - 1; i >= 0; i--) {
 			if (platforms.get(i).second == 0
 					&& (platforms.get(i).first.getX() > WIDTH - len || platforms.get(i).first.getX() < len)) {
-				platforms.remove(i);
+				platforms.remove(i--);
 			}
 		}
 		for (int i = horizontal.size() - 1; i >= 0; i--) {
 			if (horizontal.get(i).getX() > WIDTH - len || horizontal.get(i).getX() < len) {
-				platforms.remove(i);
+				platforms.remove(i--);
 			}
 		}
 	}

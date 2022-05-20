@@ -14,20 +14,20 @@ import java.awt.*;
  */
 public class Player extends Sprite {
 	
-	private final double djFreq = 2.5; // frequency at which player can double jump
+	private final double djRate = 2.5; // double jump every 2.5s
 	private final double fireRate = 0.45;
 
-	private long lastJump;
-	private long lastShot;
+	private double lastJump;
+	private double lastShot;
 
 	private PImage lightOn, lightOff;
 	private PImage bulletIcon;
-	private long time;
+	private double time;
 
 	private int playerNum; // for multiplayer, 1 is on left, 2 is on right
 	private float r;
 	private int ammo;
-	private long score;
+	private int score;
 	private boolean visible;
 
 	/**
@@ -73,8 +73,8 @@ public class Player extends Sprite {
 		} else if (getX() < 0) {
 			moveBy(WIDTH, 0);
 		}
-		setScore((long) Math.max(getY()*2, score)); // *2 to compensate for going up
-		setVx(getVx()*0.983);
+		setScore((int) Math.max(getY()*2, score)); // *2 to compensate for going up
+		setVx(getVx()*0.981);
 		// actually draw the player
 		if (visible) {
 			// if player is partly off screen
@@ -84,7 +84,6 @@ public class Player extends Sprite {
 			} else if (getX() + r <= 0) {
 				p.circle((float) (WIDTH + getX()), (float) getY(), 2 * r);
 			}
-			// System.out.println(getX() + " " + getY() + " " + r);
 			p.circle((float) getX(), (float) getY(), 2 * r);
 		}
 		// draw the icons
@@ -96,14 +95,13 @@ public class Player extends Sprite {
 			p.image((getLives() > which) ? lightOn : lightOff, ix, -6, incr, incr);
 		}
 		p.text("Score: " + score, tx, incr+24);
-		incr = 18;
+		incr = 16;
 		which = 0;
 		for (int ix = (int) (WIDTH - 30); which < ammo; ix -= (incr+5), which++) {
-			p.image(bulletIcon, ix, 5, incr, incr*4.5f);
+			p.image(bulletIcon, ix, 5, incr, incr*4.20f);
 		}
-
 		// bar should be full (halfway up screen) when double jump is available
-		float percent = (float) Math.min(100, (time - lastJump)/(60*djFreq/100));
+		float percent = (float) Math.min(100, (time - lastJump)/(60*djRate/100));
 		p.strokeWeight(10);
 		if (percent < 100) {
 			p.stroke(126, 158, 122); // dull green
@@ -112,13 +110,13 @@ public class Player extends Sprite {
 		}
 		p.line(0, HEIGHT, 0, Math.max(400, HEIGHT - 400*percent/100));
 		// bar should be full when ready to fire
-		percent = (float)Math.min(100, (time - lastShot)/(60*fireRate/100));
+		percent = (float) Math.min(100, (time - lastShot)/(60*fireRate/100));
 		if (percent < 100) {
 			p.stroke(190, 140, 57); // dull yellow
 		} else {
 			p.stroke(250, 193, 31); // charged yellow
 		}
-		p.line(WIDTH, HEIGHT, WIDTH, Math.max(400, HEIGHT - 400*percent/100));
+		if (ammo > 0) p.line(WIDTH, HEIGHT, WIDTH, Math.max(400, HEIGHT - 400*percent/100));
 		p.pop();
 	}
 
@@ -127,7 +125,7 @@ public class Player extends Sprite {
 	 * @return The minimum value, in seconds, between double jumps of the player.
 	 */
 	public double getFreq() {
-		return djFreq;
+		return djRate;
 	}
 
 	public double getFireRate() {
@@ -135,7 +133,7 @@ public class Player extends Sprite {
 	}
 
 	/**
-	 *	Gives the player an upward velocity and saves the time that this happens
+	 *	Gives the player an upward velocdoubleity and saves the time that this happens
 	 */
 	public void jump() {
 		setVy(-5);
@@ -242,7 +240,7 @@ public class Player extends Sprite {
 	 * Sets the score of this player
 	 * @param score new score
 	 */
-	public void setScore(long score) {
+	public void setScore(int score) {
 		this.score = score;
 	}
 

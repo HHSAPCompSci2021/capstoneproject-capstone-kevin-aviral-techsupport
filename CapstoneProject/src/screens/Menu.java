@@ -101,7 +101,6 @@ public class Menu extends Screen {
 		if (start.contains(p)) {
 			surface.switchScreen(ScreenSwitcher.GAME_SCREEN);
 		} else if (help.contains(p)) {
-			System.out.println("help clicked");
 			surface.switchScreen(ScreenSwitcher.HELP_SCREEN);
 		} else if (quit.contains(p)) {
 			System.exit(0);
