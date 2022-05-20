@@ -57,10 +57,10 @@ public class Game extends Screen {
 		powerups = new ArrayList<>();
 
 		border = 0;
-		generatePlatforms(HEIGHT / 2, HEIGHT, 5);
-		spawnEnemies(HEIGHT / 2, HEIGHT, 3);
+		generatePlatforms(HEIGHT/2, HEIGHT, 5);
+		spawnEnemies(HEIGHT/2, HEIGHT, 3);
 
-		player = new Player(new Circle(WIDTH / 2, 48, 24), 0, 0, 0, g, 3);
+		player = new Player(new Circle(WIDTH/2, 48, 24), 0, 0, 0, g, 3);
 		time = 0;
 		fireTime = -9999;
 		hitTime = -9999;
@@ -108,7 +108,7 @@ public class Game extends Screen {
 			}
 		}
 		if (surface.isPressed(KeyEvent.VK_W) || surface.isPressed(KeyEvent.VK_UP)) {
-			if ((time - lastJump) / 60 >= player.getFreq()) {
+			if ((time - lastJump)/60 >= player.getFreq()) {
 				player.jump();
 				lastJump = time;
 			}
@@ -116,7 +116,10 @@ public class Game extends Screen {
 
 		time++;
 		
-		surface.background(20, 20, 64);
+		if (player.getLives() == 3) surface.background(26, 26, 73);
+		else if (player.getLives() == 2) surface.background(20, 20, 64);
+		else surface.background(12, 12, 58);
+
 		// platforms drawn
 		for (int i = 0; i < platforms.size(); i++) {
 			if (platforms.get(i) == null || platforms.get(i).first.getY() < 0) {
@@ -191,7 +194,7 @@ public class Game extends Screen {
 				}
 			}
 			// grant temporary invincibility if player is hit or shot
-			if (time / 60 > hitTime / 60 + 0.3
+			if (time/60 > hitTime/60 + 0.3
 					&& player.getShape().isPointInside(enemies.get(i).getX(), enemies.get(i).getY())) {
 				player.setLives(player.getLives() - 1);
 				hitTime = time;
@@ -204,9 +207,6 @@ public class Game extends Screen {
 					}
 					for (int j = powerups.size() - 1; j >= 0; j--) {
 						powerups.remove(j);
-					}
-					for (int j = horizontal.size() - 1; j >= 0; j--) {
-						horizontal.remove(j);
 					}
 				}
 			}
@@ -238,27 +238,30 @@ public class Game extends Screen {
 			}
 			if (player.isTouching(platforms.get(i).first) && platforms.get(i).second == 2) {
 				player.moveBy(player.getVx(), -player.getVy());
-				player.setVx(5 / Math.sqrt(2));
-				player.setVy(-5 / Math.sqrt(2));
+				player.setVx(5/Math.sqrt(2));
+				player.setVy(-5/Math.sqrt(2));
 			}
 			if (player.isTouching(platforms.get(i).first) && platforms.get(i).second == 1) {
 				player.moveBy(player.getVx(), -player.getVy());
-				player.setVx(-5 / Math.sqrt(2));
-				player.setVy(-5 / Math.sqrt(2));
+				player.setVx(-5/Math.sqrt(2));
+				player.setVy(-5/Math.sqrt(2));
 			}
 		}
 
 		if (player.getLives() <= 0) {
-			if (time / 60 - deathTime / 60 < 5)
+			if (time/60 - deathTime/60 < 5)
 				scrollBy = -75;
 			else
 				scrollBy = 0;
 			surface.push();
-			surface.image(gameOverText, WIDTH / 2 - 500 / 2, 100, 500, 100);
+			surface.image(gameOverText, WIDTH/2 - 500/2, 100, 500, 100);
 			surface.textSize(64f);
 			surface.fill(249, 255, 135);
 			String message = "Score: " + player.getScore();
-			surface.text(message, WIDTH / 2 - surface.textWidth(message) / 2, 550);
+			surface.text(message, WIDTH/2 - surface.textWidth(message)/2, 550);
+			message = "Press SPACE to continue";
+			surface.textSize(48f);
+			surface.text(message, WIDTH/2 - surface.textWidth(message)/2, 650);
 			surface.pop();
 			if (surface.isPressed(KeyEvent.VK_SPACE)) {
 				surface.switchScreen(ScreenSwitcher.MENU_SCREEN);
@@ -268,7 +271,7 @@ public class Game extends Screen {
 		if (player.getY() > HEIGHT) {
 			deathTime = time;
 			player.setLives(0);
-		} else if (time / 60 > hitTime / 60 + 0.3 && player.getY() <= 0) {
+		} else if (time/60 > hitTime/60 + 0.3 && player.getY() <= 0) {
 			player.moveBy(0, player.getY() + 25);
 			player.setVy(1);
 			player.setLives(player.getLives() - 1);
@@ -292,8 +295,8 @@ public class Game extends Screen {
 		surface.pop();
 
 		player.moveBy(0, scrollBy);
-		scrollBy = -Math.max(Math.abs(-2d), Math.abs(player.getVy()) / 3);
-		if (time / 60 - hitTime / 60 <= 0.3) {
+		scrollBy = -Math.max(Math.abs(-2d), Math.abs(player.getVy())/2);
+		if (time/60 - hitTime/60 <= 0.3) {
 			if (time % 5 == 0)
 				player.toggleVisible();
 		} else {
@@ -382,13 +385,9 @@ public class Game extends Screen {
 				newLine2.setFillColor(new Color(253, 254, 255));
 				double c = Math.random();
 				if (c <= 0.2) {
-					horizontal.add(new Platform(newLine1, .5, vy));
-					horizontal.add(new Platform(newLine2, .5, vy));
 					platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, .5, vy), 0));
 					platforms.add(new Pair<Platform, Integer>(new Platform(newLine2, .5, vy), 0));
 				} else {
-					horizontal.add(new Platform(newLine1, vx, vy));
-					horizontal.add(new Platform(newLine2, vx, vy));
 					platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, vx, vy), 0));
 					platforms.add(new Pair<Platform, Integer>(new Platform(newLine2, vx, vy), 0));
 				}
@@ -397,9 +396,9 @@ public class Game extends Screen {
 				double b = Math.random();
 				if (b >= .5) {
 					// int angle = (int) Math.random() * 180;
-					Line newLine1 = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)),
-							(float) (ly - len / Math.sqrt(2)));
-					Line newLine2 = new Line((float) (lx + len / Math.sqrt(2)), (float) (ly - len / Math.sqrt(2)), lx,
+					Line newLine1 = new Line(lx, ly, (float) (lx + len/Math.sqrt(2)),
+							(float) (ly - len/Math.sqrt(2)));
+					Line newLine2 = new Line((float) (lx + len/Math.sqrt(2)), (float) (ly - len/Math.sqrt(2)), lx,
 							ly);
 					newLine1.setFillColor(new Color(253, 254, 255));
 					newLine2.setFillColor(new Color(253, 254, 255));
@@ -407,9 +406,9 @@ public class Game extends Screen {
 					platforms.add(new Pair<Platform, Integer>(new Platform(newLine2, vx, vy), 1));
 				} else {
 					// int angle = (int) Math.random() * 180;
-					Line newLine1 = new Line(lx, ly, (float) (lx + len / Math.sqrt(2)),
-							(float) (ly + len / Math.sqrt(2)));
-					Line newLine2 = new Line((float) (lx + len / Math.sqrt(2)), (float) (ly + len / Math.sqrt(2)), lx,
+					Line newLine1 = new Line(lx, ly, (float) (lx + len/Math.sqrt(2)),
+							(float) (ly + len/Math.sqrt(2)));
+					Line newLine2 = new Line((float) (lx + len/Math.sqrt(2)), (float) (ly + len/Math.sqrt(2)), lx,
 							ly);
 					newLine1.setFillColor(new Color(253, 254, 255));
 					newLine2.setFillColor(new Color(253, 254, 255));
@@ -421,12 +420,7 @@ public class Game extends Screen {
 		for (int i = platforms.size() - 1; i >= 0; i--) {
 			if (platforms.get(i).second == 0
 					&& (platforms.get(i).first.getX() > WIDTH - len || platforms.get(i).first.getX() < len)) {
-				platforms.remove(i--);
-			}
-		}
-		for (int i = horizontal.size() - 1; i >= 0; i--) {
-			if (horizontal.get(i).getX() > WIDTH - len || horizontal.get(i).getX() < len) {
-				platforms.remove(i--);
+				platforms.remove(i);
 			}
 		}
 	}
@@ -476,6 +470,6 @@ public class Game extends Screen {
 	// use logistic equation proportional to time to have adaptive difficulty enemy
 	// generation
 	private int getE() {
-		return (int) (maxePop * (Math.log(time / 60)));
+		return (int) (maxePop * (Math.log(time/60)));
 	}
 }
