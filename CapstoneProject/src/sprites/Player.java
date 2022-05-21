@@ -14,7 +14,7 @@ import java.awt.*;
  *
  */
 public class Player extends Sprite {
-	
+
 	private double djRate = 3;
 	private double fireRate = 0.55;
 
@@ -31,7 +31,10 @@ public class Player extends Sprite {
 	private int ammo;
 	private int score;
 	private boolean visible;
+
 	private float angle;
+	private float w;
+	private float alpha;
 
 	/**
 	 * creates a player object
@@ -46,12 +49,14 @@ public class Player extends Sprite {
 	public Player(Circle s, double vx, double vy, double ax, double ay, int totalLives) {
 		super(s, vx, vy, ax, ay, totalLives);
 		this.s = s;
-		r = (float) (float)s.getRadius();
+		r = (float) (float) s.getRadius();
 		ammo = 5;
 		visible = true;
 		time = 0;
 		lastJump = -9999;
 		lastShot = -9999;
+		
+		w = 0;
 	}
 
 	/**
@@ -64,44 +69,47 @@ public class Player extends Sprite {
 		lightOn = p.loadImage("assets" + fileSep + "lantern_on.png");
 		lightOff = p.loadImage("assets" + fileSep + "lantern_off.png");
 		bulletIcon = p.loadImage("assets" + fileSep + "bulleticon.png");
+		ball = p.loadImage("assets" + fileSep + "8ball.png");
 	}
 
 	public void draw(PApplet p) {
 		super.draw(p);
 		time++;
-		final float WIDTH = p.width;
-		final float HEIGHT = p.height;
+
+		final float WIDTH = 600;
+		final float HEIGHT = 800;
 		// check if player is out of bounds and have him appear on other side
 		if (getX() >= WIDTH) {
 			moveBy(-WIDTH, 0);
 		} else if (getX() < 0) {
 			moveBy(WIDTH, 0);
 		}
-		setScore((int) Math.max(getY()*2, score)); // *2 to compensate for going up
-		setVx(getVx()*0.981);
-		
+		setScore((int) Math.max(getY() * 2, score)); // *2 to compensate for going up
+		setVx(getVx() * 0.981);
+
 		if (time/60 >= 40) {
 			fireRate = 0.15;
 			djRate = 1;
 		} else if (time/60 >= 20) {
 			fireRate = 0.25;
 			djRate = 1.5;
-		} if (time/60 >= 10) {
+		}
+		if (time/60 >= 10) {
 			fireRate = 0.35;
 			djRate = 2;
 		} else if (time/60 >= 5) {
 			fireRate = 0.45;
 			djRate = 2.5;
 		}
-
+		if (w != 0) angle = (float) ((w > 0 ? 2 : -2)*PI*time/30);
 		// actually draw the player
+		p.push();
 		if (visible) {
 			p.noStroke();
-			// shadow first
-			p.fill(s.getFillColor().getRGB());
-			s.setFillColor(s.getFillColor());
-			s.draw(p);
-			p.text("8", (float) s.getX() - 4, (float) s.getY() + 4);
+			p.ellipseMode(CENTER);
+			p.ellipse((float) s.getX(), (float) s.getY(), (float) getR()*2+4, (float) getR()*2+4);
+			p.imageMode(CENTER);
+			/*
 			if (getX() - r >= WIDTH) {
 				s.move((WIDTH - getX() - r), (float) getY());
 				s.setStrokeColor(s.getFillColor());
@@ -115,13 +123,12 @@ public class Player extends Sprite {
 				p.fill(Color.black.getRGB());
 				p.text("8", (float) s.getX() - 4, (float) s.getY() + 4);
 			}
-			s.setStrokeColor(s.getFillColor());
-			s.draw(p);
-			p.push();
-			p.fill(Color.black.getRGB());
-			p.text("8", (float) s.getX() - 4, (float) s.getY() + 4);
-			p.pop();
+			*/
+			p.translate((float) getX(), (float) getY());
+			p.rotate(angle);
+			p.image(ball, 0, 0, (float) getR()*2, (float) getR()*2);
 		}
+		p.pop();
 		// draw the icons
 		p.push();
 		int tx = (int) (10 * (playerNum == 2 ? 50 : 1));
@@ -131,34 +138,39 @@ public class Player extends Sprite {
 			p.image((getLives() > which) ? lightOn : lightOff, ix, -6, incr, incr);
 		}
 		p.fill(255, 255, 255);
-		p.text("Score: " + score, tx, incr+24);
+		p.text("Score: " + score, tx, incr + 24);
 		incr = 16;
 		which = 0;
-		for (int ix = (int) (WIDTH - 30); which < ammo; ix -= (incr+5), which++) {
-			p.image(bulletIcon, ix, 5, incr, incr*4.20f);
+		for (int ix = (int) (WIDTH - 30); which < ammo; ix -= (incr + 5), which++) {
+			p.image(bulletIcon, ix, 5, incr, incr * 4.20f);
 		}
 		// bar should be full (halfway up screen) when double jump is available
-		float percent = (float) Math.min(100, (time - lastJump)/(60*djRate/100));
+		float percent = (float) Math.min(100, (time - lastJump)/(60 * djRate/100));
 		p.strokeWeight(10);
 		if (percent < 100) {
 			p.stroke(126, 158, 122); // dull green
 		} else {
 			p.stroke(10, 220, 120); // charged green
 		}
-		p.line(0, HEIGHT, 0, Math.max(400, HEIGHT - 400*percent/100));
+		p.line(0, HEIGHT, 0, Math.max(400, HEIGHT - 400 * percent/100));
 		// bar should be full when ready to fire
-		percent = (float) Math.min(100, (time - lastShot)/(60*fireRate/100));
+		percent = (float) Math.min(100, (time - lastShot)/(60 * fireRate/100));
 		if (percent < 100) {
 			p.stroke(180, 130, 50); // dull yellow
 		} else {
 			p.stroke(255, 200, 31); // charged yellow
 		}
-		if (ammo > 0) p.line(WIDTH, HEIGHT, WIDTH, Math.max(400, HEIGHT - 400*percent/100));
+		if (ammo > 0) p.line(WIDTH, HEIGHT, WIDTH, Math.max(400, HEIGHT - 400 * percent/100));
 		p.pop();
+	}
+
+	public void setW(float w) {
+		this.w = w;
 	}
 
 	/**
 	 * Gets the freqeucny for player doube jump.
+	 * 
 	 * @return The minimum value, in seconds, between double jumps of the player.
 	 */
 	public double getFreq() {
@@ -170,7 +182,7 @@ public class Player extends Sprite {
 	}
 
 	/**
-	 *	Gives the player an upward velocity and saves the time that this happens
+	 * Gives the player an upward velocity and saves the time that this happens
 	 */
 	public void jump() {
 		setVy(-5);
@@ -240,6 +252,7 @@ public class Player extends Sprite {
 
 	/**
 	 * Sets the player number.
+	 * 
 	 * @param playerNum Player number
 	 */
 	public void setPlayerNum(int playerNum) {
@@ -275,6 +288,7 @@ public class Player extends Sprite {
 
 	/**
 	 * Gets the score of this player
+	 * 
 	 * @return this player's score
 	 */
 	public int getScore() {
@@ -283,6 +297,7 @@ public class Player extends Sprite {
 
 	/**
 	 * Sets the score of this player
+	 * 
 	 * @param l new score
 	 */
 	public void setScore(int l) {

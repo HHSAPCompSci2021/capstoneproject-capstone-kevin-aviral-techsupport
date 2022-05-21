@@ -74,6 +74,7 @@ public class Game extends Screen {
 	}
 	
 	public void setup() {
+
 		player.loadAssets(this.surface);
 		gameOverText = surface.loadImage("assets" + fileSep + "gameover.png");
 	}
@@ -284,11 +285,13 @@ public class Game extends Screen {
 				continue;
 			if (player.isTouching(platforms.get(i).first) && platforms.get(i).second == 0 && player.getVy() > 0) {
 				player.moveBy(player.getVx(), -player.getVy());
+				if (player.getVx() != 0) player.setW(player.getVx() > 0 ? 1 : -1);
 				// vertical so no need to multiply by - 1 because there is only one direction
 				player.setVy(-3.4);
 			} else if (player.isTouching(platforms.get(i).first) && platforms.get(i).second == 3
-					&& player.getVy() > 0) {
+			&& player.getVy() > 0) {
 				player.moveBy(player.getVx(), -player.getVy());
+				if (player.getVx() != 0) player.setW(player.getVx() > 0 ? 1 : -1);
 				player.setVy(-3.4);
 				player.setScore(player.getScore()+100);
 				falling.add(platforms.get(i).first);
@@ -296,9 +299,11 @@ public class Game extends Screen {
 				platforms.remove(i--);
 			} else if (player.isTouching(platforms.get(i).first) && platforms.get(i).second == 2) {
 				player.moveBy(player.getVx(), -player.getVy());
+				player.setW(1);
 				player.setVx(3.4/Math.sqrt(2));
 				player.setVy(-3.4/Math.sqrt(2));
 			} else if (player.isTouching(platforms.get(i).first) && platforms.get(i).second == 1) {
+				player.setW(-1);
 				player.moveBy(player.getVx(), -player.getVy());
 				player.setVx(-3.4/Math.sqrt(2));
 				player.setVy(-3.4/Math.sqrt(2));
