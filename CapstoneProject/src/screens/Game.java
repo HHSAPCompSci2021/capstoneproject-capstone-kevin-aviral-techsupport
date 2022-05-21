@@ -1,6 +1,7 @@
 package screens;
 
 import java.awt.Color;
+import java.awt.color.ColorSpace;
 import java.awt.event.*;
 import java.util.*;
 import aviral.shapes.*;
@@ -331,6 +332,18 @@ public class Game extends Screen {
 			player.setVy(1.5);
 			player.setLives(player.getLives() - 1);
 			hitTime = time;
+		}
+		Color threeL = Color.WHITE;
+		Color oneL = new Color(255, 114, 111);
+		Color twoL = new Color(255, 174, 66);
+		if (player.getLives() == 3) {
+			player.getShape().setFillColor(threeL);
+		} 
+		if (player.getLives() == 2) {
+			player.getShape().setFillColor(twoL);
+		}
+		if (player.getLives()  == 1) {
+			player.getShape().setFillColor(oneL);
 		}
 		border += scrollBy;
 		// still has to fix scoring past this point

@@ -24,7 +24,7 @@ public class Player extends Sprite {
 	private PImage lightOn, lightOff;
 	private PImage bulletIcon;
 	private double time;
-
+	private Circle s;
 	private int playerNum; // for multiplayer, 1 is on left, 2 is on right
 	private float r;
 	private int ammo;
@@ -43,6 +43,7 @@ public class Player extends Sprite {
 	 */
 	public Player(Circle s, double vx, double vy, double ax, double ay, int totalLives) {
 		super(s, vx, vy, ax, ay, totalLives);
+		this.s = s;
 		r = (float) s.getRadius();
 		ammo = 5;
 		visible = true;
@@ -96,16 +97,31 @@ public class Player extends Sprite {
 		if (visible) {
 			p.noStroke();
 			// shadow first
-			p.fill(0);
-			p.circle((float) getX() + 3, (float) getY() + 3, 2 * r);
-			// if player is partly off screen
-			p.fill(255, 250, 251);
+			p.fill(s.getFillColor().getRGB());
+			s.setFillColor(s.getFillColor());
+			s.draw(p);
+			p.text("8", (float) s.getX(), (float) s.getY());
 			if (getX() - r >= WIDTH) {
-				p.circle((float) (WIDTH - getX() - r), (float) getY(), 2 * r);
+				s.move((WIDTH - getX() - r), (float) getY());
+				s.setStrokeColor(s.getFillColor());
+				s.draw(p);
+				p.fill(Color.black.getRGB());
+				p.text("8", (float) s.getX(), (float) s.getY());
+				p.pop();
 			} else if (getX() + r <= 0) {
-				p.circle((float) (WIDTH + getX()), (float) getY(), 2 * r);
+				s.move(WIDTH + getX(), getY());
+				s.setStrokeColor(s.getFillColor());
+				s.draw(p);
+				p.fill(Color.black.getRGB());
+				p.text("8", (float) s.getX(), (float) s.getY());
+				p.pop();
 			}
-			p.circle((float) getX(), (float) getY(), 2 * r);
+			s.setStrokeColor(s.getFillColor());
+			s.draw(p);
+			p.push();
+			p.fill(Color.black.getRGB());
+			p.text("8", (float) s.getX(), (float) s.getY());
+			p.pop();
 		}
 		// draw the icons
 		p.push();
