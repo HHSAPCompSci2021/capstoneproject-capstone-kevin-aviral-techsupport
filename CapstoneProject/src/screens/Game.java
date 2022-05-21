@@ -469,7 +469,9 @@ public class Game extends Screen {
 		}
 		return false;
 	}
-
+	/**
+	 * detects user mouse movement
+	 */
 	public void mouseMoved() {
 		if (hideCursor) hideCursor = false;
 	}
