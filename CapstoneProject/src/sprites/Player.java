@@ -100,27 +100,27 @@ public class Player extends Sprite {
 			p.fill(s.getFillColor().getRGB());
 			s.setFillColor(s.getFillColor());
 			s.draw(p);
-			p.text("8", (float) s.getX(), (float) s.getY());
+			p.text("8", (float) s.getX() - 4, (float) s.getY() + 4);
 			if (getX() - r >= WIDTH) {
 				s.move((WIDTH - getX() - r), (float) getY());
 				s.setStrokeColor(s.getFillColor());
 				s.draw(p);
 				p.fill(Color.black.getRGB());
-				p.text("8", (float) s.getX(), (float) s.getY());
+				p.text("8", (float) s.getX() - 4, (float) s.getY() + 4);
 				p.pop();
 			} else if (getX() + r <= 0) {
 				s.move(WIDTH + getX(), getY());
 				s.setStrokeColor(s.getFillColor());
 				s.draw(p);
 				p.fill(Color.black.getRGB());
-				p.text("8", (float) s.getX(), (float) s.getY());
+				p.text("8", (float) s.getX() - 4, (float) s.getY() + 4);
 				p.pop();
 			}
 			s.setStrokeColor(s.getFillColor());
 			s.draw(p);
 			p.push();
 			p.fill(Color.black.getRGB());
-			p.text("8", (float) s.getX(), (float) s.getY());
+			p.text("8", (float) s.getX() - 4, (float) s.getY() + 4);
 			p.pop();
 		}
 		// draw the icons
