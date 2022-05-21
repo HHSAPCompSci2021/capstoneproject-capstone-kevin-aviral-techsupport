@@ -18,8 +18,7 @@ public class Platform extends Sprite {
     // represented by a line
     private double length;
     private Line l1;
-    private Line l2; 
-    private static PImage cloudImg; 
+    private Line l2;
     /**
      * creates a platform object at a random location
      * 
@@ -39,7 +38,6 @@ public class Platform extends Sprite {
      * @post images are loaded on the surface
      */
     public void loadAssets(PApplet p) {
-		cloudImg = p.loadImage("assets" + fileSep + "platformcloud.png");
 	}
     /**
      * getter for first line of sprite
@@ -64,18 +62,19 @@ public class Platform extends Sprite {
      */
     public void draw(PApplet p) {
         super.draw(p);
-        p.push();
-        p.strokeWeight(10);
+        // p.strokeWeight(4);
+        // p.color(255, 1, 1);
+        // p.line((float)l1.getX()+2, (float)l1.getY()+2, (float)(l1.getX2()+2), (float)l1.getY2()+2);
         // p.line((float)getX(), (float)getY(), (float)(getX() + length),
         // (float)getY());
-        l1.setStrokeWeight(4);
         l1.setStrokeColor(l1.getFillColor());
+        l1.setStrokeWeight(4);
         l1.draw(p);
        // l2.draw(p);
        // loadAssets(p);
        // p.image(cloudImg, (float) this.getX(), (float) this.getY(), 50, 20);
-        p.pop();
     }
+
     /**
      * getter for length of line
      * @return length of line

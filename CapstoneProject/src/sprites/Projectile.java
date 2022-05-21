@@ -43,11 +43,11 @@ public class Projectile extends Sprite {
      */
     public void draw(PApplet p) {
         super.draw(p);
-        p.fill(249, 255, 135);
         if (fromPlayer) {
-            // draw the image
             p.image(getVx() < 0 ? left : right, (float)getX(), (float)getY(), 8*r, 2*r);
         } else {
+            p.fill(249, 255, 135);
+            p.noStroke();
             p.circle((float)getX(), (float)getY(), 2*r);
         }
     }
