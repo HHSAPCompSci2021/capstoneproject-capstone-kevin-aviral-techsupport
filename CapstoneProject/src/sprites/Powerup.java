@@ -30,6 +30,7 @@ public class Powerup extends Sprite {
     public Powerup(Rectangle s, double vx, double vy, int type) {
         super(s, vx, vy);
         this.type = type;
+        if (this.type > 3) this.type = (int)(Math.random()*2 + 1);
         sideLength = (float) (s.getPerimeter()/4);
     }
     /**
@@ -48,9 +49,6 @@ public class Powerup extends Sprite {
      */
     public void draw(PApplet p) {
         super.draw(p);
-        p.push();
-
-        p.fill(200, 200, 210);
         switch (type) {
             case 1:
                 p.image(t1, (float)getX(), (float)getY(), sideLength, sideLength); break;
@@ -59,7 +57,6 @@ public class Powerup extends Sprite {
             case 3:
                 p.image(t3, (float)getX(), (float)getY(), sideLength, sideLength); break;
         }
-        p.pop();
     }
     /**
      * gets type of powerup

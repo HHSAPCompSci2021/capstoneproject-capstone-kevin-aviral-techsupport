@@ -1,8 +1,11 @@
 package sprites;
 
 import processing.core.*;
+import processing.opengl.FrameBuffer;
+
 import java.awt.*;
 import java.util.ArrayList;
+import static processing.core.PApplet.*;
 import aviral.shapes.Shape;
 import aviral.shapes.Rectangle;
 import aviral.shapes.Circle;
@@ -18,6 +21,8 @@ public class Enemy extends Sprite {
 	public static float sideLength;
     private int firePattern;
     private PImage img;
+    private float time;
+    private float angle;
 
 	/**
 	 * Creates an enemy
@@ -36,6 +41,8 @@ public class Enemy extends Sprite {
 		} else {
 			firePattern = 0;
 		}
+        time = 0;
+        angle = 0;
 	}
 
     public void loadAssets(PApplet p) {
@@ -51,7 +58,6 @@ public class Enemy extends Sprite {
 	 */
 	public Projectile shoot(double targetX, double targetY) {
         if (getBoolean() == false) return null;
-
 		double projVx = 0.025 * (targetX - getX());
 		double projVy = 0.025 * (targetY - getY());
 
@@ -73,6 +79,7 @@ public class Enemy extends Sprite {
 		return new Projectile(circle, projVx, projVy, 0, 0, false);
 	}
 
+
 	/**
 	 * draws enemy
 	 * 
@@ -81,13 +88,27 @@ public class Enemy extends Sprite {
 	public void draw(PApplet p) {
 		// set up surface
 		super.draw(p);
-		p.push();
-		// color
-		p.fill(200, 100, 100);
-        p.image(img, (float) getX(), (float) getY(), sideLength, sideLength);
+        // shadow
+        p.tint(0);
+        p.image(img, (float) getX()+2, (float) getY()+2, sideLength-10 , sideLength-10 );
+		
+        p.noTint();
+        p.image(img, (float) getX(), (float) getY(), sideLength-10 , sideLength-10 );
 
-		p.pop();
 	}
+
+    public void fall(PApplet p) {
+        super.draw(p);
+        time++;
+        angle = 2*PI*time/30;
+        p.push();
+        // p.imageMode(CENTER);
+        // p.translate(sideLength/2, sideLength/2);
+        // p.rotate(cos(angle));
+        p.image(img, (float) getX(), (float) getY(), sideLength-10 , sideLength-10 );
+        p.pop();
+    }
+
 	/**
 	 * getter for the fire pattern of the enemy
 	 * @return integer value of the fire pattern of the enemy

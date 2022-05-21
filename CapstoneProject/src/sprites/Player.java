@@ -2,6 +2,7 @@ package sprites;
 
 import aviral.shapes.Shape;
 import processing.core.PApplet;
+import static processing.core.PApplet.*;
 import processing.core.PImage;
 import aviral.shapes.*;
 import java.awt.*;
@@ -93,6 +94,10 @@ public class Player extends Sprite {
 
 		// actually draw the player
 		if (visible) {
+			p.noStroke();
+			// shadow first
+			p.fill(0);
+			p.circle((float) getX() + 5, (float) getY() + 5, 2 * r);
 			// if player is partly off screen
 			p.fill(255, 250, 251);
 			if (getX() - r >= WIDTH) {
@@ -130,7 +135,7 @@ public class Player extends Sprite {
 		if (percent < 100) {
 			p.stroke(180, 130, 50); // dull yellow
 		} else {
-			p.stroke(255, 195, 31); // charged yellow
+			p.stroke(255, 200, 31); // charged yellow
 		}
 		if (ammo > 0) p.line(WIDTH, HEIGHT, WIDTH, Math.max(400, HEIGHT - 400*percent/100));
 		p.pop();
@@ -174,7 +179,7 @@ public class Player extends Sprite {
 			return null;
 		ammo--;
 		lastShot = time;
-		Circle circle = new Circle(getX() - 32d, getY(), 8);
+		Circle circle = new Circle(getX() - 25d, getY(), 8);
 		return new Projectile(circle, -20, 0, 0, 0, true);
 	}
 
@@ -188,7 +193,7 @@ public class Player extends Sprite {
 			return null;
 		ammo--;
 		lastShot = time;
-		Circle circle = new Circle(getX() + 32d, getY(), 8);
+		Circle circle = new Circle(getX() + 25d, getY(), 8);
 		return new Projectile(circle, 20, 0, 0, 0, true);
 	}
 

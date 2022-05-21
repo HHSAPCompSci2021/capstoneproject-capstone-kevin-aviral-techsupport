@@ -2,6 +2,7 @@ package screens;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.*;
 import java.awt.Color;
 import core.DrawingSurface;
 import processing.core.*;
@@ -23,6 +24,7 @@ public class Menu extends Screen {
 	private Rectangle start;
 	private Rectangle help;
 	private Rectangle quit;
+	private float time = 0;
 
 	/**
 	 * Creates a menu object
@@ -62,6 +64,11 @@ public class Menu extends Screen {
 	 */
 	public void draw() {
 		surface.cursor();
+		time++;
+
+		if (time/60 >= 0.1 && surface.isPressed(KeyEvent.VK_SPACE)) {
+			surface.switchScreen(ScreenSwitcher.GAME_SCREEN);
+		}
 
 		x1 = (float) (-10 - (surface.mouseX - WIDTH/2) * 0.02);
 		y1 = (float) (-10 - (surface.mouseY - HEIGHT/2) * 0.02);
