@@ -21,6 +21,7 @@ public class Player extends Sprite {
 	private double lastJump;
 	private double lastShot;
 
+	private PImage ball;
 	private PImage lightOn, lightOff;
 	private PImage bulletIcon;
 	private double time;
@@ -30,6 +31,7 @@ public class Player extends Sprite {
 	private int ammo;
 	private int score;
 	private boolean visible;
+	private float angle;
 
 	/**
 	 * creates a player object
@@ -44,7 +46,7 @@ public class Player extends Sprite {
 	public Player(Circle s, double vx, double vy, double ax, double ay, int totalLives) {
 		super(s, vx, vy, ax, ay, totalLives);
 		this.s = s;
-		r = (float) s.getRadius();
+		r = (float) (float)s.getRadius();
 		ammo = 5;
 		visible = true;
 		time = 0;
@@ -67,8 +69,8 @@ public class Player extends Sprite {
 	public void draw(PApplet p) {
 		super.draw(p);
 		time++;
-		final float WIDTH = 600;
-		final float HEIGHT = 800;
+		final float WIDTH = p.width;
+		final float HEIGHT = p.height;
 		// check if player is out of bounds and have him appear on other side
 		if (getX() >= WIDTH) {
 			moveBy(-WIDTH, 0);
@@ -77,7 +79,6 @@ public class Player extends Sprite {
 		}
 		setScore((int) Math.max(getY()*2, score)); // *2 to compensate for going up
 		setVx(getVx()*0.981);
-		// update the fire cooldown
 		
 		if (time/60 >= 40) {
 			fireRate = 0.15;
@@ -107,14 +108,12 @@ public class Player extends Sprite {
 				s.draw(p);
 				p.fill(Color.black.getRGB());
 				p.text("8", (float) s.getX() - 4, (float) s.getY() + 4);
-				p.pop();
 			} else if (getX() + r <= 0) {
 				s.move(WIDTH + getX(), getY());
 				s.setStrokeColor(s.getFillColor());
 				s.draw(p);
 				p.fill(Color.black.getRGB());
 				p.text("8", (float) s.getX() - 4, (float) s.getY() + 4);
-				p.pop();
 			}
 			s.setStrokeColor(s.getFillColor());
 			s.draw(p);
@@ -131,6 +130,7 @@ public class Player extends Sprite {
 		for (int ix = tx; which < 3; ix += incr, which++) {
 			p.image((getLives() > which) ? lightOn : lightOff, ix, -6, incr, incr);
 		}
+		p.fill(255, 255, 255);
 		p.text("Score: " + score, tx, incr+24);
 		incr = 16;
 		which = 0;

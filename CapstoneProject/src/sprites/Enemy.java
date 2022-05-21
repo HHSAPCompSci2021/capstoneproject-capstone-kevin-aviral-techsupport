@@ -90,10 +90,10 @@ public class Enemy extends Sprite {
 		super.draw(p);
         // shadow
         p.tint(0);
-        p.image(img, (float) getX()+2, (float) getY()+2, sideLength-10 , sideLength-10 );
+        p.image(img, (float) getX()+2, (float) getY()+2, sideLength-10, sideLength-10);
 		
         p.noTint();
-        p.image(img, (float) getX(), (float) getY(), sideLength-10 , sideLength-10 );
+        p.image(img, (float) getX(), (float) getY(), sideLength-10, sideLength-10);
 
 	}
 
@@ -105,7 +105,7 @@ public class Enemy extends Sprite {
         p.imageMode(CENTER);
         p.translate((float)getX(), (float)getY());
         p.rotate(angle);
-        p.image(img, 0, 0, sideLength-10 , sideLength-10 );
+        p.image(img, 0, 0, sideLength-10, sideLength-10);
         p.pop();
     }
 

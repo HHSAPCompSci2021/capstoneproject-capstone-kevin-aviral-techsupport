@@ -78,8 +78,8 @@ public class Game extends Screen {
 		gameOverText = surface.loadImage("assets" + fileSep + "gameover.png");
 	}
 	
-	private Color top = new Color(80, 130, 211);	
-	private Color bot = new Color(25, 25, 72);
+	private Color top;	
+	private Color bot;
 	private int dtr = 12, dtg = 21, dtb = 46;
 
 	/**
@@ -138,7 +138,10 @@ public class Game extends Screen {
 
 		time++;
 
-		if (player.getLives() == 2) {
+		if (player.getLives() >= 3) {
+			top = new Color(80, 130, 211);	
+			bot = new Color(25, 25, 72);
+		} else if (player.getLives() == 2) {
 			top = new Color(69, 108, 175);
 			bot = new Color(20, 20, 64);
 		} else if (player.getLives() == 1) {
@@ -156,7 +159,7 @@ public class Game extends Screen {
 			}
 		}
 		setGradient(0, 0, WIDTH, HEIGHT/3, top, bot);
-
+		// falling enemies
 		for (int i = 0; i < dead.size(); i++) {
 			if (dead.get(i).getY() > HEIGHT) {
 				dead.remove(i--);
@@ -164,7 +167,7 @@ public class Game extends Screen {
 			}
 			dead.get(i).fall(surface);
 		}
-
+		// falling platforms
 		for (int i = 0; i < falling.size(); i++) {
 			if (falling.get(i).getY() > HEIGHT) {
 				falling.remove(i--);
@@ -172,7 +175,6 @@ public class Game extends Screen {
 			}
 			falling.get(i).draw(surface);
 		}
-
 		// sus loop（enemies are drawn）
 		for (int i = 0; i < enemies.size(); i++) {
 			if (enemies.get(i) == null) {
