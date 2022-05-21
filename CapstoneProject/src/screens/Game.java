@@ -79,7 +79,7 @@ public class Game extends Screen {
 	
 	private Color top = new Color(80, 130, 211);	
 	private Color bot = new Color(25, 25, 72);
-	private int dtr = 31, dtg = 29, dtb = 84;
+	private int dtr = 12, dtg = 21, dtb = 46;
 
 	/**
 	 * Draws the game screen
@@ -215,6 +215,7 @@ public class Game extends Screen {
 					enemies.get(i).setLastTime(time);
 				// check for death
 				if (enemies.get(i).getLives() <= 0) {
+					player.setScore(player.getScore()+200);
 					dead.add((Enemy) enemies.remove(i--));
 					dead.get(dead.size() - 1).setAy(5 * g);
 					continue;
@@ -286,6 +287,7 @@ public class Game extends Screen {
 					&& player.getVy() > 0) {
 				player.moveBy(player.getVx(), -player.getVy());
 				player.setVy(-3.4);
+				player.setScore(player.getScore()+100);
 				falling.add(platforms.get(i).first);
 				falling.get(falling.size() - 1).setAy(5 * g);
 				platforms.remove(i--);

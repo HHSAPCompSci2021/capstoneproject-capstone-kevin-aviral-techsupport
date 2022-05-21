@@ -97,7 +97,7 @@ public class Player extends Sprite {
 			p.noStroke();
 			// shadow first
 			p.fill(0);
-			p.circle((float) getX() + 5, (float) getY() + 5, 2 * r);
+			p.circle((float) getX() + 3, (float) getY() + 3, 2 * r);
 			// if player is partly off screen
 			p.fill(255, 250, 251);
 			if (getX() - r >= WIDTH) {
@@ -261,16 +261,16 @@ public class Player extends Sprite {
 	 * Gets the score of this player
 	 * @return this player's score
 	 */
-	public long getScore() {
+	public int getScore() {
 		return this.score;
 	}
 
 	/**
 	 * Sets the score of this player
-	 * @param score new score
+	 * @param l new score
 	 */
-	public void setScore(int score) {
-		this.score = score;
+	public void setScore(int l) {
+		this.score = l;
 	}
 
 }

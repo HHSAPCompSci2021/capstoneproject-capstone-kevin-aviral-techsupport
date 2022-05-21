@@ -49,6 +49,7 @@ public class Powerup extends Sprite {
      */
     public void draw(PApplet p) {
         super.draw(p);
+        p.imageMode(PApplet.CENTER);
         switch (type) {
             case 1:
                 p.image(t1, (float)getX(), (float)getY(), sideLength, sideLength); break;
@@ -57,6 +58,7 @@ public class Powerup extends Sprite {
             case 3:
                 p.image(t3, (float)getX(), (float)getY(), sideLength, sideLength); break;
         }
+        p.imageMode(PApplet.CORNER);
     }
     /**
      * gets type of powerup

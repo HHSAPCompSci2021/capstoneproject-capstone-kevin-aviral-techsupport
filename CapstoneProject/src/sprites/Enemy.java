@@ -100,12 +100,12 @@ public class Enemy extends Sprite {
     public void fall(PApplet p) {
         super.draw(p);
         time++;
-        angle = 2*PI*time/30;
+        angle = (getVx() > 0 ? 2 : -2)*PI*time/30;
         p.push();
-        // p.imageMode(CENTER);
-        // p.translate(sideLength/2, sideLength/2);
-        // p.rotate(cos(angle));
-        p.image(img, (float) getX(), (float) getY(), sideLength-10 , sideLength-10 );
+        p.imageMode(CENTER);
+        p.translate((float)getX(), (float)getY());
+        p.rotate(angle);
+        p.image(img, 0, 0, sideLength-10 , sideLength-10 );
         p.pop();
     }
 

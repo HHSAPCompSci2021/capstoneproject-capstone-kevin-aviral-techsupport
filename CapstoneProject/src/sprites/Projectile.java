@@ -44,7 +44,9 @@ public class Projectile extends Sprite {
     public void draw(PApplet p) {
         super.draw(p);
         if (fromPlayer) {
+            p.imageMode(PApplet.CENTER);
             p.image(getVx() < 0 ? left : right, (float)getX(), (float)getY(), 8*r, 2*r);
+            p.imageMode(PApplet.CORNER);
         } else {
             p.fill(249, 255, 135);
             p.noStroke();
