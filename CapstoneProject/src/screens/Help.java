@@ -64,8 +64,8 @@ public class Help extends Screen {
 
         surface.filter(PApplet.BLUR, 2);
         
-		x2 = (float) (-(surface.mouseX - WIDTH/2) * 0.08);
-		y2 = (float) (-(surface.mouseY - HEIGHT/2) * 0.08);
+		x2 = (float) (-(surface.mouseX - WIDTH/2) * 0.05);
+		y2 = (float) (-(surface.mouseY - HEIGHT/2) * 0.05);
 		surface.image(inst, x2, y2, WIDTH, HEIGHT);
         
         surface.noStroke();

@@ -21,6 +21,7 @@ public class Game extends Screen {
 	private static final double g = 0.1;
 	private static final float len = 40;
 	private static final int maxePop = 2;
+	private static int highScore = -1;
 
 	private double scrollBy; // how fast everything scrolls up
 	private double border;
@@ -319,18 +320,27 @@ public class Game extends Screen {
 				scrollBy = -75;
 			else
 				scrollBy = 0;
+			
 			surface.push();
+			
+			String message = "GAME OVER";
 			surface.textSize(128);
 			surface.fill(127, 125, 131);
-			String message = "GAME OVER";
-			surface.text(message, WIDTH/2 - surface.textWidth(message)/2, 300);
-			surface.textSize(64f);
-			surface.fill(85, 81, 91);
+			surface.text(message, WIDTH/2 - surface.textWidth(message)/2, 200);
+
 			message = "Score: " + player.getScore();
-			surface.text(message, WIDTH/2 - surface.textWidth(message)/2, 550);
-			message = "[ESC] to continue";
 			surface.textSize(48f);
-			surface.text(message, WIDTH/2 - surface.textWidth(message)/2, 650);
+			surface.fill(85, 81, 91);
+			surface.text(message, WIDTH/2 - surface.textWidth(message)/2, 450);
+
+			highScore = Math.max(player.getScore(), highScore);
+			message = highScore == player.getScore() ? "New Record!" : "High score: " + highScore;
+			surface.text(message, WIDTH/2 - surface.textWidth(message)/2, 550);
+			
+			message = "[ESC] to continue";
+			surface.textSize(64f);
+			surface.text(message, WIDTH/2 - surface.textWidth(message)/2, 700);
+			
 			surface.pop();
 			if (surface.isPressed(KeyEvent.VK_ESCAPE)) {
 				surface.switchScreen(ScreenSwitcher.MENU_SCREEN);
@@ -472,8 +482,6 @@ public class Game extends Screen {
 						newLine1.setFillColor(new Color(0, 254, 0));
 						newLine2.setFillColor(new Color(0, 254, 0));
 						platforms.add(new Pair<Platform, Integer>(new Platform(newLine1, vx, vy), 3));
-						System.out.println("disappearing added");
-
 					} else {
 						newLine1 = new Line(lx, ly, lx + len, ly);
 						newLine2 = new Line(lx + len, ly, lx, ly);
