@@ -43,15 +43,18 @@ public class Projectile extends Sprite {
      */
     public void draw(PApplet p) {
         super.draw(p);
+        p.push();
+        p.imageMode(PApplet.CENTER);
         if (fromPlayer) {
-            p.imageMode(PApplet.CENTER);
-            p.image(getVx() < 0 ? left : right, (float)getX(), (float)getY(), 8*r, 2*r);
-            p.imageMode(PApplet.CORNER);
+            p.tint(255, 255, 37);
+            p.image(getVx() < 0 ? left : right, (float)getX(), (float)getY(), 8*r, 2*r); 
         } else {
-            p.fill(249, 255, 135);
-            p.noStroke();
-            p.circle((float)getX(), (float)getY(), 2*r);
+            float angle = (float) (Math.atan(getVy()/getVx()));
+            p.translate((float)getX(), (float)getY());
+            p.rotate(angle);
+            p.image(getVx() < 0 ? left : right, 0, 0, 6*r, 2*r);        
         }
+        p.pop();
     }
     /**
      * getter for radius of projectile

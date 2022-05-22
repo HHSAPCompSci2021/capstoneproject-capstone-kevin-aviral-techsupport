@@ -84,30 +84,36 @@ public class Player extends Sprite {
 		} else if (getX() < 0) {
 			moveBy(WIDTH, 0);
 		}
-		setScore((int) Math.max(getY() * 2, score)); // *2 to compensate for going up
 		setVx(getVx() * 0.981);
 
-		if (time/60 >= 40) {
+		if (score >= 25_000) {
+			djRate = 0.8;
 			fireRate = 0.15;
-			djRate = 1;
-		} else if (time/60 >= 20) {
-			fireRate = 0.25;
+		} else if (score >= 15_000) {
+			djRate = 1.1;
+			fireRate = 0.2;
+		} else if (score >= 7500) {
 			djRate = 1.5;
+			fireRate = 0.3;
+		} else if (score >= 5000) {
+			djRate = 2.3;
+			fireRate = 0.4;
+		} else if (score >= 3000) {
+			djRate = 2.7;
+			fireRate = 0.5;
 		}
-		if (time/60 >= 10) {
-			fireRate = 0.35;
-			djRate = 2;
-		} else if (time/60 >= 5) {
-			fireRate = 0.45;
-			djRate = 2.5;
-		}
+
 		if (w != 0) angle = (float) ((w > 0 ? 2 : -2)*PI*time/30);
 		// actually draw the player
 		p.push();
 		if (visible) {
 			p.noStroke();
+			// draw glow first
 			p.ellipseMode(CENTER);
-			p.ellipse((float) s.getX(), (float) s.getY(), (float) getR()*2+4, (float) getR()*2+4);
+			float r = 251, g = 175, b = 59;
+			p.fill(r, g, b);
+			p.ellipse((float)getX(), (float)getY(), (float)getR()+2, (float)getR()+2);
+			p.ellipse((float)getX(), (float)getY(), (float)getR()*2 + 4, (float)getR()*2 + 4);
 			p.imageMode(CENTER);
 			/*
 			if (getX() - r >= WIDTH) {

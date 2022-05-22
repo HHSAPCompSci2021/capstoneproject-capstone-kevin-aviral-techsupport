@@ -154,9 +154,9 @@ public class Game extends Screen {
 				bot = new Color(0, 0, 0);
 			}
 			if (time%6 == 0) {
-				dtr -= 0.02;
-				dtg -= 0.02;
-				dtb -= 0.03;
+				dtr -= 0.08;
+				dtg -= 0.08;
+				dtb -= 0.12;
 			}
 		}
 		setGradient(0, 0, WIDTH, HEIGHT/3, top, bot);
@@ -227,6 +227,8 @@ public class Game extends Screen {
 				// different attack patterns
 				if (((Enemy) enemies.get(i)).getFirePattern() == 1 && time % 6 == 0) {
 					enemies.add(enemies.get(i).shoot(player.getX(), player.getY()));
+					// load this projectile's images
+					if (enemies.get(enemies.size()-1) != null) enemies.get(enemies.size()-1).loadAssets(surface);
 					enemies.get(i).setLastTime(time);
 					if (time % 120 == 0) {
 						enemies.get(i).setBoolean(true);
@@ -236,6 +238,8 @@ public class Game extends Screen {
 				} else if (time % 90 == i * 10) {
 					enemies.get(i).setBoolean(true);
 					enemies.add(enemies.get(i).shoot(player.getX(), player.getY()));
+					// load this projectile's images
+					if (enemies.get(enemies.size()-1) != null) enemies.get(enemies.size()-1).loadAssets(surface);
 					enemies.get(i).setLastTime(time);
 				}
 			}
@@ -362,6 +366,7 @@ public class Game extends Screen {
 			border = HEIGHT;
 		}
 		player.moveBy(0, scrollBy);
+		player.setScore((int) Math.max(player.getY()*(-scrollBy), player.getScore()));
 		scrollBy = -Math.max(Math.abs(-2d), Math.abs(player.getVy())/2);
 		if (time/60 - hitTime/60 <= 0.3) {
 			if (time % 5 == 0)

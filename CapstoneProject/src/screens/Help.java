@@ -57,20 +57,23 @@ public class Help extends Screen {
         if (surface.isPressed(KeyEvent.VK_ESCAPE)) {
 			surface.switchScreen(ScreenSwitcher.MENU_SCREEN);
 		}
+        
         x1 = (float) (-10 - (surface.mouseX - WIDTH/2) * 0.03);
 		y1 = (float) (-10 - (surface.mouseY - HEIGHT/2) * 0.03);
 		surface.image(bg, x1, y1, WIDTH + 64f, HEIGHT + 64f);
 
+        surface.filter(PApplet.BLUR, 2);
+        
 		x2 = (float) (-(surface.mouseX - WIDTH/2) * 0.08);
 		y2 = (float) (-(surface.mouseY - HEIGHT/2) * 0.08);
 		surface.image(inst, x2, y2, WIDTH, HEIGHT);
-
+        
         surface.noStroke();
 		Point p = surface.actualToAssumed(new Point(surface.mouseX, surface.mouseY));
 		if (back.contains(p)) surface.fill(buttonColor.getRGB(), 255);
 		else surface.fill(buttonColor.getRGB(), 170);
 		surface.rect(back.x, back.y, back.width, back.height, 10, 10, 10, 10);
-
+        
 		float buttonT = surface.textWidth("Return to Menu");
         surface.fill(201, 210, 195);
         surface.textSize(20);
@@ -82,8 +85,7 @@ public class Help extends Screen {
      */
     public void mousePressed() {
         Point p = surface.actualToAssumed(new Point(surface.mouseX, surface.mouseY));
-        if (back.contains(p)) 
-        	surface.switchScreen(ScreenSwitcher.MENU_SCREEN);
+        if (back.contains(p)) surface.switchScreen(ScreenSwitcher.MENU_SCREEN);
     }
     
 }
