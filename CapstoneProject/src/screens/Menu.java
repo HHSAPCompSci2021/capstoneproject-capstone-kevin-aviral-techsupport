@@ -102,7 +102,7 @@ public class Menu extends Screen {
 		surface.text("Help", help.x + help.width/2 - textWidth2/2, help.y + help.height/2);
 		surface.text("Quit", quit.x + quit.width/2 - textWidth3/2, quit.y + quit.height/2);
 		surface.textSize(16);
-		surface.text("Ren-Vaidya Studios, 2022", 400, 780);
+		surface.text("Ren-Vaidya Studios, 2022", 450, 780);
 	}
 
 	/**

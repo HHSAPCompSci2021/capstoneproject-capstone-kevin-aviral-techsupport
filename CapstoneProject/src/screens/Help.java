@@ -44,7 +44,7 @@ public class Help extends Screen {
 		inst = surface.loadImage("assets" + fileSep + "instructions.png");
         x1 = -10f;
 		y1 = -10f;
-        bg = surface.loadImage("assets" + fileSep + "northern_lights.jpg");
+        bg = surface.loadImage("assets" + fileSep + "stars.jpg");
         x2 = 0;
 		y2 = 32;
     }

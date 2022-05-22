@@ -320,10 +320,13 @@ public class Game extends Screen {
 			else
 				scrollBy = 0;
 			surface.push();
-			surface.image(gameOverText, WIDTH/2 - 500/2, 100, 500, 100);
+			surface.textSize(128);
+			surface.fill(127, 125, 131);
+			String message = "GAME OVER";
+			surface.text(message, WIDTH/2 - surface.textWidth(message)/2, 300);
 			surface.textSize(64f);
 			surface.fill(85, 81, 91);
-			String message = "Score: " + player.getScore();
+			message = "Score: " + player.getScore();
 			surface.text(message, WIDTH/2 - surface.textWidth(message)/2, 550);
 			message = "[ESC] to continue";
 			surface.textSize(48f);

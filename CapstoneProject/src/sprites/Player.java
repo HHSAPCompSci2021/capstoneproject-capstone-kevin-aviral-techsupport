@@ -143,8 +143,9 @@ public class Player extends Sprite {
 		for (int ix = tx; which < 3; ix += incr, which++) {
 			p.image((getLives() > which) ? lightOn : lightOff, ix, -6, incr, incr);
 		}
-		p.fill(255, 255, 255);
-		p.text("Score: " + score, tx, incr + 24);
+		p.fill(234, 232, 236);
+		p.textSize(20);
+		p.text("Score: " + score, tx + 15, incr + 24);
 		incr = 16;
 		which = 0;
 		for (int ix = (int) (WIDTH - 30); which < ammo; ix -= (incr + 5), which++) {
