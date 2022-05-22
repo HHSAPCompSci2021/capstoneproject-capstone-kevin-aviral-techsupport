@@ -110,8 +110,8 @@ public class Player extends Sprite {
 			p.noStroke();
 			// draw glow first
 			p.ellipseMode(CENTER);
-			float r = 251, g = 175, b = 59;
-			p.fill(r, g, b);
+			//int r = 251, g = 175, b = 59;
+			p.fill(s.getFillColor().getRGB());
 			p.ellipse((float)getX(), (float)getY(), (float)getR()+2, (float)getR()+2);
 			p.ellipse((float)getX(), (float)getY(), (float)getR()*2 + 4, (float)getR()*2 + 4);
 			p.imageMode(CENTER);
