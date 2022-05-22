@@ -357,7 +357,6 @@ public class Game extends Screen {
 			player.getShape().setFillColor(oneL);
 		}
 		border += scrollBy;
-		// still has to fix scoring past this point
 		// respawn the entities
 		if (border <= 0) {
 			generatePlatforms(HEIGHT, 2 * HEIGHT, 10);

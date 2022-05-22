@@ -34,10 +34,10 @@ public class Menu extends Screen {
 	public Menu(DrawingSurface surface) {
 		super(600, 800);
 		this.surface = surface;
-		int rw = 300, rh = 60;
-		start = new Rectangle(WIDTH/2 - rw/2, HEIGHT/2 - rh/2 + 150, rw, rh);
-		help = new Rectangle(WIDTH/2 - rw/2, HEIGHT/2 + rh + 150, rw, rh);
-		quit = new Rectangle(WIDTH/2 - rw/2, HEIGHT/2 + 5*rh/2 + 150, rw, rh);
+		int rw = 300, rh = 50;
+		start = new Rectangle(WIDTH/2 - rw/2, HEIGHT/2 - rh/2 + 140, rw, rh);
+		help = new Rectangle(WIDTH/2 - rw/2, HEIGHT/2 + rh + 140, rw, rh);
+		quit = new Rectangle(WIDTH/2 - rw/2, HEIGHT/2 + 5*rh/2 + 140, rw, rh);
 		buttonColor = new Color(172, 172, 172);
 	}
 
@@ -54,7 +54,7 @@ public class Menu extends Screen {
 		fg = surface.loadImage("assets" + fileSep + "downfall_text.png");
 		x2 = -0;
 		y2 = 32;
-		font = surface.createFont("assets" + fileSep + "mangabey.otf", 22);
+		font = surface.createFont("assets" + fileSep + "BebasNeue-Regular.otf", 22);
 	}
 
 	/**
@@ -81,19 +81,19 @@ public class Menu extends Screen {
 		// draw the buttons
 		surface.noStroke();
 		Point p = surface.actualToAssumed(new Point(surface.mouseX, surface.mouseY));
-		if (start.contains(p)) surface.fill(buttonColor.getRGB(), 255);
-		else surface.fill(buttonColor.getRGB(), 180);
+		if (start.contains(p)) surface.fill(buttonColor.getRGB(), 0);
+		else surface.fill(buttonColor.getRGB(), 100);
 		surface.rect(start.x, start.y, start.width, start.height, 10, 10, 10, 10);
 		
-		if (quit.contains(p)) surface.fill(buttonColor.getRGB(), 255);
-		else surface.fill(buttonColor.getRGB(), 180);
+		if (quit.contains(p)) surface.fill(buttonColor.getRGB(), 0);
+		else surface.fill(buttonColor.getRGB(), 100);
 		surface.rect(quit.x, quit.y, quit.width, quit.height, 10, 10, 10, 10);
 		
-		if (help.contains(p)) surface.fill(buttonColor.getRGB(), 255);
-		else surface.fill(buttonColor.getRGB(), 180);
+		if (help.contains(p)) surface.fill(buttonColor.getRGB(), 0);
+		else surface.fill(buttonColor.getRGB(), 100);
 		surface.rect(help.x, help.y, help.width, help.height, 10, 10, 10, 10);
 		// draw the text
-		surface.fill(4, 20, 43);
+		surface.fill(200, 200, 200);
 		surface.textFont(font);
 		float textWidth1 = surface.textWidth("Start");
 		float textWidth2 = surface.textWidth("Help");
@@ -101,6 +101,8 @@ public class Menu extends Screen {
 		surface.text("Start", start.x + start.width/2 - textWidth1/2, start.y + start.height/2);
 		surface.text("Help", help.x + help.width/2 - textWidth2/2, help.y + help.height/2);
 		surface.text("Quit", quit.x + quit.width/2 - textWidth3/2, quit.y + quit.height/2);
+		surface.textSize(16);
+		surface.text("Ren-Vaidya Studios, 2022", 400, 780);
 	}
 
 	/**

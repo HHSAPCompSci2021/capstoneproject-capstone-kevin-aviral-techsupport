@@ -33,7 +33,7 @@ public class Help extends Screen {
         this.surface = surface;
         int rw = 300, rh = 50;
         back = new Rectangle(WIDTH/2 - rw/2, HEIGHT - rh/2 - 70, rw, rh);
-        buttonColor = new Color(55, 198, 166);
+        buttonColor = new Color(177, 178, 178);
     }
     /**
      * Loads needed images
@@ -70,12 +70,12 @@ public class Help extends Screen {
         
         surface.noStroke();
 		Point p = surface.actualToAssumed(new Point(surface.mouseX, surface.mouseY));
-		if (back.contains(p)) surface.fill(buttonColor.getRGB(), 255);
-		else surface.fill(buttonColor.getRGB(), 170);
+		if (back.contains(p)) surface.fill(buttonColor.getRGB(), 0);
+		else surface.fill(buttonColor.getRGB(), 150);
 		surface.rect(back.x, back.y, back.width, back.height, 10, 10, 10, 10);
         
 		float buttonT = surface.textWidth("Return to Menu");
-        surface.fill(201, 210, 195);
+        surface.fill(201, 200, 200);
         surface.textSize(20);
         surface.text("Return to Menu", back.x + back.width/2 - buttonT/2, back.y + back.height/2);
     }
