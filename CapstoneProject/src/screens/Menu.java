@@ -63,7 +63,6 @@ public class Menu extends Screen {
 	 * @post menu is drawn
 	 */
 	public void draw() {
-		surface.cursor();
 		time++;
 
 		if (time/60 >= 0.1 && surface.isPressed(KeyEvent.VK_SPACE)) {
@@ -81,16 +80,27 @@ public class Menu extends Screen {
 		// draw the buttons
 		surface.noStroke();
 		Point p = surface.actualToAssumed(new Point(surface.mouseX, surface.mouseY));
-		if (start.contains(p)) surface.fill(buttonColor.getRGB(), 0);
-		else surface.fill(buttonColor.getRGB(), 100);
+		boolean hover = false;
+
+		if (start.contains(p)) {
+			surface.fill(buttonColor.getRGB(), 0);
+			hover = true;
+		} else surface.fill(buttonColor.getRGB(), 100);
 		surface.rect(start.x, start.y, start.width, start.height, 10, 10, 10, 10);
 		
-		if (quit.contains(p)) surface.fill(buttonColor.getRGB(), 0);
-		else surface.fill(buttonColor.getRGB(), 100);
+		if (quit.contains(p)) {
+			surface.fill(buttonColor.getRGB(), 0);
+			hover = true;
+		} else surface.fill(buttonColor.getRGB(), 100);
 		surface.rect(quit.x, quit.y, quit.width, quit.height, 10, 10, 10, 10);
 		
-		if (help.contains(p)) surface.fill(buttonColor.getRGB(), 0);
-		else surface.fill(buttonColor.getRGB(), 100);
+		if (help.contains(p)) {
+			surface.fill(buttonColor.getRGB(), 0);
+			hover = true;
+		} else surface.fill(buttonColor.getRGB(), 100);
+
+		surface.cursor(hover ? PApplet.HAND : PApplet.ARROW);
+		
 		surface.rect(help.x, help.y, help.width, help.height, 10, 10, 10, 10);
 		// draw the text
 		surface.fill(200, 200, 200);

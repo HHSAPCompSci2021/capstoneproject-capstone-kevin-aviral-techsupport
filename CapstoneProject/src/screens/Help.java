@@ -69,10 +69,15 @@ public class Help extends Screen {
 		surface.image(inst, x2, y2, WIDTH, HEIGHT);
         
         surface.noStroke();
+        boolean hover = false;
 		Point p = surface.actualToAssumed(new Point(surface.mouseX, surface.mouseY));
-		if (back.contains(p)) surface.fill(buttonColor.getRGB(), 0);
-		else surface.fill(buttonColor.getRGB(), 150);
+		if (back.contains(p)) {
+            surface.fill(buttonColor.getRGB(), 0);
+            hover = true;
+        } else surface.fill(buttonColor.getRGB(), 150);
+        
 		surface.rect(back.x, back.y, back.width, back.height, 10, 10, 10, 10);
+        surface.cursor(hover ? PApplet.HAND : PApplet.ARROW);
         
 		float buttonT = surface.textWidth("Return to Menu");
         surface.fill(201, 200, 200);

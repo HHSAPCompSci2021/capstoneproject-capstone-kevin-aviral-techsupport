@@ -136,7 +136,7 @@ public class Game extends Screen {
 		if (hideCursor)
 			surface.noCursor();
 		else
-			surface.cursor();
+			surface.cursor(PApplet.ARROW);
 
 		time++;
 
