@@ -44,7 +44,11 @@ public class Enemy extends Sprite {
         time = 0;
         angle = 0;
 	}
-
+	/**
+	 * loads images for enemy
+	 * @param p surface on which images are loaded
+	 * @post images are loaded on surface
+	 */
     public void loadAssets(PApplet p) {
         img = p.loadImage("assets" + fileSep + "gem.png");
     }
@@ -96,7 +100,10 @@ public class Enemy extends Sprite {
         p.image(img, (float) getX(), (float) getY(), sideLength-10, sideLength-10);
 
 	}
-
+	/**
+	 * falls down when enemy dies
+	 * @param p surface on which enemy is drawn on
+	 */
     public void fall(PApplet p) {
         super.draw(p);
         time++;

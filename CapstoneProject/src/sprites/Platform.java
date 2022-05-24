@@ -9,7 +9,7 @@ import processing.awt.*;
  * The platform class represents a double precision platform that can be
  * displayed with processing
  * 
- * @author Aviral
+ * @author Aviral Vaidya
  *
  */
 public class Platform extends Sprite {

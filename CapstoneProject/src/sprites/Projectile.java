@@ -30,7 +30,11 @@ public class Projectile extends Sprite {
         r = (float)s.getRadius();
         this.fromPlayer = fromPlayer;
     }
-
+    /**
+     * loads images needed for projectile on papplet 
+     * @param p surface on which images are loaded
+     * @post images are loaded on surface
+     */
     public void loadAssets(PApplet p) {
         // we only need to load the images if the player shoots the projectile
         left = p.loadImage("assets" + fileSep + "shootleft.png");

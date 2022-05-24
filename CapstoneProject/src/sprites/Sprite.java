@@ -108,23 +108,40 @@ public class Sprite {
         // true
     	return s.isPointInside(other.getX(), other.getY());
     }
-
+    /**
+     * last saved time for sprite
+     * @return double value of last saved time for sprite
+     */
     public double getLastTime() {
         return this.lastTime;
     }
-
+    /**
+     * setter for last saved time for sprite
+     * @param lastTime double value of last saved time for sprite
+     */
     public void setLastTime(double lastTime) {
         this.lastTime = lastTime;
     }
-
+    /**
+     * saved boolean for sprite
+     * @return the boolean saved under toggle for sprite
+     */
     public boolean getBoolean() {
         return toggle;
     }
-
+    /**
+     * sets toggle to an argued boolean
+     * @param b boolean value to set toggle to
+     */
     public void setBoolean(boolean b) {
         toggle = b;
     }
-
+    /**
+     * shoots a projectile at an xy coordinate
+     * @param targetX target x location
+     * @param targetY target y location
+     * @return null
+     */
     public Projectile shoot(double targetX, double targetY) {
         return null;
     }
